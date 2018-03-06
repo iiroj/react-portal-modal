@@ -57,8 +57,11 @@ export default class Modal extends Component<Props, State> {
       this.setState(
         state => ({ ...state, open }),
         () => {
-          if (open === true) this.openModal();
-          else this.closeModal();
+          if (open === true) {
+            this.openModal();
+          } else {
+            this.closeModal();
+          }
         }
       );
   };
@@ -78,42 +81,48 @@ export default class Modal extends Component<Props, State> {
   };
 
   handleKeydown = (event: KeyboardEvent) => {
-    if (event.keyCode === 27 && this.state.open) this.closeModal();
+    if (event.keyCode === 27 && this.state.open) {
+      this.closeModal();
+    }
+  };
+
+  handleOutsideClick = ({ target }: MouseEvent) => {
+    const container = this.container;
+    if (!container || (target instanceof Node && container.contains(target))) {
+      return;
+    }
+    this.closeModal();
   };
 
   addEventListeners = () => {
     if (this.props.closeOnEsc) document.addEventListener('keydown', this.handleKeydown);
-    if (this.props.closeOnOutsideClick) document.addEventListener('click', this.handleOutsideMouseClick);
+    if (this.props.closeOnOutsideClick) document.addEventListener('click', this.handleOutsideClick);
   };
 
   removeEventListeners = () => {
     if (this.props.closeOnEsc) document.removeEventListener('keydown', this.handleKeydown);
-    if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideMouseClick);
-  };
-
-  handleOutsideMouseClick = (event: MouseEvent) => {
-    const target = this.container;
-    if (!target || (event.target instanceof Node && target.contains(event.target))) return;
-    this.closeModal();
+    if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideClick);
   };
 
   render() {
     const { children, targetId } = this.props;
     const { open } = this.state;
 
-    if (!open) return null;
-
     const Overlay = this.StyledOverlay;
     const Container = this.StyledContainer;
 
-    return children ? (
+    return (
       <Portal targetId={targetId}>
-        <Overlay>
-          <Overscroll>
-            <Container innerRef={r => (this.container = r)}>{children}</Container>
-          </Overscroll>
-        </Overlay>
+        {open && (
+          <Overlay>
+            <Overscroll>
+              <Container role="dialog" innerRef={r => (this.container = r)}>
+                {children}
+              </Container>
+            </Overscroll>
+          </Overlay>
+        )}
       </Portal>
-    ) : null;
+    );
   }
 }

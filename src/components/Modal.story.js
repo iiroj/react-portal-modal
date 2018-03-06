@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { css } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Modal from './Modal';
 
@@ -39,13 +39,17 @@ class StateContainer extends Component {
         open={this.state.open}
         showClose={true}
       >
-        <p>This text is rendered in a Modal</p>
+        {this.props.children}
       </Modal>
     </Fragment>
   );
 }
 
-storiesOf('portal-modal', module).add('Stateful Modal', () => <StateContainer />);
+storiesOf('portal-modal', module).add('Stateful Modal', () => (
+  <StateContainer>
+    <p>This text is rendered in a Modal</p>
+  </StateContainer>
+));
 
 const overlay = `
   background-color: rgba(242, 242, 242, 0.96);
@@ -68,4 +72,21 @@ storiesOf('portal-modal', module).add('Custom styles', () => (
       <p>This text is rendered in a Modal</p>
     </Modal>
   </Fragment>
+));
+
+const Button = styled.button`
+  display: block;
+
+  & + & {
+    margin-top: 16px;
+  }
+`;
+
+storiesOf('portal-modal', module).add('Focus Lock', () => (
+  <StateContainer>
+    <Modal style={{ container, overlay }}>
+      <Button>The focus is locked inside this modal</Button>
+      <Button>We are trapped!</Button>
+    </Modal>
+  </StateContainer>
 ));
