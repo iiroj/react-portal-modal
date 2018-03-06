@@ -2,6 +2,8 @@
 
 A Modal built with styled-components and Portals with Server-Side Rendering Support.
 
+Inspired by [Render React portals on the server - Michal Zalecki](https://michalzalecki.com/render-react-portals-on-the-server/).
+
 ## About
 
 This component is used for rendering React components inside a Modal. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0. Support for Server-Side Rendering is achieved with support for statically rendering Portals and flushing them client-side.
