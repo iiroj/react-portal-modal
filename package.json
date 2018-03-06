@@ -1,6 +1,6 @@
 {
   "name": "styled-modal",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
   "licence": "MIT",
   "homepage": "https://github.com/iiroj/react-portal-modal",

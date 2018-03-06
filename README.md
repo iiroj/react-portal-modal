@@ -6,7 +6,7 @@ Inspired by [Render React portals on the server - Michal Zalecki](https://michal
 
 ## About
 
-This component is used for rendering React components inside a Modal. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0. Support for Server-Side Rendering is achieved with support for statically rendering Portals and flushing them client-side.
+This component is used for rendering React components inside a Modal. There are some basic styles included but you should supply your own styles. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0.
 
 Yarn:
 ```bash
@@ -18,11 +18,23 @@ npm:
 npm install styled-modal
 ```
 
+Please see the included Storybook for examples:
+
+```bash
+git@github.com:iiroj/styled-modal.git
+cd styled-modal
+yarn
+yarn start
+open http://127.0.0.1:8080/
+```
+
 ## `<Modal />`
 
 The main entrypoint of this package is the `<Modal />` component. It's a stateful component with support for closing on outside click and ESC keypress. You can supply the open-state with a prop, as well as callback functions for opening and closing. There's an option for showing a built-in close button. You can also render it conditionally without any props, as it's open by default. You can further specify the id for portaling.
 
 Finally, you can customize the UI by supplying your own styles as CSS in a template literal. You should probably use the `css` helper from `styled-components`. The `<Container />` and `<Overlay />` are extended with these styles.
+
+### Basic Props
 
 ```javascript
 import { render } from 'react-dom';
@@ -56,6 +68,48 @@ render(
   </Modal>,
   document.getElementById('root'),
 );
+```
+
+### Conditional Rendering
+
+```javascript
+import Modal from 'styled-modal';
+
+...
+
+export default props => {
+  const { showModal, handleOpen } = props;
+
+  return (
+   <div>
+    <button onClick={handleOpen}>Show Modal!</button>
+    {showModal && (
+      <Modal>
+        <p>This text will open in a modal</p>
+      </Modal>
+    )}
+  )
+}
+```
+
+### Rendering Based on State
+
+```javascript
+import Modal from 'styled-modal';
+
+...
+
+export default props => {
+  const { showModal, handleOpen, handleClose } = props;
+
+  return (
+   <div>
+    <button onClick={handleOpen}>Show Modal!</button>
+    <Modal open={showModal} onOpen={handleOpen} onClose={handleClose}>
+      <p>This text will open in a modal</p>
+    </Modal>
+  )
+}
 ```
 
 ## `<Portal />`
@@ -95,7 +149,7 @@ const renderResponse = async (req, res) => {
   const appHtml = renderToStaticMarkup(
     sheet.collectStyles(
       <App>
-        <Modal>
+        <Modal targetId="portal">
           <p>This text will be portaled to #portal</p>
         </Modal>
       </App>
@@ -126,7 +180,7 @@ flushPortals();
 
 render(
   <App>
-    <Modal>
+    <Modal targetId="portal">
       <p>This text will be portaled to #portal</p>
     </Modal>
   </App>,
