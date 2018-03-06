@@ -28,20 +28,18 @@ Finally, you can customize the UI by supplying your own styles as CSS in a templ
 import { render } from 'react-dom';
 import Modal from 'styled-modal';
 import type { ComponentType } from 'react';
-import type { RuleSet } from 'styled-components';
 
 type Props = {
   children?: ComponentType<any>,
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
   style: {
-    overlay?: string | RuleSet,
-    container?: string | RuleSet,
+    overlay?: string | Array<string>,
+    container?: string | Array<string>,
   },
   onClose?: any => any,
   onOpen?: any => any,
   open: boolean,
-  showClose: boolean,
   targetId?: string,
 };
 
@@ -49,7 +47,7 @@ type DefaultProps = {
   closeOnEsc: false,
   closeOnOutsideClick: false,
   open: true,
-  showClose: false,
+  style: {},
 };
 
 render(
