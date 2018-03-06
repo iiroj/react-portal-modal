@@ -1,12 +1,15 @@
 {
   "name": "styled-modal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
   "licence": "MIT",
   "homepage": "https://github.com/iiroj/react-portal-modal",
   "repository": "github:iiroj/react-portal-modal",
   "bugs": "https://github.com/iiroj/react-portal-modal/issues",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
     "prebuild": "rimraf lib",
@@ -15,10 +18,6 @@
     "lint": "eslint src",
     "test": "jest"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
