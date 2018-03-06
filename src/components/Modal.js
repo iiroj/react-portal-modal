@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import type { ComponentType } from 'react';
-import type { RuleSet } from 'styled-components';
 
 import Portal from './Portal';
 import { Container, Overlay, Overscroll } from './styled';
@@ -12,8 +11,8 @@ type Props = {
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
   style: {
-    overlay?: RuleSet,
-    container?: RuleSet,
+    overlay?: string | Array<string>,
+    container?: string | Array<string>,
   },
   onClose?: any => any,
   onOpen?: any => any,
@@ -34,6 +33,8 @@ export default class Modal extends Component<Props, State> {
   };
 
   container: ?Element;
+  StyledOverlay: ComponentType<any>;
+  StyledContainer: ComponentType<any>;
 
   constructor(props: Props) {
     super(props);

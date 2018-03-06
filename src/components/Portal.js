@@ -2,12 +2,11 @@
 
 import { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
-import type { ComponentType } from 'react';
 
 const PORTALS = [];
 
 type Props = {
-  children: ComponentType<any>,
+  children: any,
   targetId: string,
 };
 
