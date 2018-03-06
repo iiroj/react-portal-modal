@@ -1,0 +1,71 @@
+{
+  "name": "reaxt-portal-modal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
+  "licence": "MIT",
+  "homepage": "https://github.com/iiroj/react-portal-modal",
+  "repository": "github:iiroj/react-portal-modal",
+  "bugs": "https://github.com/iiroj/react-portal-modal/issues",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "start-storybook -p 8080 -c .storybook",
+    "prebuild": "rimraf lib",
+    "build": "babel src --out-dir lib --source-maps --ignore *.story.js ",
+    "typecheck": "flow check",
+    "lint": "eslint src",
+    "test": "jest"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "styled-components": "^3.1.6"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.3.14",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.1.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.1",
+    "eslint": "^4.18.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-jest": "^21.12.2",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.7.0",
+    "flow-bin": "^0.66.0",
+    "jest": "^22.1.4",
+    "prettier": "^1.10.2",
+    "prop-types": "^15.6.0",
+    "react-test-renderer": "^16.2.0",
+    "rimraf": "^2.6.2"
+  },
+  "jest": {
+    "setupFiles": [
+      "./config/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "keywords": [
+    "react",
+    "portal",
+    "modal",
+    "styled-components",
+    "ssr",
+    "server-side-rendering"
+  ]
+}

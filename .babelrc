@@ -1,0 +1,30 @@
+{
+  "presets": [
+    [
+      "babel-preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "Last 2 versions",
+            "IE >= 10",
+            "iOS >= 7",
+            "Android >= 4.4"
+          ],
+          "node": "8.9.4"
+        },
+        "useBuiltIns": true,
+        "shippedProposals": true
+      }
+    ],
+    "babel-preset-react",
+    "babel-preset-stage-2"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-transform-runtime"
+    ],
+    [
+      "babel-plugin-transform-flow-strip-types"
+    ]
+  ]
+}

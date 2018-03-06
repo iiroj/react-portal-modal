@@ -1,0 +1,5 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/styled-components
+
+[version]
+0.66.0
