@@ -22,7 +22,7 @@ type Props = {
   children?: ComponentType<any>,
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
-  styles: {
+  style: {
     overlay?: string | RuleSet,
     container?: string | RuleSet,
   },
