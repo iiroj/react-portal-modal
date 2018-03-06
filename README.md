@@ -1,4 +1,4 @@
-# react-portal-modal
+# styled-modal
 
 A Modal built with styled-components and Portals with Server-Side Rendering Support.
 
@@ -8,6 +8,16 @@ Inspired by [Render React portals on the server - Michal Zalecki](https://michal
 
 This component is used for rendering React components inside a Modal. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0. Support for Server-Side Rendering is achieved with support for statically rendering Portals and flushing them client-side.
 
+Yarn:
+```bash
+yarn add styled-modal
+```
+
+npm:
+```bash
+npm install styled-modal
+```
+
 ## `<Modal />`
 
 The main entrypoint of this package is the `<Modal />` component. It's a stateful component with support for closing on outside click and ESC keypress. You can supply the open-state with a prop, as well as callback functions for opening and closing. There's an option for showing a built-in close button. You can also render it conditionally without any props, as it's open by default. You can further specify the id for portaling.
@@ -16,7 +26,7 @@ Finally, you can customize the UI by supplying your own styles as CSS in a templ
 
 ```javascript
 import { render } from 'react-dom';
-import Modal from 'react-portal-modal';
+import Modal from 'styled-modal';
 import type { ComponentType } from 'react';
 import type { RuleSet } from 'styled-components';
 
@@ -55,7 +65,7 @@ render(
 This component handles the actual portaling and is used as the top-most wrapper component in `<Modal />`. You can also use `<Portal />` directly to render things into some other DOM Element by supplying its id.
 
 ```javascript
-import { Portal } from 'react-portal-modal';
+import { Portal } from 'styled-modal';
 
 render(
   <Portal targetId="Helsinki">
@@ -74,7 +84,7 @@ On the server side we cannot use `ReactDOM.createPortal`. This is why the underl
 import Express from 'express';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
-import Modal, { collectPortals } from 'react-portal-modal';
+import Modal, { collectPortals } from 'styled-modal';
 import App from 'components/App';
 
 ...
@@ -111,7 +121,7 @@ app.use(renderResponse);
 >client
 ```javascript
 import { render } from 'react-dom'
-import Modal, { flushPortals } from 'react-portal-modal';
+import Modal, { flushPortals } from 'styled-modal';
 import App from 'components/App';
 
 flushPortals();
