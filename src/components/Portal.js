@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
 const PORTALS = [];
@@ -10,7 +10,7 @@ type Props = {
   targetId: string,
 };
 
-export default class Portal extends Component<Props> {
+export default class Portal extends PureComponent<Props> {
   static defaultProps = {
     targetId: 'portal',
   };
