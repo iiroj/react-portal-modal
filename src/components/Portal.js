@@ -1,6 +1,6 @@
 // @flow
 
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
 const PORTALS = [];
@@ -10,7 +10,7 @@ type Props = {
   targetId: string,
 };
 
-export default class Portal extends PureComponent<Props> {
+export default class Portal extends Component<Props> {
   static defaultProps = {
     targetId: 'portal',
   };
@@ -19,7 +19,7 @@ export default class Portal extends PureComponent<Props> {
 
   componentWillMount = () => {
     if (this.isClientSide()) {
-      this.isClientSide();
+      this.createNode();
     }
   };
 
@@ -27,11 +27,14 @@ export default class Portal extends PureComponent<Props> {
 
   createNode = () => {
     const { targetId } = this.props;
+    const node = window.document.getElementById(targetId);
 
-    if (!window.document.getElementById(targetId)) {
+    if (node === null) {
       this.node = window.document.createElement('div');
       this.node.id = targetId;
       window.document.body.appendChild(this.node);
+    } else {
+      this.node = node;
     }
   };
 

@@ -84,9 +84,7 @@ const Button = styled.button`
 
 storiesOf('portal-modal', module).add('Focus Lock', () => (
   <StateContainer>
-    <Modal style={{ container, overlay }}>
-      <Button>The focus is locked inside this modal</Button>
-      <Button>We are trapped!</Button>
-    </Modal>
+    <Button>The focus is locked inside this modal</Button>
+    <Button>We are trapped!</Button>
   </StateContainer>
 ));
