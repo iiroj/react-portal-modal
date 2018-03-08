@@ -68,5 +68,8 @@
     "styled-components",
     "ssr",
     "server-side-rendering"
-  ]
+  ],
+  "dependencies": {
+    "react-focus-lock": "^1.7.0"
+  }
 }

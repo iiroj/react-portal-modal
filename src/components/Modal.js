@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import FocusLock from 'react-focus-lock';
 import type { ComponentType } from 'react';
 
 import Portal from './Portal';
@@ -104,6 +105,19 @@ export default class Modal extends Component<Props, State> {
     if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideClick);
   };
 
+  shouldComponentUpdate = (nextProps: Props, nextState: State) => {
+    switch (true) {
+      case this.state.open !== nextState.open:
+        return true;
+      case this.props.open !== nextProps.open:
+        return true;
+      case this.props.children !== nextProps.children:
+        return true;
+      default:
+        return false;
+    }
+  };
+
   render() {
     const { children, targetId } = this.props;
     const { open } = this.state;
@@ -117,7 +131,7 @@ export default class Modal extends Component<Props, State> {
           <Overlay>
             <Overscroll>
               <Container role="dialog" innerRef={r => (this.container = r)}>
-                {children}
+                <FocusLock returnFocus={true}>{children}</FocusLock>
               </Container>
             </Overscroll>
           </Overlay>
