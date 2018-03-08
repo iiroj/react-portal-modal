@@ -6,7 +6,7 @@ install: yarn
 script:    
   - yarn lint
   - yarn typecheck
-  - npm test
+  - yarn test
 
 cache:
   yarn: true
