@@ -108,18 +108,10 @@ export default class Modal extends Component<Props, State> {
     if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideClick);
   };
 
-  shouldComponentUpdate = (nextProps: Props, nextState: State) => {
-    switch (true) {
-      case this.state.open !== nextState.open:
-        return true;
-      case this.props.open !== nextProps.open:
-        return true;
-      case this.props.children !== nextProps.children:
-        return true;
-      default:
-        return false;
-    }
-  };
+  shouldComponentUpdate = (nextProps: Props, nextState: State) =>
+    this.state.open !== nextState.open ||
+    this.props.open !== nextProps.open ||
+    this.props.children !== nextProps.children;
 
   render() {
     const { children, targetId } = this.props;
