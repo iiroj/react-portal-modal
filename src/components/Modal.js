@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import FocusLock from 'react-focus-lock';
+import noScroll from 'no-scroll';
 import type { ComponentType } from 'react';
 
 import Portal from './Portal';
@@ -72,11 +73,13 @@ export default class Modal extends Component<Props, State> {
   }
 
   openModal = () => {
+    noScroll.on();
     this.addEventListeners();
     this.setState({ open: true }, this.props.onOpen);
   };
 
   closeModal = () => {
+    noScroll.off();
     this.removeEventListeners();
     this.setState({ open: false }, this.props.onClose);
   };

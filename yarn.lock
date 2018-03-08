@@ -5289,6 +5289,10 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
+no-scroll@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/no-scroll/-/no-scroll-2.1.0.tgz#f8643b3ddb6a3bf94430e5ff31d26f21d082a695"
+
 node-dir@^0.1.10:
   version "0.1.17"
   resolved "https://registry.npmjs.org/node-dir/-/node-dir-0.1.17.tgz#5f5665d93351335caabef8f1c554516cf5f1e4e5"

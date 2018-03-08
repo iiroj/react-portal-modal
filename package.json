@@ -70,6 +70,7 @@
     "server-side-rendering"
   ],
   "dependencies": {
+    "no-scroll": "^2.1.0",
     "react-focus-lock": "^1.7.0"
   }
 }
