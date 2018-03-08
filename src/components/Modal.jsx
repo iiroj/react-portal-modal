@@ -11,11 +11,11 @@ import Overscroll from './Overscroll';
 import FallbackContainer from './Container';
 
 type Props = {
-  backdropComponent?: any,
+  backdropComponent: any,
   children?: any,
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
-  modalComponent?: any,
+  modalComponent: any,
   onClose?: any => any,
   onOpen?: any => any,
   open: boolean,
@@ -28,10 +28,11 @@ type State = {
 
 export default class Modal extends Component<Props, State> {
   static defaultProps = {
+    backdropComponent: FallbackBackdrop,
     closeOnEsc: false,
     closeOnOutsideClick: false,
+    modalComponent: FallbackContainer,
     open: true,
-    style: {},
   };
 
   container: ?Element;
@@ -42,18 +43,16 @@ export default class Modal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { open, backdropComponent: BackdropComponent, modalComponent: ContainerComponent } = props;
+    const { open, backdropComponent: Backdrop, modalComponent: Container } = props;
 
     this.state = {
       open,
     };
 
-    const Backdrop = BackdropComponent || FallbackBackdrop;
     this.Backdrop = Backdrop.extend`
       ${backdrop};
     `;
 
-    const Container = ContainerComponent || FallbackContainer;
     this.Container = Container.extend`
       ${container};
     `;

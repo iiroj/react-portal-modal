@@ -42,16 +42,13 @@ Finally, you can customize the UI by supplying your own styled components for th
 ```javascript
 import { render } from 'react-dom';
 import Modal from 'styled-modal';
-import type { ComponentType } from 'react';
 
 type Props = {
-  children?: ComponentType<any>,
+  backdropComponent?: any,
+  children?: any,
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
-  style: {
-    overlay?: string | Array<string>,
-    container?: string | Array<string>,
-  },
+  modalComponent?: any,
   onClose?: any => any,
   onOpen?: any => any,
   open: boolean,
@@ -59,10 +56,11 @@ type Props = {
 };
 
 type DefaultProps = {
+  backdropComponent: FallbackBackdrop,
   closeOnEsc: false,
   closeOnOutsideClick: false,
+  modalComponent: FallbackContainer,
   open: true,
-  style: {},
 };
 
 render(
