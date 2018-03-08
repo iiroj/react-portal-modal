@@ -15,13 +15,28 @@ export default class Portal extends PureComponent<Props> {
     targetId: 'portal',
   };
 
-  targetNode: Element;
+  node: Element;
 
-  componentDidMount = () => {
-    this.targetNode = window.document.getElementById(this.props.targetId);
+  componentWillMount = () => {
+    if (this.isClientSide()) {
+      this.createNode();
+    }
   };
 
   isClientSide = () => !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+  createNode = () => {
+    const { targetId } = this.props;
+    const node = window.document.getElementById(targetId);
+
+    if (node === null) {
+      this.node = window.document.createElement('div');
+      this.node.id = targetId;
+      window.document.body.appendChild(this.node);
+    } else {
+      this.node = node;
+    }
+  };
 
   collectPortals = () => {
     const copy = PORTALS.slice();
@@ -39,19 +54,15 @@ export default class Portal extends PureComponent<Props> {
   };
 
   render() {
-    const { children, targetId } = this.props;
+    const { children } = this.props;
 
     if (!this.isClientSide()) {
       PORTALS.push(children);
       return null;
     }
 
-    if (!this.targetNode) {
-      this.targetNode = window.document.createElement('div');
-      this.targetNode.id = targetId;
-      window.document.body.appendChild(this.targetNode);
-    }
+    this.createNode();
 
-    return createPortal(children, this.targetNode);
+    return createPortal(children, this.node);
   }
 }
