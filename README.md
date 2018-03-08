@@ -32,7 +32,7 @@ open http://127.0.0.1:8080/
 
 The main entrypoint of this package is the `<Modal />` component. It's a stateful component with support for closing on outside click and ESC keypress. You can supply the open-state with a prop, as well as callback functions for opening and closing. There's an option for showing a built-in close button. You can also render it conditionally without any props, as it's open by default. You can further specify the id for portaling.
 
-Finally, you can customize the UI by supplying your own styles as CSS in a template literal. You should probably use the `css` helper from `styled-components`. The `<Container />` and `<Overlay />` are extended with these styles.
+Finally, you can customize the UI by supplying your own styled components for the Backdrop and Modal container via the `backdropComponent` and `modalComponent` props. Some css properties will be added to make sure the Modal still functions properly.
 
 ### Basic Props
 

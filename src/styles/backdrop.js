@@ -1,8 +1,7 @@
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-export default styled.div`
+export default css`
   align-items: flex-start;
-  background: rgba(0, 0, 0, 0.32);
   display: flex;
   height: 100%;
   justify-content: center;

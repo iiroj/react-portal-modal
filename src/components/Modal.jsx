@@ -3,19 +3,19 @@
 import React, { Component } from 'react';
 import FocusLock from 'react-focus-lock';
 import noScroll from 'no-scroll';
-import type { ComponentType } from 'react';
 
 import Portal from './Portal';
-import { Container, Overlay, Overscroll } from './styled';
+import { container, backdrop } from '../styles';
+import FallbackBackdrop from './Backdrop';
+import Overscroll from './Overscroll';
+import FallbackContainer from './Container';
 
 type Props = {
-  children?: ComponentType<any>,
+  backdropComponent?: any,
+  children?: any,
   closeOnEsc: boolean,
   closeOnOutsideClick: boolean,
-  style: {
-    overlay?: string | Array<string>,
-    container?: string | Array<string>,
-  },
+  modalComponent?: any,
   onClose?: any => any,
   onOpen?: any => any,
   open: boolean,
@@ -35,22 +35,27 @@ export default class Modal extends Component<Props, State> {
   };
 
   container: ?Element;
-  StyledOverlay: ComponentType<any>;
-  StyledContainer: ComponentType<any>;
+  Backdrop: any;
+  Overscroll: any;
+  Container: any;
 
   constructor(props: Props) {
     super(props);
 
+    const { open, backdropComponent: BackdropComponent, modalComponent: ContainerComponent } = props;
+
     this.state = {
-      open: props.open,
+      open,
     };
 
-    this.StyledOverlay = Overlay.extend`
-      ${props.style.overlay};
+    const Backdrop = BackdropComponent || FallbackBackdrop;
+    this.Backdrop = Backdrop.extend`
+      ${backdrop};
     `;
 
-    this.StyledContainer = Container.extend`
-      ${props.style.container};
+    const Container = ContainerComponent || FallbackContainer;
+    this.Container = Container.extend`
+      ${container};
     `;
   }
 
@@ -117,19 +122,19 @@ export default class Modal extends Component<Props, State> {
     const { children, targetId } = this.props;
     const { open } = this.state;
 
-    const Overlay = this.StyledOverlay;
-    const Container = this.StyledContainer;
+    const Backdrop = this.Backdrop;
+    const Container = this.Container;
 
     return (
       <Portal targetId={targetId}>
         {open && (
-          <Overlay>
+          <Backdrop>
             <Overscroll>
               <Container role="dialog" innerRef={r => (this.container = r)}>
                 <FocusLock returnFocus={true}>{children}</FocusLock>
               </Container>
             </Overscroll>
-          </Overlay>
+          </Backdrop>
         )}
       </Portal>
     );
