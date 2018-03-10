@@ -59,7 +59,7 @@ export default class Modal extends Component<Props, State> {
     `;
   }
 
-  componentWillReceiveProps({ open }: Props) {
+  componentWillReceiveProps = ({ open }: Props) => {
     if (open !== this.state.open)
       this.setState({ open }, () => {
         if (open === true) {
@@ -68,11 +68,11 @@ export default class Modal extends Component<Props, State> {
           this.closeModal();
         }
       });
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this.removeEventListeners();
-  }
+  };
 
   callback = (callback?: any => any) => {
     if (callback && typeof callback === 'function') {
@@ -80,7 +80,7 @@ export default class Modal extends Component<Props, State> {
     }
   };
 
-  openModal() {
+  openModal = () => {
     if (hasDom()) {
       focusLock.on(this.container);
       noScroll.on();
@@ -88,9 +88,9 @@ export default class Modal extends Component<Props, State> {
     }
 
     this.setState({ open: true }, this.callback(this.props.onOpen));
-  }
+  };
 
-  closeModal() {
+  closeModal = () => {
     if (hasDom()) {
       focusLock.off(this.container);
       noScroll.off();
@@ -98,38 +98,38 @@ export default class Modal extends Component<Props, State> {
     }
 
     this.setState({ open: false }, this.callback(this.props.onClose));
-  }
+  };
 
-  handleKeydown(event: KeyboardEvent) {
+  handleKeydown = (event: KeyboardEvent) => {
     if (event.keyCode === 27 && this.state.open) {
       this.closeModal();
     }
-  }
+  };
 
-  handleOutsideClick({ target }: MouseEvent) {
+  handleOutsideClick = ({ target }: MouseEvent) => {
     const container = this.container;
     if (!container || (target instanceof Node && container.contains(target))) {
       return;
     }
     this.closeModal();
-  }
+  };
 
-  addEventListeners() {
+  addEventListeners = () => {
     if (this.props.closeOnEsc) document.addEventListener('keydown', this.handleKeydown);
     if (this.props.closeOnOutsideClick) document.addEventListener('click', this.handleOutsideClick);
-  }
+  };
 
-  removeEventListeners() {
+  removeEventListeners = () => {
     if (this.props.closeOnEsc) document.removeEventListener('keydown', this.handleKeydown);
     if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideClick);
-  }
+  };
 
   shouldComponentUpdate = (nextProps: Props, nextState: State) =>
     this.state.open !== nextState.open ||
     this.props.open !== nextProps.open ||
     this.props.children !== nextProps.children;
 
-  render() {
+  render = () => {
     const { children, targetId } = this.props;
     const { open } = this.state;
 
@@ -149,5 +149,5 @@ export default class Modal extends Component<Props, State> {
         )}
       </Portal>
     );
-  }
+  };
 }

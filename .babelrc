@@ -10,7 +10,7 @@
             "iOS >= 7",
             "Android >= 4.4"
           ],
-          "node": "8.9.4"
+          "node": "current"
         },
         "useBuiltIns": true,
         "shippedProposals": true
@@ -20,11 +20,7 @@
     "babel-preset-stage-2"
   ],
   "plugins": [
-    [
-      "babel-plugin-transform-runtime"
-    ],
-    [
-      "babel-plugin-transform-flow-strip-types"
-    ]
+    "babel-plugin-transform-runtime",
+    "babel-plugin-transform-flow-strip-types"
   ]
 }
