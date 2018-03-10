@@ -3,6 +3,8 @@
 import { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 
+import hasDom from '../utils/has-dom';
+
 const PORTALS = [];
 
 type Props = {
@@ -18,12 +20,10 @@ export default class Portal extends PureComponent<Props> {
   node: Element;
 
   componentWillMount = () => {
-    if (this.isClientSide()) {
+    if (hasDom()) {
       this.createNode();
     }
   };
-
-  isClientSide = () => !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
   createNode = () => {
     const { targetId } = this.props;
@@ -45,7 +45,7 @@ export default class Portal extends PureComponent<Props> {
   };
 
   flushPortals = () => {
-    if (this.isClientSide()) {
+    if (hasDom()) {
       const portals = document.getElementById(this.props.targetId);
       while (portals !== null && portals.firstChild) {
         portals.removeChild(portals.firstChild);
@@ -56,7 +56,7 @@ export default class Portal extends PureComponent<Props> {
   render() {
     const { children } = this.props;
 
-    if (!this.isClientSide()) {
+    if (!hasDom()) {
       PORTALS.push(children);
       return null;
     }

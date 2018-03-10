@@ -1,9 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import FocusLock from 'react-focus-lock';
+import focusLock from 'dom-focus-lock/umd';
 import noScroll from 'no-scroll';
 
+import hasDom from '../utils/has-dom';
 import Portal from './Portal';
 import { container, backdrop } from '../styles';
 import FallbackBackdrop from './Backdrop';
@@ -43,7 +44,7 @@ export default class Modal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { open, backdropComponent: Backdrop, modalComponent: Container } = props;
+    const { backdropComponent: Backdrop, modalComponent: Container, open } = props;
 
     this.state = {
       open,
@@ -58,59 +59,70 @@ export default class Modal extends Component<Props, State> {
     `;
   }
 
-  componentWillReceiveProps = ({ open }: Props) => {
+  componentWillReceiveProps({ open }: Props) {
     if (open !== this.state.open)
-      this.setState(
-        state => ({ ...state, open }),
-        () => {
-          if (open === true) {
-            this.openModal();
-          } else {
-            this.closeModal();
-          }
+      this.setState({ open }, () => {
+        if (open === true) {
+          this.openModal();
+        } else {
+          this.closeModal();
         }
-      );
-  };
+      });
+  }
 
   componentWillUnmount() {
     this.removeEventListeners();
   }
 
-  openModal = () => {
-    noScroll.on();
-    this.addEventListeners();
-    this.setState({ open: true }, this.props.onOpen);
-  };
-
-  closeModal = () => {
-    noScroll.off();
-    this.removeEventListeners();
-    this.setState({ open: false }, this.props.onClose);
-  };
-
-  handleKeydown = (event: KeyboardEvent) => {
-    if (event.keyCode === 27 && this.state.open) {
-      this.closeModal();
+  callback = (callback?: any => any) => {
+    if (callback && typeof callback === 'function') {
+      callback();
     }
   };
 
-  handleOutsideClick = ({ target }: MouseEvent) => {
+  openModal() {
+    if (hasDom()) {
+      focusLock.on(this.container);
+      noScroll.on();
+      this.addEventListeners();
+    }
+
+    this.setState({ open: true }, this.callback(this.props.onOpen));
+  }
+
+  closeModal() {
+    if (hasDom()) {
+      focusLock.off(this.container);
+      noScroll.off();
+      this.removeEventListeners();
+    }
+
+    this.setState({ open: false }, this.callback(this.props.onClose));
+  }
+
+  handleKeydown(event: KeyboardEvent) {
+    if (event.keyCode === 27 && this.state.open) {
+      this.closeModal();
+    }
+  }
+
+  handleOutsideClick({ target }: MouseEvent) {
     const container = this.container;
     if (!container || (target instanceof Node && container.contains(target))) {
       return;
     }
     this.closeModal();
-  };
+  }
 
-  addEventListeners = () => {
+  addEventListeners() {
     if (this.props.closeOnEsc) document.addEventListener('keydown', this.handleKeydown);
     if (this.props.closeOnOutsideClick) document.addEventListener('click', this.handleOutsideClick);
-  };
+  }
 
-  removeEventListeners = () => {
+  removeEventListeners() {
     if (this.props.closeOnEsc) document.removeEventListener('keydown', this.handleKeydown);
     if (this.props.closeOnOutsideClick) document.removeEventListener('click', this.handleOutsideClick);
-  };
+  }
 
   shouldComponentUpdate = (nextProps: Props, nextState: State) =>
     this.state.open !== nextState.open ||
@@ -130,7 +142,7 @@ export default class Modal extends Component<Props, State> {
           <Backdrop>
             <Overscroll>
               <Container role="dialog" innerRef={r => (this.container = r)}>
-                <FocusLock returnFocus={true}>{children}</FocusLock>
+                {children}
               </Container>
             </Overscroll>
           </Backdrop>

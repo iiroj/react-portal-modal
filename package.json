@@ -1,6 +1,6 @@
 {
   "name": "styled-modal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
   "licence": "MIT",
   "homepage": "https://github.com/iiroj/react-portal-modal",
@@ -16,12 +16,16 @@
     "build": "babel src --out-dir lib --source-maps",
     "typecheck": "flow check",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest --config .jest.config.json"
   },
   "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "styled-components": "^3.2.1"
+  },
+  "dependencies": {
+    "dom-focus-lock": "^1.0.1",
+    "no-scroll": "^2.1.0"
   },
   "devDependencies": {
     "@storybook/react": "^3.3.15",
@@ -36,7 +40,6 @@
     "babel-preset-stage-2": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.2",
     "eslint": "^4.18.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.46.1",
@@ -53,14 +56,6 @@
     "rimraf": "^2.6.2",
     "styled-components": "^3.2.1"
   },
-  "jest": {
-    "setupFiles": [
-      "./config/jestsetup.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "keywords": [
     "react",
     "portal",
@@ -68,9 +63,5 @@
     "styled-components",
     "ssr",
     "server-side-rendering"
-  ],
-  "dependencies": {
-    "no-scroll": "^2.1.0",
-    "react-focus-lock": "^1.7.0"
-  }
+  ]
 }
