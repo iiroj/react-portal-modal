@@ -28,7 +28,6 @@ class StateContainer extends Component {
         onClose={this.handleClose}
         onOpen={this.handleOpen}
         open={this.state.open}
-        showClose={true}
       >
         {this.props.children}
       </Modal>

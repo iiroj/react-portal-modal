@@ -130,18 +130,31 @@ export default class Modal extends Component<Props, State> {
     this.props.children !== nextProps.children;
 
   render = () => {
-    const { children, targetId } = this.props;
-    const { open } = this.state;
+    /* eslint-disable no-unused-vars */
+    const {
+      appId,
+      backdropComponent,
+      children,
+      closeOnEsc,
+      closeOnOutsideClick,
+      modalComponent,
+      onClose,
+      onOpen,
+      open,
+      targetId,
+      ...rest
+    } = this.props;
+    /* eslint-enable no-unused-vars */
 
     const Backdrop = this.Backdrop;
     const Container = this.Container;
 
     return (
       <Portal targetId={targetId}>
-        {open && (
+        {this.state.open && (
           <Backdrop>
             <Overscroll>
-              <Container role="dialog" innerRef={r => (this.container = r)}>
+              <Container aria-modal="true" role="dialog" innerRef={r => (this.container = r)} {...rest}>
                 {children}
               </Container>
             </Overscroll>
