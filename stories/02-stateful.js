@@ -23,6 +23,7 @@ class StateContainer extends Component {
     <Fragment>
       <button onClick={this.handleOpen}>Open Modal</button>
       <Modal
+        appId="root"
         closeOnEsc={true}
         closeOnOutsideClick={true}
         onClose={this.handleClose}
