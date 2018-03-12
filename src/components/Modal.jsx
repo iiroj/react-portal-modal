@@ -39,26 +39,13 @@ export default class Modal extends Component<Props, State> {
   };
 
   container: ?Element;
-  Backdrop: any;
-  Overscroll: any;
-  Container: any;
 
   constructor(props: Props) {
     super(props);
 
-    const { backdropComponent: Backdrop, modalComponent: Container, open } = props;
-
     this.state = {
-      open,
+      open: props.open,
     };
-
-    this.Backdrop = Backdrop.extend`
-      ${backdrop};
-    `;
-
-    this.Container = Container.extend`
-      ${container};
-    `;
   }
 
   componentDidMount = () => {
@@ -143,7 +130,9 @@ export default class Modal extends Component<Props, State> {
   shouldComponentUpdate = (nextProps: Props, nextState: State) =>
     this.state.open !== nextState.open ||
     this.props.open !== nextProps.open ||
-    this.props.children !== nextProps.children;
+    this.props.children !== nextProps.children ||
+    this.props.modalComponent !== nextProps.modalComponent ||
+    this.props.backdropComponent !== nextProps.backdropComponent;
 
   render = () => {
     /* eslint-disable no-unused-vars */
@@ -162,8 +151,13 @@ export default class Modal extends Component<Props, State> {
     } = this.props;
     /* eslint-enable no-unused-vars */
 
-    const Backdrop = this.Backdrop;
-    const Container = this.Container;
+    const Backdrop = backdropComponent.extend`
+      ${backdrop};
+    `;
+
+    const Container = modalComponent.extend`
+      ${container};
+    `;
 
     return (
       <Portal targetId={targetId}>
