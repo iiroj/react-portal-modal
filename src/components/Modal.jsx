@@ -5,6 +5,7 @@ import focusLock from 'dom-focus-lock/umd';
 import noScroll from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
+import setAriaHidden from '../utils/aria-hidden';
 import Portal from './Portal';
 import { container, backdrop } from '../styles';
 import FallbackBackdrop from './Backdrop';
@@ -12,6 +13,7 @@ import Overscroll from './Overscroll';
 import FallbackContainer from './Container';
 
 type Props = {
+  appId?: string,
   backdropComponent: any,
   children?: any,
   closeOnEsc: boolean,
@@ -37,27 +39,20 @@ export default class Modal extends Component<Props, State> {
   };
 
   container: ?Element;
-  Backdrop: any;
-  Overscroll: any;
-  Container: any;
 
   constructor(props: Props) {
     super(props);
 
-    const { backdropComponent: Backdrop, modalComponent: Container, open } = props;
-
     this.state = {
-      open,
+      open: props.open,
     };
-
-    this.Backdrop = Backdrop.extend`
-      ${backdrop};
-    `;
-
-    this.Container = Container.extend`
-      ${container};
-    `;
   }
+
+  componentDidMount = () => {
+    if (this.state.open) {
+      this.openModalSideEffects();
+    }
+  };
 
   componentWillReceiveProps = ({ open }: Props) => {
     if (open !== this.state.open)
@@ -71,7 +66,7 @@ export default class Modal extends Component<Props, State> {
   };
 
   componentWillUnmount = () => {
-    this.removeEventListeners();
+    this.closeModalSideEffects();
   };
 
   callback = (callback?: any => any) => {
@@ -80,23 +75,31 @@ export default class Modal extends Component<Props, State> {
     }
   };
 
-  openModal = () => {
+  openModalSideEffects = () => {
     if (hasDom()) {
       focusLock.on(this.container);
       noScroll.on();
       this.addEventListeners();
+      setAriaHidden.on(this.props.appId);
     }
+  };
 
+  openModal = () => {
+    this.openModalSideEffects();
     this.setState({ open: true }, this.callback(this.props.onOpen));
   };
 
-  closeModal = () => {
+  closeModalSideEffects = () => {
     if (hasDom()) {
       focusLock.off(this.container);
       noScroll.off();
       this.removeEventListeners();
+      setAriaHidden.off(this.props.appId);
     }
+  };
 
+  closeModal = () => {
+    this.closeModalSideEffects();
     this.setState({ open: false }, this.callback(this.props.onClose));
   };
 
@@ -127,21 +130,41 @@ export default class Modal extends Component<Props, State> {
   shouldComponentUpdate = (nextProps: Props, nextState: State) =>
     this.state.open !== nextState.open ||
     this.props.open !== nextProps.open ||
-    this.props.children !== nextProps.children;
+    this.props.children !== nextProps.children ||
+    this.props.modalComponent !== nextProps.modalComponent ||
+    this.props.backdropComponent !== nextProps.backdropComponent;
 
   render = () => {
-    const { children, targetId } = this.props;
-    const { open } = this.state;
+    /* eslint-disable no-unused-vars */
+    const {
+      appId,
+      backdropComponent,
+      children,
+      closeOnEsc,
+      closeOnOutsideClick,
+      modalComponent,
+      onClose,
+      onOpen,
+      open,
+      targetId,
+      ...rest
+    } = this.props;
+    /* eslint-enable no-unused-vars */
 
-    const Backdrop = this.Backdrop;
-    const Container = this.Container;
+    const Backdrop = backdropComponent.extend`
+      ${backdrop};
+    `;
+
+    const Container = modalComponent.extend`
+      ${container};
+    `;
 
     return (
       <Portal targetId={targetId}>
-        {open && (
+        {this.state.open && (
           <Backdrop>
             <Overscroll>
-              <Container role="dialog" innerRef={r => (this.container = r)}>
+              <Container aria-modal="true" role="dialog" innerRef={r => (this.container = r)} {...rest}>
                 {children}
               </Container>
             </Overscroll>

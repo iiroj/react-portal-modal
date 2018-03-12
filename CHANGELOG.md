@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2018-03-10
+### Added
+- Pass all other props supplied to `<Modal />` to the container component. This allow you to set `aria-labelledby` and `aria-describedby`, for example
+- When supplying an `appId` prop, that element is set to `aria-hidden="true"` when Modal is open
+### Changed
+- `modalComponent` and `backdropComponent` are set in `render()` so they can change dynamically
+### Fixed
+- Side effects for opening the Modal are now run on `componentWillMount()`, if Modal should be open when mounted.
+
 ## [1.0.3] - 2018-03-10
 ### Changed
 - Target current node version
