@@ -45,26 +45,6 @@ Finally, you can customize the UI by supplying your own styled components for th
 import { render } from 'react-dom';
 import Modal from 'styled-modal';
 
-type Props = {
-  backdropComponent?: any,
-  children?: any,
-  closeOnEsc: boolean,
-  closeOnOutsideClick: boolean,
-  modalComponent?: any,
-  onClose?: any => any,
-  onOpen?: any => any,
-  open: boolean,
-  targetId?: string,
-};
-
-type DefaultProps = {
-  backdropComponent: FallbackBackdrop,
-  closeOnEsc: false,
-  closeOnOutsideClick: false,
-  modalComponent: FallbackContainer,
-  open: true,
-};
-
 render(
   <Modal>
     <p>This text will open in a modal</p>
