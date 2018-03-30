@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "jsx": "react",
+    "lib": [ "dom", "es2017" ],
+    "module": "es6",
+    "noEmit": true,
+    "noResolve": false,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "skipLibCheck": true,
+    "paths": {
+      "styled-modal": ["src"]
+    },
+    "sourceMap": true,
+    "strict": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
+  ]
+}

@@ -117,13 +117,15 @@ export default props => {
 
 ## `<Portal />`
 
-This component handles the actual portaling and is used as the top-most wrapper component in `<Modal />`. You can also use `<Portal />` directly to render things into some other DOM Element by supplying its id.
+This component handles the actual portaling and is used as the top-most wrapper component in `<Modal />`. You can also use `<Portal />` directly to render things into some other DOM Element.
 
 ```javascript
 import { Portal } from 'styled-modal';
 
+const target = document.getElementById("Helsinki");
+
 render(
-  <Portal targetId="Helsinki">
+  <Portal target={target}>
     <p>This text will be portaled to #Helsinki</p>
   </Portal>,
   document.getElementById('root'),
@@ -152,8 +154,8 @@ const renderResponse = async (req, res) => {
   const appHtml = renderToStaticMarkup(
     sheet.collectStyles(
       <App>
-        <Modal targetId="portal">
-          <p>This text will be portaled to #portal</p>
+        <Modal>
+          <p>This text will be portaled to #modal</p>
         </Modal>
       </App>
     )
@@ -183,8 +185,8 @@ flushPortals();
 
 render(
   <App>
-    <Modal targetId="portal">
-      <p>This text will be portaled to #portal</p>
+    <Modal>
+      <p>This text will be portaled to #modal</p>
     </Modal>
   </App>,
   document.getElementById('root');

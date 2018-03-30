@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Modal from '../src';
+import Modal from 'styled-modal';
 
 storiesOf('portal-modal', module).add('Default stateless Modal', () => (
-  <Fragment>
+  <React.Fragment>
     <Modal appId="root">
       <p>This text is rendered in a Modal</p>
     </Modal>
-  </Fragment>
+  </React.Fragment>
 ));

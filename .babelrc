@@ -1,26 +1,23 @@
 {
   "presets": [
     [
-      "babel-preset-env",
+      "@babel/env",
       {
         "targets": {
-          "browsers": [
-            "Last 2 versions",
-            "IE >= 10",
-            "iOS >= 7",
-            "Android >= 4.4"
-          ],
-          "node": "current"
-        },
-        "useBuiltIns": true,
-        "shippedProposals": true
+          "browsers": ["last 2 versions"]
+        }
       }
     ],
-    "babel-preset-react",
-    "babel-preset-stage-2"
+    "@babel/stage-3",
+    "@babel/react",
+    "@babel/typescript"
   ],
   "plugins": [
-    "babel-plugin-transform-runtime",
-    "babel-plugin-transform-flow-strip-types"
+    ["module-resolver", {
+      "root": ["."],
+      "alias": {
+        "styled-modal": "./src"
+      }
+    }]
   ]
 }

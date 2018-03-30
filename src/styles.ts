@@ -1,6 +1,6 @@
-import { css } from 'styled-components';
+import { InterpolationValue, css } from 'styled-components';
 
-export default css`
+export const backdrop: InterpolationValue[] = css`
   align-items: flex-start;
   display: flex;
   height: 100%;
@@ -12,4 +12,8 @@ export default css`
   top: 0;
   width: 100%;
   z-index: 9000;
+`;
+
+export const container: InterpolationValue[] = css`
+  z-index: 9001;
 `;

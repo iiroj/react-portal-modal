@@ -1,3 +1,5 @@
+import '@babel/register';
+
 import { configure } from '@storybook/react';
 
 function requireAll(requireContext) {
@@ -5,7 +7,7 @@ function requireAll(requireContext) {
 }
 
 function loadStories() {
-  requireAll(require.context("../stories", true, /\.jsx?$/));
+  requireAll(require.context("../stories", true, /\.tsx?$/));
 }
 
 configure(loadStories, module);

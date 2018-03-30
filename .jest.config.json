@@ -1,5 +1,8 @@
 {
-  "setupFiles": [
-    "./config/jest/setup.js"
-  ]
+  "setupFiles": ["./config/jest/setup.js"],
+  "moduleFileExtensions": ["ts", "tsx", "js", "json", "jsx", "node"],
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest",
+    "^.+\\.tsx?$": "babel-jest"
+  }
 }
