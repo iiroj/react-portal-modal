@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyledComponentClass } from 'styled-components';
 import focusLock from 'dom-focus-lock/umd';
 import noScroll from 'no-scroll';
@@ -27,25 +27,17 @@ export interface IProps {
   [key: string]: any;
 }
 
-export interface IState {
-  open: boolean;
-}
+export default class Modal extends PureComponent<IProps> {
+  public static defaultProps = {
+    open: true
+  };
 
-export default class Modal extends Component<IProps, IState> {
   private container?: HTMLElement;
-
-  public constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      open: typeof this.props.open === 'undefined' ? true : this.props.open
-    };
-  }
 
   public componentDidUpdate(prevProps: IProps) {
     if (prevProps.open !== this.props.open) {
       this.setState({ open: !!this.props.open }, () => {
-        if (this.state.open) {
+        if (this.props.open) {
           this.openModal();
         } else {
           this.closeModal();
@@ -55,17 +47,7 @@ export default class Modal extends Component<IProps, IState> {
   }
 
   public componentWillUnmount() {
-    this.closeModalSideEffects();
-  }
-
-  public shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    return (
-      this.state.open !== nextState.open ||
-      this.props.open !== nextProps.open ||
-      this.props.children !== nextProps.children ||
-      this.props.modalComponent !== nextProps.modalComponent ||
-      this.props.backdropComponent !== nextProps.backdropComponent
-    );
+    this.closeModal();
   }
 
   public render() {
@@ -90,7 +72,7 @@ export default class Modal extends Component<IProps, IState> {
 
     return (
       <Portal>
-        {this.state.open && (
+        {open && (
           <Backdrop>
             <Overscroll>
               <Container
@@ -115,7 +97,7 @@ export default class Modal extends Component<IProps, IState> {
     }
   }
 
-  private openModalSideEffects() {
+  private openModal() {
     if (hasDom()) {
       focusLock.on(this.container);
       noScroll.on();
@@ -127,12 +109,7 @@ export default class Modal extends Component<IProps, IState> {
     }
   }
 
-  private openModal() {
-    this.openModalSideEffects();
-    this.setState({ open: true }, this.handleCallback(this.props.onOpen));
-  }
-
-  private closeModalSideEffects() {
+  private closeModal() {
     if (hasDom()) {
       focusLock.off(this.container);
       noScroll.off();
@@ -144,13 +121,9 @@ export default class Modal extends Component<IProps, IState> {
     }
   }
 
-  private closeModal() {
-    this.closeModalSideEffects();
-    this.setState({ open: false }, this.handleCallback(this.props.onClose));
-  }
-
   private handleKeydown = (event: KeyboardEvent) => {
-    if (event.keyCode === 27 && this.state.open) {
+    if (event.keyCode === 27 && this.props.open) {
+      this.handleCallback(this.props.onClose);
       this.closeModal();
     }
   };
@@ -160,6 +133,7 @@ export default class Modal extends Component<IProps, IState> {
     if (!container || (target instanceof Node && container.contains(target))) {
       return;
     }
+    this.handleCallback(this.props.onClose);
     this.closeModal();
   };
 

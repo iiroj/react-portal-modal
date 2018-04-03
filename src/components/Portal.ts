@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { createPortal } from 'react-dom';
 
 import hasDom from '../utils/has-dom';
 
@@ -43,13 +43,13 @@ export default class Portal extends React.PureComponent<IProps> {
     }
 
     if (target) {
-      return ReactDOM.createPortal(children, target);
+      return createPortal(children, target);
     }
 
     this.createNode();
 
     if (this.node) {
-      return ReactDOM.createPortal(children, this.node);
+      return createPortal(children, this.node);
     }
   }
 
