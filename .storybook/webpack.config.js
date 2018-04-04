@@ -1,15 +1,10 @@
-var genDefaultConfig = require('@storybook/react/dist/server/config/defaults/webpack.config.js');
-
-module.exports = function (config, env) {
-    var config = genDefaultConfig(config, env);
-
-    config.module.rules.push({
+module.exports = function (baseConfig, env, defaultConfig) {
+    defaultConfig.module.rules.push({
       test: /\.tsx??$/,
       loader: "babel-loader",
     })
+    defaultConfig.resolve.extensions.push(".tsx");
+    defaultConfig.resolve.extensions.push(".ts");
 
-    config.resolve.extensions.push(".tsx");
-    config.resolve.extensions.push(".ts");
-
-    return config;
+    return defaultConfig;
 };

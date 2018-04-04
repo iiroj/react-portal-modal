@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2018-03-30
+## [2.1.1] - 2018-04-04
+### Fixed
+- `has-dom` util correctly checks for `window`
+- `<Modal />` runs opening side-effects on componentDidMount, if necessary
+### Changed
+- Update Storybook's webpack config to new standard: https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode--default
+
+## [2.1.0] - 2018-04-03
 ### Changed
 - Modal no longer has a state, and instead relies only on `open`, `handleOpen`, and `handleClose` props
 - Update packages

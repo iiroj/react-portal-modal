@@ -34,6 +34,12 @@ export default class Modal extends PureComponent<IProps> {
 
   private container?: HTMLElement;
 
+  public componentDidMount() {
+    if (this.props.open) {
+      this.openModal();
+    }
+  }
+
   public componentDidUpdate(prevProps: IProps) {
     if (prevProps.open !== this.props.open) {
       this.setState({ open: !!this.props.open }, () => {
