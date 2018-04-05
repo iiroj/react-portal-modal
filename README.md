@@ -95,6 +95,35 @@ export default props => {
 }
 ```
 
+### Custom styles
+
+It is possible to supply custom `modalComponent` and `backdropComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be extended with styles necessary for the Modal to function.
+
+```javascript
+import Modal from 'styled-modal';
+import styled from 'styled-components';
+
+const Backdrop = styled.div`
+...
+`
+
+const ModalContainer = styled.div`
+...
+`
+
+...
+
+export default () => (
+  <Modal open={showModal} backdropComponent={Backdrop} modalComponent={ModalContainer}>
+    <p>This text will open in a modal</p>
+  </Modal>
+)
+```
+
+#### Refs
+
+Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply both a `innerRef` and `_ref`. Styled-components eats the `innerRef` and `_ref` can be used in more complex components wrapped in `styled()`.
+
 ## `<Portal />`
 
 This component handles the actual portaling and is used as the top-most wrapper component in `<Modal />`. You can also use `<Portal />` directly to render things into some other DOM Element.

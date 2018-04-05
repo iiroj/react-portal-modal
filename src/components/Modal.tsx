@@ -1,3 +1,5 @@
+// tslint:disable jsx-no-lambda
+
 import React, { PureComponent } from 'react';
 import { StyledComponentClass } from 'styled-components';
 import focusLock from 'dom-focus-lock/umd';
@@ -83,8 +85,8 @@ export default class Modal extends PureComponent<IProps> {
             <Overscroll>
               <Container
                 aria-modal="true"
-                // tslint:disable-next-line jsx-no-lambda
                 innerRef={(r: HTMLElement) => (this.container = r)}
+                _ref={(r: HTMLElement) => (this.container = r)}
                 role="dialog"
                 {...rest}
               >
