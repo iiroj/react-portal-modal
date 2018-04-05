@@ -1,14 +1,24 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { StyledComponentClass } from 'styled-components';
+import styled from 'styled-components';
 
-import Modal from 'styled-modal';
+import StyledModal from 'styled-modal';
 
-const Overlay: StyledComponentClass<any, any> = styled.div`
-  background-color: rgba(242, 242, 242, 0.96);
+type ContainerProps = {
+  children: any;
+  className: string;
+  open: boolean;
+};
+
+const ContainerComponent = ({ children, className, open }: ContainerProps) =>
+  open ? <div className={className}>{children}</div> : null;
+
+const Container = styled(ContainerComponent)`
+  background: rgba(242, 242, 242);
+  ${props => props.theme.container};
 `;
 
-const Container: StyledComponentClass<any, any> = styled.article`
+const Modal = styled.article`
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 64px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -18,12 +28,11 @@ const Container: StyledComponentClass<any, any> = styled.article`
   position: relative;
   text-align: center;
   width: 100%;
+  ${props => props.theme.modal};
 `;
 
-storiesOf('portal-modal', module).add('Custom styles', () => (
-  <Fragment>
-    <Modal backdropComponent={Overlay} modalComponent={Container}>
-      <p>This text is rendered in a Modal</p>
-    </Modal>
-  </Fragment>
+storiesOf('styled-modal', module).add('Custom styles', () => (
+  <StyledModal containerComponent={Container} modalComponent={Modal}>
+    <p>This text is rendered in a Modal</p>
+  </StyledModal>
 ));

@@ -1,6 +1,7 @@
-import styled, { StyledComponentClass } from 'styled-components';
+import styled from 'styled-components';
+import * as Styled from 'styled-components/typings/styled-components';
 
-const Overscroll: StyledComponentClass<any, any> = styled.div`
+const Overscroll: Styled.StyledComponentClass<{}, {}> = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;

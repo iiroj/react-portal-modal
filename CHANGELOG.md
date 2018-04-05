@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.2.0] - 2018-04-04
+## [2.3.0] – 2018-04-07
+### Changed
+- Rename `backdropComponent` to `containerComponent`
+- Styles are now passed as a styled-components theme to `modalComponent` and `containerComponent`
+- The Container component now receives the `open` prop and should return either JSX with `children` (the modal) or `null` (when modal is closed). This allows for better customization like animating the closing of the modal. See Readme for example for a custom component.
+### Removed
+- Removed tests, as they didn't really do anything meaningful; Storybook working is good enough of a test
+
+## [2.2.0] - 2018-04-05
 ### Added
 - Add a secondary `_ref` prop for the optional `modalComponent`, so that you can pass references to more complex components. This is because `styled-components` eats the `innerRef` prop and doesn't pass it to its children.
 

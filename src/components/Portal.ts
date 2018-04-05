@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { PureComponent, ReactPortal } from 'react';
+import ReactDOM from 'react-dom';
 
 import hasDom from '../utils/has-dom';
 
@@ -20,12 +20,12 @@ export function flushPortals() {
   }
 }
 
-export interface IProps {
+export interface PortalProps {
   children: any;
   target?: HTMLElement | null;
 }
 
-export default class Portal extends React.PureComponent<IProps> {
+export default class Portal extends PureComponent<PortalProps> {
   private node?: Element;
 
   public componentDidMount() {
@@ -51,10 +51,16 @@ export default class Portal extends React.PureComponent<IProps> {
     if (this.node) {
       return ReactDOM.createPortal(children, this.node);
     }
+
+    return null;
   }
 
   private createNode = () => {
     const node = window.document.getElementById('modal');
+
+    if (this.node !== undefined) {
+      return;
+    }
 
     if (node === null) {
       this.node = window.document.createElement('div');

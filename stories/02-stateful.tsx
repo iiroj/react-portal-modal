@@ -35,7 +35,7 @@ class StateContainer extends Component<{}, IState> {
   }
 }
 
-storiesOf('portal-modal', module).add('Stateful Modal', () => (
+storiesOf('styled-modal', module).add('Stateful Modal', () => (
   <StateContainer>
     <p>This text is rendered in a Modal</p>
   </StateContainer>

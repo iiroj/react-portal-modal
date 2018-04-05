@@ -1,35 +1,32 @@
 // tslint:disable jsx-no-lambda
 
 import React, { PureComponent } from 'react';
-import { StyledComponentClass } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import focusLock from 'dom-focus-lock/umd';
 import noScroll from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
 import Portal from './Portal';
-import {
-  container as containerStyles,
-  backdrop as backdropStyles
-} from '../styles';
-import FallbackBackdrop from './Backdrop';
+import { container, modal } from '../styles';
+import DefaultContainer from './Container';
 import Overscroll from './Overscroll';
-import FallbackContainer from './Container';
+import DefaultModal from './Modal';
 
-export interface IProps {
+export type StyledModalProps = {
   appId?: string;
-  backdropComponent?: StyledComponentClass<any, any>;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
-  modalComponent?: StyledComponentClass<any, any>;
+  containerComponent?: any;
+  modalComponent?: any;
   onClose?: (props?: any) => any;
   onOpen?: (props?: any) => any;
   open?: boolean;
   [key: string]: any;
-}
+};
 
-export default class Modal extends PureComponent<IProps> {
+export default class StyledModal extends PureComponent<StyledModalProps> {
   public static defaultProps = {
     open: true
   };
@@ -42,15 +39,9 @@ export default class Modal extends PureComponent<IProps> {
     }
   }
 
-  public componentDidUpdate(prevProps: IProps) {
+  public componentDidUpdate(prevProps: StyledModalProps) {
     if (prevProps.open !== this.props.open) {
-      this.setState({ open: !!this.props.open }, () => {
-        if (this.props.open) {
-          this.openModal();
-        } else {
-          this.closeModal();
-        }
-      });
+      this.props.open ? this.openModal() : this.closeModal();
     }
   }
 
@@ -61,45 +52,45 @@ export default class Modal extends PureComponent<IProps> {
   public render() {
     const {
       appId,
-      backdropComponent,
       children,
       closeOnEsc,
       closeOnOutsideClick,
+      containerComponent: ContainerComponent,
       modalComponent,
       onClose,
       onOpen,
-      open,
       ...rest
     } = this.props;
 
-    const backdrop = backdropComponent || FallbackBackdrop;
-    const Backdrop = backdrop.extend`${backdropStyles}`;
+    // Strict null check doesn't understand defaultProps
+    const open = this.props.open as boolean;
 
-    const container = modalComponent || FallbackContainer;
-    const Container = container.extend`${containerStyles}`;
+    const Container = ContainerComponent || DefaultContainer;
+    const Modal = modalComponent || DefaultModal;
 
     return (
       <Portal>
-        {open && (
-          <Backdrop>
+        <ThemeProvider theme={{ container, modal }}>
+          <Container open={open}>
             <Overscroll>
-              <Container
+              <Modal
                 aria-modal="true"
                 innerRef={(r: HTMLElement) => (this.container = r)}
                 _ref={(r: HTMLElement) => (this.container = r)}
+                open={open}
                 role="dialog"
                 {...rest}
               >
                 {children}
-              </Container>
+              </Modal>
             </Overscroll>
-          </Backdrop>
-        )}
+          </Container>
+        </ThemeProvider>
       </Portal>
     );
   }
 
-  public handleCallback(callback?: (props?: any) => any): any {
+  public handleCallback(callback?: () => void) {
     if (callback) {
       callback();
     }
