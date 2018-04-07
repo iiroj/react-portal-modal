@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import Modal from 'styled-modal';
 
-storiesOf('portal-modal', module).add('Default stateless Modal', () => (
+storiesOf('styled-modal', module).add('Default stateless Modal', () => (
   <React.Fragment>
     <Modal appId="root">
       <p>This text is rendered in a Modal</p>

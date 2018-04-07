@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import { Portal } from 'styled-modal';
 
-storiesOf('portal-modal', module).add('Portal with custom target', () => {
+storiesOf('styled-modal', module).add('Portal with custom target', () => {
   const target = document.getElementById('error-display');
 
   return (

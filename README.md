@@ -37,7 +37,7 @@ open http://127.0.0.1:8080/
 
 The main entrypoint of this package is the `<Modal />` component. It's a stateful component with support for closing on outside click and ESC keypress. You can supply the open-state with a prop, as well as callback functions for opening and closing. There's an option for showing a built-in close button. You can also render it conditionally without any props, as it's open by default. You can further specify the id for portaling.
 
-Finally, you can customize the UI by supplying your own styled components for the Backdrop and Modal container via the `backdropComponent` and `modalComponent` props. Some css properties will be added to make sure the Modal still functions properly.
+Finally, you can customize the UI by supplying your own styled components for the Container (backdrop) and Modal via the `containerComponent` and `modalComponent` props. Some default styles will be supplied via the styled-components theme prop.
 
 ### Basic Props
 
@@ -83,12 +83,12 @@ import Modal from 'styled-modal';
 ...
 
 export default props => {
-  const { showModal, handleOpen, handleClose } = props;
+  const { showModal, openCallback, closeCallback } = props;
 
   return (
    <div>
     <button onClick={handleOpen}>Show Modal!</button>
-    <Modal open={showModal} onOpen={handleOpen} onClose={handleClose}>
+    <Modal open={showModal} onOpen={openCallback} onClose={closeCallback}>
       <p>This text will open in a modal</p>
     </Modal>
   )
@@ -97,26 +97,31 @@ export default props => {
 
 ### Custom styles
 
-It is possible to supply custom `modalComponent` and `backdropComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be extended with styles necessary for the Modal to function.
+It is possible to supply custom `modalComponent` and `containerComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be provided default styles necessary for the Modal to function in the `theme` prop.
 
 ```javascript
-import Modal from 'styled-modal';
+import StyledModal from 'styled-modal';
 import styled from 'styled-components';
 
-const Backdrop = styled.div`
-...
+const ContainerComponent = ({ children, className, open }: IProps) =>
+  open ? <div className={className}>{children}</div> : null;
+
+const Container = styled(ContainerComponent)`
+  background-color: rgba(0, 0, 0, 0.4);
+  ${props => props.theme.container};
 `
 
-const ModalContainer = styled.div`
-...
+const Modal = styled.div`
+  background-color: white;
+  ${props => props.theme.modal};
 `
 
 ...
 
 export default () => (
-  <Modal open={showModal} backdropComponent={Backdrop} modalComponent={ModalContainer}>
+  <StyledModal open={showModal} containerComponent={Container} modalComponent={Modal}>
     <p>This text will open in a modal</p>
-  </Modal>
+  </StyledModal>
 )
 ```
 

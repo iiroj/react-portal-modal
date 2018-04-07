@@ -51,7 +51,7 @@ const Button: StyledComponentClass<any, any> = styled.button`
   }
 `;
 
-storiesOf('portal-modal', module).add('Focus Lock', () => (
+storiesOf('styled-modal', module).add('Focus Lock', () => (
   <StateContainer>
     <Button>The focus is locked inside this modal</Button>
     <Button>We are trapped!</Button>
