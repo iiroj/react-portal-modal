@@ -5,7 +5,7 @@
     "baseUrl": ".",
     "declaration": true,
     "jsx": "react",
-    "lib": [ "dom", "es2017" ],
+    "lib": ["dom", "es2017"],
     "module": "es6",
     "moduleResolution": "node",
     "noEmit": true,
@@ -20,8 +20,5 @@
     "sourceMap": true,
     "strict": true
   },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*"
-  ]
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

@@ -1,7 +1,5 @@
 {
-  "rulesDirectory": [
-    "tslint-plugin-prettier"
-  ],
+  "rulesDirectory": ["tslint-plugin-prettier"],
   "extends": [
     "tslint-config-standard",
     "tslint-react",
@@ -11,7 +9,8 @@
     "no-unused-variable": false,
     "jsx-no-multiline-js": false,
     "prettier": [
-      true, {
+      true,
+      {
         "singleQuote": true
       }
     ]

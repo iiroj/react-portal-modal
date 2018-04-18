@@ -13,11 +13,14 @@
     "@babel/typescript"
   ],
   "plugins": [
-    ["module-resolver", {
-      "root": ["."],
-      "alias": {
-        "styled-modal": "./src"
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "styled-modal": "./src"
+        }
       }
-    }]
+    ]
   ]
 }
