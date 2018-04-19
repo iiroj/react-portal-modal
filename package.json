@@ -1,23 +1,21 @@
 {
   "name": "styled-modal",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
   "licence": "MIT",
   "homepage": "https://github.com/iiroj/styled-modal",
   "repository": "github:iiroj/styled-modal",
   "bugs": "https://github.com/iiroj/styled-modal/issues",
   "main": "lib/index.js",
-  "typings": "./src/index.ts",
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
     "prebuild": "rimraf lib",
-    "build": "babel src --out-dir lib --extensions '.ts,.tsx'",
-    "lint": "tslint -p '.'",
-    "typecheck": "tsc",
+    "build": "tsc -p tsconfig.json",
+    "lint": "tslint -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest --config .jest.config.json"
   },
   "dependencies": {
@@ -27,7 +25,7 @@
   "peerDependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "styled-components": "^3.2.5"
+    "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.44",
@@ -38,7 +36,7 @@
     "@babel/preset-stage-3": "^7.0.0-beta.44",
     "@babel/preset-typescript": "^7.0.0-beta.44",
     "@babel/register": "^7.0.0-beta.44",
-    "@storybook/react": "^3.4.1",
+    "@storybook/react": "^3.4.2",
     "@types/jest": "^22.2.3",
     "@types/react-dom": "^16.0.5",
     "@types/storybook__react": "^3.0.7",
@@ -50,7 +48,7 @@
     "react-dom": "^16.3.2",
     "react-motion-ui-pack": "^0.10.3",
     "rimraf": "^2.6.2",
-    "styled-components": "^3.2.5",
+    "styled-components": "^3.2.6",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",
     "tslint-config-standard": "^7.0.0",

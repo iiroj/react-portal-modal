@@ -4,7 +4,7 @@ import { spring } from 'react-motion';
 import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
-import StyledModal from 'styled-modal';
+import StyledModal from '../src';
 
 type ContainerComponentProps = {
   children: any;

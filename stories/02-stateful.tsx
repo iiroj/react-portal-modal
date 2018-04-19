@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Modal from 'styled-modal';
+import StyledModal from '../src';
 
 interface IState {
   open: boolean;
@@ -27,9 +27,9 @@ class StateContainer extends Component<{}, IState> {
     return (
       <React.Fragment>
         <button onClick={this.handleOpen}>Open Modal</button>
-        <Modal appId="root" onClose={this.handleClose} open={this.state.open}>
+        <StyledModal appId="root" onClose={this.handleClose} open={this.state.open}>
           {this.props.children}
-        </Modal>
+        </StyledModal>
       </React.Fragment>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 import styled, { StyledComponentClass } from 'styled-components';
 
-import Modal from 'styled-modal';
+import StyledModal from '../src';
 
 interface IState {
   open: boolean;
@@ -28,7 +28,7 @@ class StateContainer extends Component<{}, IState> {
     return (
       <Fragment>
         <button onClick={this.handleOpen}>Open Modal</button>
-        <Modal
+        <StyledModal
           closeOnEsc={true}
           closeOnOutsideClick={true}
           onClose={this.handleClose}
@@ -37,7 +37,7 @@ class StateContainer extends Component<{}, IState> {
           showClose={true}
         >
           {this.props.children}
-        </Modal>
+        </StyledModal>
       </Fragment>
     );
   }

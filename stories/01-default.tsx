@@ -1,12 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Modal from 'styled-modal';
+import StyledModal from '../src';
 
 storiesOf('styled-modal', module).add('Default stateless Modal', () => (
   <React.Fragment>
-    <Modal appId="root">
+    <StyledModal appId="root">
       <p>This text is rendered in a Modal</p>
-    </Modal>
+    </StyledModal>
   </React.Fragment>
 ));

@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
-import StyledModal from 'styled-modal';
+import StyledModal from '../src';
 
 type ContainerProps = {
   children: any;
