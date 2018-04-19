@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
-import focusLock from 'dom-focus-lock/umd';
+import { on as lockFocus, off as releaseFocus } from 'dom-focus-lock/umd';
 import { on as disableScroll, off as enableScroll } from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
@@ -98,7 +98,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      focusLock.on(this.container);
+      lockFocus(this.container);
       disableScroll();
       this.addEventListeners();
 
@@ -110,7 +110,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private closeModal() {
     if (hasDom()) {
-      focusLock.off(this.container);
+      releaseFocus(this.container);
       enableScroll();
       this.removeEventListeners();
 
