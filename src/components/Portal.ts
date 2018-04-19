@@ -1,5 +1,5 @@
-import { PureComponent, ReactPortal } from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import hasDom from '../utils/has-dom';
 
@@ -25,7 +25,7 @@ export interface PortalProps {
   target?: HTMLElement | null;
 }
 
-export default class Portal extends PureComponent<PortalProps> {
+export default class Portal extends React.PureComponent<PortalProps, {}> {
   private node?: Element;
 
   public componentDidMount() {

@@ -1,6 +1,6 @@
 // tslint:disable jsx-no-lambda
 
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 import focusLock from 'dom-focus-lock/umd';
 import noScroll from 'no-scroll';
@@ -26,7 +26,7 @@ export type StyledModalProps = {
   [key: string]: any;
 };
 
-export default class StyledModal extends PureComponent<StyledModalProps> {
+export default class StyledModal extends React.PureComponent<StyledModalProps> {
   public static defaultProps = {
     open: true
   };
