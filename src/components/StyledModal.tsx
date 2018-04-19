@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 import focusLock from 'dom-focus-lock/umd';
-import noScroll from 'no-scroll';
+import { on as disableScroll, off as enableScroll } from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
@@ -99,7 +99,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   private openModal() {
     if (hasDom()) {
       focusLock.on(this.container);
-      noScroll.on();
+      disableScroll();
       this.addEventListeners();
 
       if (this.props.appId) {
@@ -111,7 +111,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   private closeModal() {
     if (hasDom()) {
       focusLock.off(this.container);
-      noScroll.off();
+      enableScroll();
       this.removeEventListeners();
 
       if (this.props.appId) {
