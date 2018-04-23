@@ -1,7 +1,7 @@
 // tslint:disable jsx-no-lambda
 
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
+import { StyledComponentClass, ThemeProvider } from 'styled-components';
 import { on as lockFocus, off as releaseFocus } from 'dom-focus-lock/umd';
 import { on as disableScroll, off as enableScroll } from 'no-scroll';
 
@@ -13,21 +13,26 @@ import DefaultContainer from './Container';
 import Overscroll from './Overscroll';
 import DefaultModal from './Modal';
 
-export type StyledModalProps = {
+export interface StyledModalProps {
   appId?: string;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
   containerComponent?: any;
+  lockFocusWhenOpen?: boolean;
+  lockScrollWhenOpen?: boolean;
   modalComponent?: any;
   onClose?: (props?: any) => any;
   onOpen?: (props?: any) => any;
   open?: boolean;
-  [key: string]: any;
-};
+}
 
 export default class StyledModal extends React.PureComponent<StyledModalProps> {
   public static defaultProps = {
+    closeOnEsc: true,
+    closeOnOutsideClick: true,
+    lockFocusWhenOpen: true,
+    lockScrollWhenOpen: true,
     open: true
   };
 
@@ -98,25 +103,33 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      lockFocus(this.container);
-      disableScroll();
-      this.addEventListeners();
-
+      if (this.props.lockFocusWhenOpen === true) {
+        lockFocus(this.container);
+      }
+      if (this.props.lockScrollWhenOpen === true) {
+        disableScroll();
+      }
       if (this.props.appId) {
         setAriaHidden.on(this.props.appId);
       }
+
+      this.addEventListeners();
     }
   }
 
   private closeModal() {
     if (hasDom()) {
-      releaseFocus(this.container);
-      enableScroll();
-      this.removeEventListeners();
-
+      if (this.props.lockFocusWhenOpen === true) {
+        releaseFocus(this.container);
+      }
+      if (this.props.lockScrollWhenOpen === true) {
+        enableScroll();
+      }
       if (this.props.appId) {
         setAriaHidden.off(this.props.appId);
       }
+
+      this.removeEventListeners();
     }
   }
 
@@ -137,7 +150,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   };
 
   private addEventListeners() {
-    if (this.props.closeOnEsc !== false) {
+    if (this.props.closeOnEsc === true) {
       document.addEventListener('keydown', this.handleKeydown);
     }
     if (this.props.closeOnOutsideClick !== false) {
@@ -146,7 +159,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   }
 
   private removeEventListeners() {
-    if (this.props.closeOnEsc !== false) {
+    if (this.props.closeOnEsc === true) {
       document.removeEventListener('keydown', this.handleKeydown);
     }
     if (this.props.closeOnOutsideClick !== false) {

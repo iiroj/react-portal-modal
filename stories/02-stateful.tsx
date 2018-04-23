@@ -27,7 +27,11 @@ class StateContainer extends Component<{}, IState> {
     return (
       <React.Fragment>
         <button onClick={this.handleOpen}>Open Modal</button>
-        <StyledModal appId="root" onClose={this.handleClose} open={this.state.open}>
+        <StyledModal
+          appId="root"
+          onClose={this.handleClose}
+          open={this.state.open}
+        >
           {this.props.children}
         </StyledModal>
       </React.Fragment>

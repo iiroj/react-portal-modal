@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2018-04-23
+### Added
+- Added the props `lockFocusWhenOpen` and `lockScrollWhenOpen`
+### Removed
+- Remove extraneous `babel` packages that were unneeded for development (since the package is built with TSC)
+### Changed
+- Updated rest of the packages
+
 ## [2.3.7] - 2018-04-19
 ### Fixed
 - Modules are "commonJs" instead of "amd"
