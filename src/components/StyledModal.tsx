@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import { StyledComponentClass, ThemeProvider } from 'styled-components';
-import { on as lockFocus, off as releaseFocus } from 'dom-focus-lock/umd';
-import { on as disableScroll, off as enableScroll } from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
@@ -37,6 +35,32 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   };
 
   private container?: HTMLElement;
+
+  private lockFocus?: {
+    on(element?: HTMLElement): void;
+    off(element?: HTMLElement): void;
+  };
+
+  private disableScroll?: {
+    on(): void;
+    off(): void;
+  };
+
+  private constructor(props: StyledModalProps) {
+    super(props);
+
+    if (props.lockFocusWhenOpen === true) {
+      import('dom-focus-lock/umd')
+        .then(({ on, off }) => (this.lockFocus = { on, off }))
+        .catch();
+    }
+
+    if (props.lockScrollWhenOpen === true) {
+      import('no-scroll')
+        .then(({ on, off }) => (this.disableScroll = { on, off }))
+        .catch();
+    }
+  }
 
   public componentDidMount() {
     if (this.props.open) {
@@ -103,11 +127,11 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      if (this.props.lockFocusWhenOpen === true) {
-        lockFocus(this.container);
+      if (this.lockFocus) {
+        this.lockFocus.on(this.container);
       }
-      if (this.props.lockScrollWhenOpen === true) {
-        disableScroll();
+      if (this.disableScroll) {
+        this.disableScroll.on();
       }
       if (this.props.appId) {
         setAriaHidden.on(this.props.appId);
@@ -119,11 +143,11 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private closeModal() {
     if (hasDom()) {
-      if (this.props.lockFocusWhenOpen === true) {
-        releaseFocus(this.container);
+      if (this.lockFocus) {
+        this.lockFocus.off(this.container);
       }
-      if (this.props.lockScrollWhenOpen === true) {
-        enableScroll();
+      if (this.disableScroll) {
+        this.disableScroll.off();
       }
       if (this.props.appId) {
         setAriaHidden.off(this.props.appId);
@@ -153,7 +177,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     if (this.props.closeOnEsc === true) {
       document.addEventListener('keydown', this.handleKeydown);
     }
-    if (this.props.closeOnOutsideClick !== false) {
+    if (this.props.closeOnOutsideClick === true) {
       document.addEventListener('click', this.handleOutsideClick);
     }
   }
@@ -162,7 +186,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     if (this.props.closeOnEsc === true) {
       document.removeEventListener('keydown', this.handleKeydown);
     }
-    if (this.props.closeOnOutsideClick !== false) {
+    if (this.props.closeOnOutsideClick === true) {
       document.removeEventListener('click', this.handleOutsideClick);
     }
   }
