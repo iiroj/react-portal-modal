@@ -13,11 +13,9 @@
   ],
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
-    "prebuild": "rimraf lib",
-    "build": "tsc -p tsconfig.json",
     "lint": "tslint -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "jest --config .jest.config.json"
+    "prebuild": "rimraf lib",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "dom-focus-lock": "^1.0.1",
