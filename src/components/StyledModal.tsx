@@ -6,9 +6,9 @@ import { StyledComponentClass, ThemeProvider } from 'styled-components';
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
 import Portal from './Portal';
-import { container, modal } from '../styles';
+import { container, modal, overscroll } from '../styles';
 import DefaultContainer from './Container';
-import Overscroll from './Overscroll';
+import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
 export interface StyledModalProps {
@@ -23,6 +23,7 @@ export interface StyledModalProps {
   onClose?: (props?: any) => any;
   onOpen?: (props?: any) => any;
   open?: boolean;
+  overscrollComponent?: any;
 }
 
 export default class StyledModal extends React.PureComponent<StyledModalProps> {
@@ -84,22 +85,24 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
       children,
       closeOnEsc,
       closeOnOutsideClick,
-      containerComponent: ContainerComponent,
+      containerComponent,
       modalComponent,
       onClose,
       onOpen,
+      overscrollComponent,
       ...rest
     } = this.props;
 
     // Strict null check doesn't understand defaultProps
     const open = this.props.open as boolean;
 
-    const Container = ContainerComponent || DefaultContainer;
+    const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
+    const Overscroll = overscrollComponent || DefaultOverscroll;
 
     return (
       <Portal>
-        <ThemeProvider theme={{ container, modal }}>
+        <ThemeProvider theme={{ container, modal, overscroll }}>
           <Container open={open}>
             <Overscroll>
               <Modal

@@ -38,7 +38,6 @@ const ModalContainer = styled.div`
   cursor: initial;
   max-width: 480px;
   margin: 16px;
-  position: relative;
   text-align: center;
   width: 100%;
   ${props => props.theme.modal};
