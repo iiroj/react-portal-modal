@@ -97,7 +97,7 @@ export default props => {
 
 ### Custom styles
 
-It is possible to supply custom `modalComponent` and `containerComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be provided default styles necessary for the Modal to function in the `theme` prop.
+It is possible to supply custom `modalComponent`, `containerComponent` and `overscrollComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be provided default styles necessary for the Modal to function in the `theme` prop.
 
 ```javascript
 import StyledModal from 'styled-modal';
@@ -111,6 +111,10 @@ const Container = styled(ContainerComponent)`
   ${props => props.theme.container};
 `
 
+const Overscroll = styled.div`
+  ${props => props.theme.overscroll};
+`
+
 const Modal = styled.div`
   background-color: white;
   ${props => props.theme.modal};
@@ -119,7 +123,7 @@ const Modal = styled.div`
 ...
 
 export default () => (
-  <StyledModal open={showModal} containerComponent={Container} modalComponent={Modal}>
+  <StyledModal open={showModal} containerComponent={Container} modalComponent={Modal} overscrollComponent={Overscroll}>
     <p>This text will open in a modal</p>
   </StyledModal>
 )

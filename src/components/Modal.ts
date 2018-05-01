@@ -11,6 +11,8 @@ export interface ModalProps {
 
 const Container = styled.div`
   background: white;
+  display: inline-block;
+
   ${props => props.theme.modal};
 `;
 
