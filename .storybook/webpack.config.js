@@ -1,9 +1,12 @@
 module.exports = function(baseConfig, env, config) {
-  config.module.rules.push({
-    test: /\.tsx??$/,
-    loader: 'babel-loader'
-  });
-  config.resolve.extensions.push('.ts', '.tsx');
+  config.module.rules = [
+    {
+      test: /\.(jsx?|tsx?)$/,
+      loader: "babel-loader"
+    }
+  ];
+
+  config.resolve.extensions = [".js", ".ts", ".tsx"];
 
   return config;
 };

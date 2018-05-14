@@ -1,8 +1,0 @@
-{
-  "presets": [
-    "@babel/env",
-    "@babel/stage-3",
-    "@babel/react",
-    "@babel/typescript"
-  ]
-}
