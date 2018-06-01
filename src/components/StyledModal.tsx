@@ -1,5 +1,3 @@
-// tslint:disable jsx-no-lambda
-
 import * as React from 'react';
 import { StyledComponentClass, ThemeProvider } from 'styled-components';
 
@@ -35,7 +33,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     open: true
   };
 
-  private container?: HTMLElement;
+  private container: React.RefObject<HTMLElement>;
 
   private lockFocus?: {
     on(element?: HTMLElement): void;
@@ -49,6 +47,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private constructor(props: StyledModalProps) {
     super(props);
+
+    this.container = React.createRef();
 
     if (props.lockFocusWhenOpen === true) {
       import('dom-focus-lock/umd')
@@ -107,8 +107,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
             <Overscroll>
               <Modal
                 aria-modal="true"
-                innerRef={(r: HTMLElement) => (this.container = r)}
-                _ref={(r: HTMLElement) => (this.container = r)}
+                innerRef={this.container}
+                _ref={this.container}
                 open={open}
                 role="dialog"
                 {...rest}
@@ -130,8 +130,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      if (this.lockFocus) {
-        this.lockFocus.on(this.container);
+      if (this.lockFocus && this.container.current) {
+        this.lockFocus.on(this.container.current);
       }
       if (this.disableScroll) {
         this.disableScroll.on();
@@ -146,8 +146,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private closeModal() {
     if (hasDom()) {
-      if (this.lockFocus) {
-        this.lockFocus.off(this.container);
+      if (this.lockFocus && this.container.current) {
+        this.lockFocus.off(this.container.current);
       }
       if (this.disableScroll) {
         this.disableScroll.off();
@@ -168,7 +168,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   };
 
   private handleOutsideClick = ({ target }: MouseEvent) => {
-    const container = this.container;
+    const container = this.container.current;
     if (!container || (target instanceof Node && container.contains(target))) {
       return;
     }

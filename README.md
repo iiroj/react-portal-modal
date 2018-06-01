@@ -131,7 +131,7 @@ export default () => (
 
 #### Refs
 
-Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply both a `innerRef` and `_ref`. Styled-components eats the `innerRef` and `_ref` can be used in more complex components wrapped in `styled()`.
+Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply (via `React.createRef`) both a `innerRef` and `_ref`. Styled-components eats the `innerRef` and `_ref` can be used in more complex components wrapped in `styled()`.
 
 ## `<Portal />`
 
