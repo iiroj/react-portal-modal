@@ -1,0 +1,22 @@
+image: node:alpine
+
+stages:
+  - build
+
+before_script:
+  - npm i -g npm
+  - npm ci
+
+lint:
+  stage: build
+  script:
+    - npm run lint
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+cache:
+  paths:
+    - node_modules

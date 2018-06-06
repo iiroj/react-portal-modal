@@ -1,10 +1,5 @@
 # styled-modal
 
-[![npm](https://img.shields.io/npm/v/styled-modal.svg)](https://www.npmjs.com/package/styled-modal)
-[![Build Status](https://travis-ci.org/iiroj/styled-modal.svg?branch=master)](https://travis-ci.org/iiroj/styled-modal)
-[![GitHub issues](https://img.shields.io/github/issues-raw/iiroj/styled-modal.svg)](https://github.com/iiroj/styled-modal/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/iiroj/styled-modal.svg)](https://github.com/iiroj/styled-modal/pulls)
-
 A Modal built with styled-components and Portals with Server-Side Rendering Support.
 
 Inspired by [Render React portals on the server - Michal Zalecki](https://michalzalecki.com/render-react-portals-on-the-server/).
