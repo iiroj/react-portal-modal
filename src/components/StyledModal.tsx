@@ -160,8 +160,10 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     }
   }
 
-  private handleKeydown = (event: KeyboardEvent) => {
-    if (event.keyCode === 27 && this.props.open) {
+  private handleKeydown = ({ code, key }: KeyboardEvent) => {
+    const isEsc = code === 'Escape' || key === 'Escape';
+
+    if (isEsc && this.props.open) {
       this.handleCallback(this.props.onClose);
       this.closeModal();
     }
