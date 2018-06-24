@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2018-06-24
+### Changed
+- Escape key detection uses `KeyboardEvent.key` and `KeyboardEvent.code` instead of `KeyboardEvent.keyCode`
+- Rename `@types` to `types``
+- Update packages
+
 ## [2.7.2] - 2018-06-07
 ### Fixed
 - Fix typo in license
