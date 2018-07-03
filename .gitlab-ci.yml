@@ -1,14 +1,23 @@
 image: node:alpine
 
 stages:
+  - install
+  - test
   - build
 
-before_script:
-  - npm i -g npm
-  - npm ci
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules 
+  cache:
+    paths:
+      - node_modules
 
 lint:
-  stage: build
+  stage: test
   script:
     - npm run lint
 
@@ -16,7 +25,3 @@ build:
   stage: build
   script:
     - npm run build
-
-cache:
-  paths:
-    - node_modules
