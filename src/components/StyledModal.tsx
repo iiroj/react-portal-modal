@@ -33,7 +33,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     open: true
   };
 
-  private container: React.RefObject<HTMLElement>;
+  private modal: React.RefObject<HTMLElement>;
 
   private lockFocus?: {
     on(element?: HTMLElement): void;
@@ -48,7 +48,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   private constructor(props: StyledModalProps) {
     super(props);
 
-    this.container = React.createRef();
+    this.modal = React.createRef();
 
     if (props.lockFocusWhenOpen === true) {
       import('dom-focus-lock/umd')
@@ -103,12 +103,14 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     return (
       <Portal>
         <ThemeProvider theme={{ container, modal, overscroll }}>
-          <Container open={open}>
-            <Overscroll>
+          <Container open={open} onClick={this.handleOutsideClick}>
+            <Overscroll onClick={this.handleOutsideClick}>
               <Modal
                 aria-modal="true"
-                innerRef={this.container}
-                _ref={this.container}
+                innerRef={this.modal}
+                _ref={this.modal}
+                onClick={this.stopPropagation}
+                onKeyUp={this.handleKeydown}
                 open={open}
                 role="dialog"
                 {...rest}
@@ -130,8 +132,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      if (this.lockFocus && this.container.current) {
-        this.lockFocus.on(this.container.current);
+      if (this.lockFocus && this.modal.current) {
+        this.lockFocus.on(this.modal.current);
       }
       if (this.disableScroll) {
         this.disableScroll.on();
@@ -139,15 +141,13 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
       if (this.props.appId) {
         setAriaHidden.on(this.props.appId);
       }
-
-      this.addEventListeners();
     }
   }
 
   private closeModal() {
     if (hasDom()) {
-      if (this.lockFocus && this.container.current) {
-        this.lockFocus.off(this.container.current);
+      if (this.lockFocus && this.modal.current) {
+        this.lockFocus.off(this.modal.current);
       }
       if (this.disableScroll) {
         this.disableScroll.off();
@@ -155,44 +155,25 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
       if (this.props.appId) {
         setAriaHidden.off(this.props.appId);
       }
-
-      this.removeEventListeners();
     }
   }
 
-  private handleKeydown = ({ code, key }: KeyboardEvent) => {
-    const isEsc = code === 'Escape' || key === 'Escape';
-
-    if (isEsc && this.props.open) {
+  private handleKeydown = ({ key }: React.KeyboardEvent) => {
+    const { open, closeOnEsc } = this.props;
+    if (closeOnEsc && open && key === 'Escape') {
       this.handleCallback(this.props.onClose);
       this.closeModal();
     }
   };
 
-  private handleOutsideClick = ({ target }: MouseEvent) => {
-    const container = this.container.current;
-    if (!container || (target instanceof Node && container.contains(target))) {
-      return;
-    }
-    this.handleCallback(this.props.onClose);
-    this.closeModal();
+  private stopPropagation = (event: React.SyntheticEvent) => {
+    event.stopPropagation();
   };
 
-  private addEventListeners() {
-    if (this.props.closeOnEsc === true) {
-      document.addEventListener('keydown', this.handleKeydown);
-    }
+  private handleOutsideClick = () => {
     if (this.props.closeOnOutsideClick === true) {
-      document.addEventListener('click', this.handleOutsideClick);
+      this.handleCallback(this.props.onClose);
+      this.closeModal();
     }
-  }
-
-  private removeEventListeners() {
-    if (this.props.closeOnEsc === true) {
-      document.removeEventListener('keydown', this.handleKeydown);
-    }
-    if (this.props.closeOnOutsideClick === true) {
-      document.removeEventListener('click', this.handleOutsideClick);
-    }
-  }
+  };
 }
