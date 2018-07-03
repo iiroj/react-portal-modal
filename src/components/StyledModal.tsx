@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { StyledComponentClass, ThemeProvider } from 'styled-components';
+import { on as focusLockOn, off as focusLockOff } from 'dom-focus-lock/umd';
+import { on as scrollLockOn, off as scrollLockOff } from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
@@ -35,32 +37,10 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private modal: React.RefObject<HTMLElement>;
 
-  private lockFocus?: {
-    on(element?: HTMLElement): void;
-    off(element?: HTMLElement): void;
-  };
-
-  private disableScroll?: {
-    on(): void;
-    off(): void;
-  };
-
   private constructor(props: StyledModalProps) {
     super(props);
 
     this.modal = React.createRef();
-
-    if (props.lockFocusWhenOpen === true) {
-      import('dom-focus-lock/umd')
-        .then(({ on, off }) => (this.lockFocus = { on, off }))
-        .catch();
-    }
-
-    if (props.lockScrollWhenOpen === true) {
-      import('no-scroll')
-        .then(({ on, off }) => (this.disableScroll = { on, off }))
-        .catch();
-    }
   }
 
   public componentDidMount() {
@@ -132,11 +112,11 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private openModal() {
     if (hasDom()) {
-      if (this.lockFocus && this.modal.current) {
-        this.lockFocus.on(this.modal.current);
+      if (this.props.lockFocusWhenOpen && this.modal.current) {
+        focusLockOn(this.modal.current);
       }
-      if (this.disableScroll) {
-        this.disableScroll.on();
+      if (this.props.lockScrollWhenOpen) {
+        scrollLockOn();
       }
       if (this.props.appId) {
         setAriaHidden.on(this.props.appId);
@@ -146,11 +126,11 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
 
   private closeModal() {
     if (hasDom()) {
-      if (this.lockFocus && this.modal.current) {
-        this.lockFocus.off(this.modal.current);
+      if (this.props.lockFocusWhenOpen && this.modal.current) {
+        focusLockOff(this.modal.current);
       }
-      if (this.disableScroll) {
-        this.disableScroll.off();
+      if (this.props.lockScrollWhenOpen) {
+        scrollLockOff();
       }
       if (this.props.appId) {
         setAriaHidden.off(this.props.appId);
