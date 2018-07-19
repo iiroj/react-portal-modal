@@ -7,14 +7,12 @@
     "lib": ["dom", "es6"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "noEmit": true,
     "noResolve": false,
     "noUnusedParameters": true,
-    "outDir": "./lib",
     "pretty": true,
-    "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
     "target": "es5"
-  },
-  "exclude": ["./stories"]
+  }
 }

@@ -15,8 +15,10 @@
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
     "lint": "tslint -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "mocha -r setup/mocha.js -r setup/enzyme.js src/**/*.test.ts src/**/*.test.tsx",
     "prebuild": "rimraf lib",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "dom-focus-lock": "^1.0.1",
@@ -36,10 +38,20 @@
     "@babel/preset-typescript": "^7.0.0-beta.51",
     "@babel/register": "^7.0.0-beta.51",
     "@storybook/react": "^4.0.0-alpha.10",
+    "@types/chai": "^4.1.4",
+    "@types/enzyme": "^3.1.12",
+    "@types/mocha": "^5.2.5",
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
+    "@types/react-motion": "0.0.26",
     "@types/storybook__react": "^3.0.7",
     "babel-loader": "^8.0.0-beta.4",
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jsdom": "^11.11.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^5.2.0",
     "prettier": "^1.13.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
