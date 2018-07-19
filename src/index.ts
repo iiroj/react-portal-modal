@@ -1,4 +1,4 @@
-import StyledModal from './components/StyledModal';
+export { default } from './components/StyledModal';
 
 export {
   default as Portal,
@@ -6,4 +6,4 @@ export {
   flushPortals
 } from './components/Portal';
 
-export default StyledModal;
+export { default as hasDom } from './utils/has-dom';

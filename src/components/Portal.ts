@@ -20,20 +20,26 @@ export function flushPortals(target: string = 'modal') {
   }
 }
 
-export interface PortalProps {
+export type PortalProps = {
   children: any;
   target?: string;
-}
+};
 
 export default class Portal extends React.PureComponent<PortalProps, {}> {
   public static defaultProps = {
     target: 'modal'
   };
 
+  private readonly hasDom: boolean;
   private node?: Element;
 
+  constructor(props: PortalProps) {
+    super(props);
+    this.hasDom = hasDom();
+  }
+
   public componentDidMount() {
-    if (hasDom()) {
+    if (this.hasDom) {
       this.createNode();
     }
   }
@@ -41,7 +47,7 @@ export default class Portal extends React.PureComponent<PortalProps, {}> {
   public render() {
     const { children } = this.props;
 
-    if (!hasDom()) {
+    if (!this.hasDom) {
       PORTALS.push(children);
       return null;
     }

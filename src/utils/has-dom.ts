@@ -1,8 +1,3 @@
-/* tslint:disable:strict-type-predicates */
-
 export default (): boolean =>
-  !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  );
+  (typeof window as Partial<Window>) !== 'undefined' &&
+  (typeof window.document as Partial<Document>) !== 'undefined';
