@@ -9,22 +9,29 @@ import StyledModal from '../src';
 type ContainerComponentProps = {
   children: any;
   className?: string;
+  isClientSide: boolean;
   open: boolean;
 };
 
 const ContainerComponent = ({
   children,
   className,
+  isClientSide,
   open
-}: ContainerComponentProps) => (
-  <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
-    {open && (
-      <div className={className} key="container">
-        {children}
-      </div>
-    )}
-  </Transition>
-);
+}: ContainerComponentProps) =>
+  isClientSide ? (
+    <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+      {open && (
+        <div className={className} key="container">
+          {children}
+        </div>
+      )}
+    </Transition>
+  ) : open ? (
+    <div className={className} key="container">
+      {children}
+    </div>
+  ) : null;
 
 const Container = styled(ContainerComponent)`
   background-color: rgb(242, 242, 242);
@@ -47,22 +54,27 @@ type ModalProps = ContainerComponentProps & {
   _ref: (prop: any) => any;
 };
 
-const Modal = ({ children, _ref, open }: ModalProps) => (
-  <Transition
-    appear={{ scale: 0.95, translateY: 50 }}
-    component={false}
-    enter={{
-      scale: spring(1, { stiffness: 400, damping: 10 }),
-      translateY: spring(0, { stiffness: 400, damping: 10 })
-    }}
-  >
-    {open && (
-      <ModalContainer innerRef={_ref} key="modal">
-        {children}
-      </ModalContainer>
-    )}
-  </Transition>
-);
+const Modal = ({ _ref, children, isClientSide, open }: ModalProps) =>
+  isClientSide ? (
+    <Transition
+      appear={{ scale: 0.95, translateY: 50 }}
+      component={false}
+      enter={{
+        scale: spring(1, { stiffness: 400, damping: 10 }),
+        translateY: spring(0, { stiffness: 400, damping: 10 })
+      }}
+    >
+      {open && (
+        <ModalContainer innerRef={_ref} key="modal">
+          {children}
+        </ModalContainer>
+      )}
+    </Transition>
+  ) : open ? (
+    <ModalContainer innerRef={_ref} key="modal">
+      {children}
+    </ModalContainer>
+  ) : null;
 
 type State = {
   open: boolean;

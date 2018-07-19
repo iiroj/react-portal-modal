@@ -31,7 +31,10 @@ export type StyledModalState = {
   isClientSide: boolean;
 };
 
-export default class StyledModal extends React.PureComponent<StyledModalProps> {
+export default class StyledModal extends React.PureComponent<
+  StyledModalProps,
+  StyledModalState
+> {
   public static defaultProps = {
     closeOnEsc: true,
     closeOnOutsideClick: true,
@@ -40,18 +43,25 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     open: true
   };
 
+  private readonly hasDom: boolean;
   private modal: React.RefObject<HTMLElement>;
 
   private constructor(props: StyledModalProps) {
     super(props);
 
+    this.hasDom = hasDom();
     this.modal = React.createRef();
+
+    this.state = {
+      isClientSide: false
+    };
   }
 
   public componentDidMount() {
     if (this.props.open) {
       this.openModal();
     }
+    this.setState({ isClientSide: true });
   }
 
   public componentDidUpdate(prevProps: StyledModalProps) {
@@ -82,6 +92,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     // Strict null check doesn't understand defaultProps
     const open = this.props.open as boolean;
 
+    const { isClientSide } = this.state;
+
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
     const Overscroll = overscrollComponent || DefaultOverscroll;
@@ -89,12 +101,20 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     return (
       <Portal target={target}>
         <ThemeProvider theme={{ container, modal, overscroll }}>
-          <Container open={open} onClick={this.handleOutsideClick}>
-            <Overscroll onClick={this.handleOutsideClick}>
+          <Container
+            isClientSide={isClientSide}
+            onClick={this.handleOutsideClick}
+            open={open}
+          >
+            <Overscroll
+              isClientSide={isClientSide}
+              onClick={this.handleOutsideClick}
+            >
               <Modal
+                _ref={this.modal}
                 aria-modal="true"
                 innerRef={this.modal}
-                _ref={this.modal}
+                isClientSide={isClientSide}
                 onClick={this.stopPropagation}
                 onKeyUp={this.handleKeydown}
                 open={open}
@@ -117,7 +137,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   }
 
   private openModal() {
-    if (hasDom()) {
+    if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOn(this.modal.current);
       }
@@ -131,7 +151,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
   }
 
   private closeModal() {
-    if (hasDom()) {
+    if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOff(this.modal.current);
       }

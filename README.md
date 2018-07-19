@@ -124,6 +124,12 @@ export default () => (
 )
 ```
 
+### Animations
+
+StyledModal supports animations since you can supply custom components. These can be wrapped in whatever, like [react-motion-ui-pack](https://github.com/souporserious/react-motion-ui-pack)'s `<Transition />` as seen in the Storybook's Animated example.
+
+There's is also a special prop `isClientSide: boolean` available to all components. You can disable your animations based on this server-side, to not mess up initial styles client-side.
+
 #### Refs
 
 Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply (via `React.createRef`) both a `innerRef` and `_ref`. Styled-components eats the `innerRef` and `_ref` can be used in more complex components wrapped in `styled()`.
