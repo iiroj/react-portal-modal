@@ -11,9 +11,9 @@ export function collectPortals() {
   return copy;
 }
 
-export function flushPortals() {
+export function flushPortals(target: string = 'modal') {
   if (hasDom()) {
-    const portals = document.getElementById('modal');
+    const portals = document.getElementById(target);
     while (portals !== null && portals.firstChild) {
       portals.removeChild(portals.firstChild);
     }
@@ -22,25 +22,31 @@ export function flushPortals() {
 
 export interface PortalProps {
   children: any;
-  target?: HTMLElement | null;
+  target?: string;
 }
 
 export default class Portal extends React.PureComponent<PortalProps, {}> {
+  public static defaultProps = {
+    target: 'modal'
+  };
+
   private node?: Element;
 
   public componentDidMount() {
-    if (hasDom() && !this.props.target) {
+    if (hasDom()) {
       this.createNode();
     }
   }
 
   public render() {
-    const { children, target } = this.props;
+    const { children } = this.props;
 
     if (!hasDom()) {
       PORTALS.push(children);
       return null;
     }
+
+    const target = document.getElementById(this.props.target!);
 
     if (target) {
       return ReactDOM.createPortal(children, target);
@@ -56,16 +62,18 @@ export default class Portal extends React.PureComponent<PortalProps, {}> {
   }
 
   private createNode = () => {
-    const node = window.document.getElementById('modal');
+    const target = this.props.target!;
+
+    const node = document.getElementById(target);
 
     if (this.node !== undefined) {
       return;
     }
 
     if (node === null) {
-      this.node = window.document.createElement('div');
-      this.node.id = 'modal';
-      window.document.body.appendChild(this.node);
+      this.node = document.createElement('div');
+      this.node.id = target;
+      document.body.appendChild(this.node);
     } else {
       this.node = node;
     }

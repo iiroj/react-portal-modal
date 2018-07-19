@@ -11,7 +11,7 @@ import DefaultContainer from './Container';
 import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
-export interface StyledModalProps {
+export type StyledModalProps = {
   appId?: string;
   children?: any;
   closeOnEsc?: boolean;
@@ -24,7 +24,12 @@ export interface StyledModalProps {
   onOpen?: (props?: any) => any;
   open?: boolean;
   overscrollComponent?: any;
-}
+  target?: string;
+};
+
+export type StyledModalState = {
+  isClientSide: boolean;
+};
 
 export default class StyledModal extends React.PureComponent<StyledModalProps> {
   public static defaultProps = {
@@ -70,6 +75,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
       onClose,
       onOpen,
       overscrollComponent,
+      target,
       ...rest
     } = this.props;
 
@@ -81,7 +87,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps> {
     const Overscroll = overscrollComponent || DefaultOverscroll;
 
     return (
-      <Portal>
+      <Portal target={target}>
         <ThemeProvider theme={{ container, modal, overscroll }}>
           <Container open={open} onClick={this.handleOutsideClick}>
             <Overscroll onClick={this.handleOutsideClick}>

@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { Portal } from '../src';
 
 storiesOf('styled-modal', module).add('Portal with custom target', () => {
-  const target = document.getElementById('error-display');
+  const target = 'error-display';
 
   return (
     <React.Fragment>
