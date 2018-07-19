@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2018-07-19
+### Added
+- Add initial tests, with Mocha, Chai and Enzyme, transpiled with Babel
+- Add `isClientSide: boolean` prop passed to all custom modal components. See Readme for usage
+### Changed
+- the `hasDom` helper is ran only once, and its behaviour has changed slightly. Now it checks for `window` and `window.document` not being undefined
+  - This helper is now also exported
+- *BREAKING CHANGE*: The `<Portal />` component's `target?: string = 'modal'` prop is now a string instead of a dom node
+- The above `target?: string = 'modal'` props has been added to the default import `<StyledModal />`, and is passed through to the `<Portal />`
+- When using a custom `target?: string` (the "root" where modals are portaled to), the `flushPortals` function can be supplied the the same `target?: string = 'modal'` as an argument
+
 ## [2.9.0] - 2018-07-3
 ### Changed
 - Use React synthetic events for closing the Modal. This fixes bugs related to the clicked DOM node disappearing from inside the Modal, and thus the Modal closing.
