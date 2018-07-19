@@ -5,7 +5,7 @@ stages:
   - test
   - build
 
-install:
+Install:
   stage: install
   script:
     - npm ci
@@ -16,12 +16,22 @@ install:
     paths:
       - node_modules
 
-lint:
+Lint:
   stage: test
   script:
     - npm run lint
 
-build:
+Typecheck:
+  stage: test
+  script:
+    - npm run typecheck
+
+Test:
+  stage: test
+  script:
+    - npm run test
+
+Build:
   stage: build
   script:
     - npm run build
