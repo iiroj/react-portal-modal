@@ -22,8 +22,14 @@ const transitionStyles: any = {
   entered: { opacity: 1 }
 };
 
-const Fade = ({ children, open }: any) => (
-  <Transition in={open} timeout={duration} unmountOnExit={true}>
+const Fade = ({ children, isToggled, open }: any) => (
+  <Transition
+    enter={isToggled}
+    in={open}
+    mountOnEnter={false}
+    timeout={duration}
+    unmountOnExit={true}
+  >
     {(state: any) => (
       <Container
         style={{
