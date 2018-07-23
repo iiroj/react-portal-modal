@@ -29,6 +29,7 @@ export type StyledModalProps = {
 
 export type StyledModalState = {
   isClientSide: boolean;
+  isToggled: boolean;
 };
 
 export default class StyledModal extends React.PureComponent<
@@ -53,7 +54,8 @@ export default class StyledModal extends React.PureComponent<
     this.modal = React.createRef();
 
     this.state = {
-      isClientSide: false
+      isClientSide: false,
+      isToggled: false
     };
   }
 
@@ -67,6 +69,7 @@ export default class StyledModal extends React.PureComponent<
   public componentDidUpdate(prevProps: StyledModalProps) {
     if (prevProps.open !== this.props.open) {
       this.props.open ? this.openModal() : this.closeModal();
+      this.setState({ isToggled: true });
     }
   }
 
@@ -92,7 +95,7 @@ export default class StyledModal extends React.PureComponent<
     // Strict null check doesn't understand defaultProps
     const open = this.props.open as boolean;
 
-    const { isClientSide } = this.state;
+    const { isClientSide, isToggled } = this.state;
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
@@ -103,11 +106,13 @@ export default class StyledModal extends React.PureComponent<
         <ThemeProvider theme={{ container, modal, overscroll }}>
           <Container
             isClientSide={isClientSide}
+            isToggled={isToggled}
             onClick={this.handleOutsideClick}
             open={open}
           >
             <Overscroll
               isClientSide={isClientSide}
+              isToggled={isToggled}
               onClick={this.handleOutsideClick}
             >
               <Modal
@@ -115,6 +120,7 @@ export default class StyledModal extends React.PureComponent<
                 aria-modal="true"
                 innerRef={this.modal}
                 isClientSide={isClientSide}
+                isToggled={isToggled}
                 onClick={this.stopPropagation}
                 onKeyUp={this.handleKeydown}
                 open={open}
