@@ -30,13 +30,14 @@ export type StyledModalProps = {
 export type StyledModalState = {
   isClientSide: boolean;
   isToggled: boolean;
+  open: boolean;
 };
 
 export default class StyledModal extends React.PureComponent<
   StyledModalProps,
   StyledModalState
 > {
-  public static defaultProps = {
+  static defaultProps = {
     closeOnEsc: true,
     closeOnOutsideClick: true,
     lockFocusWhenOpen: true,
@@ -44,10 +45,22 @@ export default class StyledModal extends React.PureComponent<
     open: true
   };
 
-  private readonly hasDom: boolean;
-  private modal: React.RefObject<HTMLElement>;
+  static getDerivedStateFromProps(
+    props: StyledModalProps,
+    state: StyledModalState
+  ) {
+    if (props.open !== state.open) {
+      return { isToggled: true, open: props.open };
+    } else {
+      return null;
+    }
+  }
 
-  private constructor(props: StyledModalProps) {
+  readonly hasDom: boolean;
+
+  modal: React.RefObject<HTMLElement>;
+
+  constructor(props: StyledModalProps) {
     super(props);
 
     this.hasDom = hasDom();
@@ -55,29 +68,29 @@ export default class StyledModal extends React.PureComponent<
 
     this.state = {
       isClientSide: false,
-      isToggled: false
+      isToggled: false,
+      open: this.props.open || true
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     if (this.props.open) {
       this.openModal();
     }
     this.setState({ isClientSide: true });
   }
 
-  public componentDidUpdate(prevProps: StyledModalProps) {
+  componentDidUpdate(prevProps: StyledModalProps) {
     if (prevProps.open !== this.props.open) {
       this.props.open ? this.openModal() : this.closeModal();
-      this.setState({ isToggled: true });
     }
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     this.closeModal();
   }
 
-  public render() {
+  render() {
     const {
       appId,
       children,
@@ -91,9 +104,7 @@ export default class StyledModal extends React.PureComponent<
       target,
       ...rest
     } = this.props;
-
-    // Strict null check doesn't understand defaultProps
-    const open = this.props.open as boolean;
+    const { open } = this.state;
 
     const { isClientSide, isToggled } = this.state;
 
@@ -136,13 +147,13 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  public handleCallback(callback?: () => void) {
+  handleCallback(callback?: () => void) {
     if (callback) {
       callback();
     }
   }
 
-  private openModal() {
+  openModal() {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOn(this.modal.current);
@@ -156,7 +167,7 @@ export default class StyledModal extends React.PureComponent<
     }
   }
 
-  private closeModal() {
+  closeModal() {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOff(this.modal.current);
@@ -170,7 +181,7 @@ export default class StyledModal extends React.PureComponent<
     }
   }
 
-  private handleKeydown = ({ key }: React.KeyboardEvent) => {
+  handleKeydown = ({ key }: React.KeyboardEvent) => {
     const { open, closeOnEsc } = this.props;
     if (closeOnEsc && open && key === 'Escape') {
       this.handleCallback(this.props.onClose);
@@ -178,11 +189,11 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  private stopPropagation = (event: React.SyntheticEvent) => {
+  stopPropagation = (event: React.SyntheticEvent) => {
     event.stopPropagation();
   };
 
-  private handleOutsideClick = () => {
+  handleOutsideClick = () => {
     if (this.props.closeOnOutsideClick === true) {
       this.handleCallback(this.props.onClose);
       this.closeModal();
