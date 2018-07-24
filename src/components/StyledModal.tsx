@@ -69,7 +69,7 @@ export default class StyledModal extends React.PureComponent<
     this.state = {
       isClientSide: false,
       isToggled: false,
-      open: this.props.open || true
+      open: this.props.open!
     };
   }
 
