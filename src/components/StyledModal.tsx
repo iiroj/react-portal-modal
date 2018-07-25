@@ -12,7 +12,11 @@ import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
 export type StyledModalProps = {
+  afterClose?: (props?: any) => any;
+  afterOpen?: (props?: any) => any;
   appId?: string;
+  beforeClose?: (props?: any) => any;
+  beforeOpen?: (props?: any) => any;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
@@ -21,7 +25,6 @@ export type StyledModalProps = {
   lockScrollWhenOpen?: boolean;
   modalComponent?: any;
   onClose?: (props?: any) => any;
-  onOpen?: (props?: any) => any;
   open?: boolean;
   overscrollComponent?: any;
   target?: string;
@@ -45,17 +48,6 @@ export default class StyledModal extends React.PureComponent<
     open: true
   };
 
-  static getDerivedStateFromProps(
-    props: StyledModalProps,
-    state: StyledModalState
-  ) {
-    if (props.open !== state.open) {
-      return { isToggled: true, open: props.open };
-    } else {
-      return null;
-    }
-  }
-
   readonly hasDom: boolean;
 
   modal: React.RefObject<HTMLElement>;
@@ -69,21 +61,53 @@ export default class StyledModal extends React.PureComponent<
     this.state = {
       isClientSide: false,
       isToggled: false,
-      open: this.props.open!
+      open: props.open!
     };
   }
 
   componentDidMount() {
-    if (this.props.open) {
-      this.openModal();
-    }
     this.setState({ isClientSide: true });
   }
 
-  componentDidUpdate(prevProps: StyledModalProps) {
-    if (prevProps.open !== this.props.open) {
-      this.props.open ? this.openModal() : this.closeModal();
+  getSnapshotBeforeUpdate(
+    prevProps: StyledModalProps,
+    prevState: StyledModalState
+  ) {
+    const { beforeClose, beforeOpen, open } = this.props;
+    const { isClientSide } = prevState;
+    const { isToggled } = this.state;
+
+    if (!isClientSide || (isToggled && prevProps.open === open)) {
+      return null;
     }
+
+    if (open) {
+      this.handleCallback(beforeOpen);
+      return true;
+    } else {
+      this.handleCallback(beforeClose);
+      return false;
+    }
+  }
+
+  componentDidUpdate(prevProps: StyledModalProps) {
+    const { afterClose, afterOpen } = this.props;
+    const open = this.props.open!;
+    const isToggled = this.state.isToggled || prevProps.open !== open;
+
+    this.setState({ isToggled });
+
+    if (isToggled && prevProps.open === open) return;
+
+    this.setState({ open }, () => {
+      if (open) {
+        this.openModal();
+        this.handleCallback(afterOpen);
+      } else {
+        this.closeModal();
+        this.handleCallback(afterClose);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -92,18 +116,21 @@ export default class StyledModal extends React.PureComponent<
 
   render() {
     const {
+      afterClose,
+      afterOpen,
       appId,
+      beforeClose,
+      beforeOpen,
       children,
       closeOnEsc,
       closeOnOutsideClick,
       containerComponent,
       modalComponent,
-      onClose,
-      onOpen,
       overscrollComponent,
       target,
       ...rest
     } = this.props;
+
     const { open } = this.state;
 
     const { isClientSide, isToggled } = this.state;
@@ -132,7 +159,6 @@ export default class StyledModal extends React.PureComponent<
                 innerRef={this.modal}
                 isClientSide={isClientSide}
                 isToggled={isToggled}
-                onClick={this.stopPropagation}
                 onKeyUp={this.handleKeydown}
                 open={open}
                 role="dialog"
@@ -182,21 +208,26 @@ export default class StyledModal extends React.PureComponent<
   }
 
   handleKeydown = ({ key }: React.KeyboardEvent) => {
-    const { open, closeOnEsc } = this.props;
-    if (closeOnEsc && open && key === 'Escape') {
-      this.handleCallback(this.props.onClose);
-      this.closeModal();
+    if (!this.props.closeOnEsc || !this.props.onClose) return;
+
+    if (this.props.open && key === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
+  handleOutsideClick = (event: React.SyntheticEvent) => {
+    if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
+
+    const target = event.target as Node;
+    if (
+      target !== this.modal.current &&
+      target.contains(this.modal.current as Node)
+    ) {
+      this.props.onClose();
     }
   };
 
   stopPropagation = (event: React.SyntheticEvent) => {
     event.stopPropagation();
-  };
-
-  handleOutsideClick = () => {
-    if (this.props.closeOnOutsideClick === true) {
-      this.handleCallback(this.props.onClose);
-      this.closeModal();
-    }
   };
 }

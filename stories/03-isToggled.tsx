@@ -43,15 +43,18 @@ const Fade = ({ children, isToggled, open }: any) => (
   </Transition>
 );
 
-type ToggleDisplay = {
-  isToggled: boolean;
-};
-
-const ToggleDisplay = ({ isToggled }: ToggleDisplay) => (
-  <p style={{ backgroundColor: 'white', padding: '2rem' }}>
-    This modal has {isToggled ? 'been' : 'not been'} toggled
-  </p>
-);
+class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
+  render() {
+    return (
+      <p
+        ref={this.props._ref}
+        style={{ backgroundColor: 'white', padding: '2rem' }}
+      >
+        This modal has {this.props.isToggled ? 'been' : 'not been'} toggled
+      </p>
+    );
+  }
+}
 
 interface IState {
   open: boolean;
@@ -65,9 +68,12 @@ class StateContainer extends Component<{}, IState> {
     };
   }
 
-  toggleOpen = () => {
-    this.setState({ open: !this.state.open });
-  };
+  toggleOpen = () => this.setState({ open: !this.state.open });
+
+  beforeOpen = () => console.log('beforeOpen');
+  afterOpen = () => console.log('afterOpen');
+  beforeClose = () => console.log('beforeClose');
+  afterClose = () => console.log('afterClose');
 
   render() {
     return (
@@ -79,6 +85,10 @@ class StateContainer extends Component<{}, IState> {
           modalComponent={ToggleDisplay}
           onClose={this.toggleOpen}
           open={this.state.open}
+          beforeOpen={this.beforeOpen}
+          afterOpen={this.afterOpen}
+          beforeClose={this.beforeClose}
+          afterClose={this.afterClose}
         />
       </React.Fragment>
     );
