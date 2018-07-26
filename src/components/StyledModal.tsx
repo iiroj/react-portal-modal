@@ -11,12 +11,14 @@ import DefaultContainer from './Container';
 import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
+type PossiblyPromisefulFn = () => Promise<void> | void;
+
 export type StyledModalProps = {
-  afterClose?: () => Promise<void> | void;
-  afterOpen?: () => Promise<void> | void;
+  afterClose?: PossiblyPromisefulFn;
+  afterOpen?: PossiblyPromisefulFn;
   appId?: string;
-  beforeClose?: () => Promise<void> | void;
-  beforeOpen?: () => Promise<void> | void;
+  beforeClose?: PossiblyPromisefulFn;
+  beforeOpen?: PossiblyPromisefulFn;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
@@ -24,8 +26,8 @@ export type StyledModalProps = {
   lockFocusWhenOpen?: boolean;
   lockScrollWhenOpen?: boolean;
   modalComponent?: any;
-  onClose?: () => Promise<void> | void;
-  onOpen?: () => Promise<void> | void;
+  onClose?: PossiblyPromisefulFn;
+  onOpen?: PossiblyPromisefulFn;
   open?: boolean;
   overscrollComponent?: any;
   target?: string;
@@ -177,7 +179,7 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  handleCallback = async (callback?: () => PromiseLike<void> | void) => {
+  handleCallback = async (callback?: PossiblyPromisefulFn) => {
     if (callback) {
       await callback();
     }
@@ -211,15 +213,15 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  handleKeydown = ({ key }: React.KeyboardEvent) => {
+  handleKeydown = async ({ key }: React.KeyboardEvent) => {
     if (!this.props.closeOnEsc || !this.props.onClose) return;
 
     if (this.props.open && key === 'Escape') {
-      this.handleCallback(this.props.onClose);
+      await this.handleCallback(this.props.onClose);
     }
   };
 
-  handleOutsideClick = (event: React.SyntheticEvent) => {
+  handleOutsideClick = async (event: React.SyntheticEvent) => {
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
@@ -227,7 +229,7 @@ export default class StyledModal extends React.PureComponent<
       target !== this.modal.current &&
       target.contains(this.modal.current as Node)
     ) {
-      this.handleCallback(this.props.onClose);
+      await this.handleCallback(this.props.onClose);
     }
   };
 

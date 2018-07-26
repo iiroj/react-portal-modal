@@ -98,7 +98,7 @@ class StateContainer extends Component<{}, IState> {
   render() {
     return (
       <>
-        <h1>Lifecycles events are logged to console</h1>
+        <h1>Lifecycle events are logged to console</h1>
         <button onClick={this.onOpen}>Open Modal</button>
         <StyledModal
           afterClose={this.afterClose}
