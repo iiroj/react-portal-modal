@@ -81,30 +81,21 @@ type State = {
 };
 
 class StateContainer extends Component<{}, State> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true });
+  state = {
+    open: false
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
     return (
       <Fragment>
-        <button onClick={this.handleOpen}>Open Modal</button>
+        <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal
           appId="root"
           containerComponent={Container}
           modalComponent={Modal}
-          onClose={this.handleClose}
+          onClose={this.toggleOpen}
           open={this.state.open}
         >
           {this.props.children}

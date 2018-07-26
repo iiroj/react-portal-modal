@@ -61,23 +61,16 @@ interface IState {
 }
 
 class StateContainer extends Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      open: true
-    };
-  }
+  state = {
+    open: true
+  };
 
   toggleOpen = () => this.setState({ open: !this.state.open });
 
-  beforeOpen = () => console.log('beforeOpen');
-  afterOpen = () => console.log('afterOpen');
-  beforeClose = () => console.log('beforeClose');
-  afterClose = () => console.log('afterClose');
-
   render() {
     return (
-      <React.Fragment>
+      <>
+        <h1>Modal keeps track of whether is has been toggled</h1>
         <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal
           appId="root"
@@ -85,12 +78,8 @@ class StateContainer extends Component<{}, IState> {
           modalComponent={ToggleDisplay}
           onClose={this.toggleOpen}
           open={this.state.open}
-          beforeOpen={this.beforeOpen}
-          afterOpen={this.afterOpen}
-          beforeClose={this.beforeClose}
-          afterClose={this.afterClose}
         />
-      </React.Fragment>
+      </>
     );
   }
 }
