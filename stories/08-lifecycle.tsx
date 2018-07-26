@@ -73,12 +73,7 @@ class StateContainer extends Component<{}, IState> {
     console.log('beforeOpen: finish');
   };
 
-  onOpen = async () => {
-    console.log('onOpen: start');
-    await timeout(1000);
-    console.log('onOpen: finish');
-    this.setState({ open: true });
-  };
+  onOpen = () => this.setState({ open: true });
 
   afterOpen = async () => {
     console.log('afterOpen: start');
@@ -92,12 +87,7 @@ class StateContainer extends Component<{}, IState> {
     console.log('beforeClose: finish');
   };
 
-  onClose = async () => {
-    console.log('onClose: start');
-    await timeout(1000);
-    console.log('onClose: finish');
-    this.setState({ open: false });
-  };
+  onClose = () => this.setState({ open: false });
 
   afterClose = async () => {
     console.log('afterClose: start');
@@ -119,6 +109,7 @@ class StateContainer extends Component<{}, IState> {
           containerComponent={Fade}
           modalComponent={ToggleDisplay}
           onClose={this.onClose}
+          onOpen={this.onOpen}
           open={this.state.open}
         />
       </>

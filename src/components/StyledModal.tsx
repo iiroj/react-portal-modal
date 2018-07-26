@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyledComponentClass, ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { on as focusLockOn, off as focusLockOff } from 'dom-focus-lock/umd';
 import { on as scrollLockOn, off as scrollLockOff } from 'no-scroll';
 
@@ -74,7 +74,7 @@ export default class StyledModal extends React.PureComponent<
     prevProps: StyledModalProps,
     prevState: StyledModalState
   ) {
-    const { beforeClose, beforeOpen, open } = this.props;
+    const { open } = this.props;
     const { isClientSide } = prevState;
     const { isToggled } = this.state;
 
@@ -83,16 +83,13 @@ export default class StyledModal extends React.PureComponent<
     }
 
     if (open) {
-      await this.handleCallback(beforeOpen);
       return true;
     } else {
-      await this.handleCallback(beforeClose);
       return false;
     }
   }
 
   async componentDidUpdate(prevProps: StyledModalProps) {
-    const { afterClose, afterOpen } = this.props;
     const open = this.props.open!;
     const isToggled = this.state.isToggled || prevProps.open !== open;
 
@@ -100,15 +97,21 @@ export default class StyledModal extends React.PureComponent<
 
     if (isToggled && prevProps.open === open) return;
 
-    await this.setState({ open }, async () => {
+    if (isToggled) {
       if (open) {
-        this.openModal();
-        await this.handleCallback(afterOpen);
+        await this.handleCallback(this.props.beforeOpen);
       } else {
-        this.closeModal();
-        await this.handleCallback(afterClose);
+        await this.handleCallback(this.props.beforeClose);
       }
-    });
+    }
+
+    this.setState({ open });
+
+    if (open) {
+      await this.handleCallback(this.props.afterOpen);
+    } else {
+      await this.handleCallback(this.props.afterClose);
+    }
   }
 
   componentWillUnmount() {
@@ -174,15 +177,13 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  handleCallback = async (callback?: () => void) => {
+  handleCallback = async (callback?: () => PromiseLike<void> | void) => {
     if (callback) {
       await callback();
     }
   };
 
-  openModal = async () => {
-    await this.handleCallback(this.props.onOpen);
-
+  openModal = () => {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOn(this.modal.current);
@@ -210,15 +211,15 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  handleKeydown = async ({ key }: React.KeyboardEvent) => {
+  handleKeydown = ({ key }: React.KeyboardEvent) => {
     if (!this.props.closeOnEsc || !this.props.onClose) return;
 
     if (this.props.open && key === 'Escape') {
-      await this.handleCallback(this.props.onClose);
+      this.handleCallback(this.props.onClose);
     }
   };
 
-  handleOutsideClick = async (event: React.SyntheticEvent) => {
+  handleOutsideClick = (event: React.SyntheticEvent) => {
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
@@ -226,7 +227,7 @@ export default class StyledModal extends React.PureComponent<
       target !== this.modal.current &&
       target.contains(this.modal.current as Node)
     ) {
-      await this.handleCallback(this.props.onClose);
+      this.handleCallback(this.props.onClose);
     }
   };
 
