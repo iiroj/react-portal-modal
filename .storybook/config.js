@@ -1,4 +1,6 @@
 import '@babel/register';
+import '@babel/polyfill'
+
 import { configure } from '@storybook/react';
 
 const requireAll = requireContext => requireContext.keys().map(requireContext);
