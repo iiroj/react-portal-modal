@@ -5,6 +5,8 @@ import { storiesOf } from '@storybook/react';
 
 import StyledModal from '../src';
 
+const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const Container = styled.div`
   ${props => props.theme.container};
   background-color: rgba(0, 0, 0, 0.5);
@@ -65,18 +67,49 @@ class StateContainer extends Component<{}, IState> {
     open: true
   };
 
-  toggleOpen = () => this.setState({ open: !this.state.open });
+  beforeOpen = async () => {
+    console.log('beforeOpen: start');
+    await timeout(1000);
+    console.log('beforeOpen: finish');
+  };
 
-  beforeOpen = () => console.log('beforeOpen');
-  afterOpen = () => console.log('afterOpen');
-  beforeClose = () => console.log('beforeClose');
-  afterClose = () => console.log('afterClose');
+  onOpen = async () => {
+    console.log('onOpen: start');
+    await timeout(1000);
+    console.log('onOpen: finish');
+    this.setState({ open: true });
+  };
+
+  afterOpen = async () => {
+    console.log('afterOpen: start');
+    await timeout(1000);
+    console.log('afterOpen: finish');
+  };
+
+  beforeClose = async () => {
+    console.log('beforeClose: start');
+    await timeout(1000);
+    console.log('beforeClose: finish');
+  };
+
+  onClose = async () => {
+    console.log('onClose: start');
+    await timeout(1000);
+    console.log('onClose: finish');
+    this.setState({ open: false });
+  };
+
+  afterClose = async () => {
+    console.log('afterClose: start');
+    await timeout(1000);
+    console.log('afterClose: finish');
+  };
 
   render() {
     return (
       <>
         <h1>Lifecycles events are logged to console</h1>
-        <button onClick={this.toggleOpen}>Open Modal</button>
+        <button onClick={this.onOpen}>Open Modal</button>
         <StyledModal
           afterClose={this.afterClose}
           afterOpen={this.afterOpen}
@@ -85,7 +118,7 @@ class StateContainer extends Component<{}, IState> {
           beforeOpen={this.beforeOpen}
           containerComponent={Fade}
           modalComponent={ToggleDisplay}
-          onClose={this.toggleOpen}
+          onClose={this.onClose}
           open={this.state.open}
         />
       </>

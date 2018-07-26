@@ -12,11 +12,11 @@ import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
 export type StyledModalProps = {
-  afterClose?: (props?: any) => any;
-  afterOpen?: (props?: any) => any;
+  afterClose?: () => Promise<void> | void;
+  afterOpen?: () => Promise<void> | void;
   appId?: string;
-  beforeClose?: (props?: any) => any;
-  beforeOpen?: (props?: any) => any;
+  beforeClose?: () => Promise<void> | void;
+  beforeOpen?: () => Promise<void> | void;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
@@ -24,7 +24,8 @@ export type StyledModalProps = {
   lockFocusWhenOpen?: boolean;
   lockScrollWhenOpen?: boolean;
   modalComponent?: any;
-  onClose?: (props?: any) => any;
+  onClose?: () => Promise<void> | void;
+  onOpen?: () => Promise<void> | void;
   open?: boolean;
   overscrollComponent?: any;
   target?: string;
@@ -69,7 +70,7 @@ export default class StyledModal extends React.PureComponent<
     this.setState({ isClientSide: true });
   }
 
-  getSnapshotBeforeUpdate(
+  async getSnapshotBeforeUpdate(
     prevProps: StyledModalProps,
     prevState: StyledModalState
   ) {
@@ -82,15 +83,15 @@ export default class StyledModal extends React.PureComponent<
     }
 
     if (open) {
-      this.handleCallback(beforeOpen);
+      await this.handleCallback(beforeOpen);
       return true;
     } else {
-      this.handleCallback(beforeClose);
+      await this.handleCallback(beforeClose);
       return false;
     }
   }
 
-  componentDidUpdate(prevProps: StyledModalProps) {
+  async componentDidUpdate(prevProps: StyledModalProps) {
     const { afterClose, afterOpen } = this.props;
     const open = this.props.open!;
     const isToggled = this.state.isToggled || prevProps.open !== open;
@@ -99,13 +100,13 @@ export default class StyledModal extends React.PureComponent<
 
     if (isToggled && prevProps.open === open) return;
 
-    this.setState({ open }, () => {
+    await this.setState({ open }, async () => {
       if (open) {
         this.openModal();
-        this.handleCallback(afterOpen);
+        await this.handleCallback(afterOpen);
       } else {
         this.closeModal();
-        this.handleCallback(afterClose);
+        await this.handleCallback(afterClose);
       }
     });
   }
@@ -173,13 +174,15 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  handleCallback(callback?: () => void) {
+  handleCallback = async (callback?: () => void) => {
     if (callback) {
-      callback();
+      await callback();
     }
-  }
+  };
 
-  openModal() {
+  openModal = async () => {
+    await this.handleCallback(this.props.onOpen);
+
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOn(this.modal.current);
@@ -191,9 +194,9 @@ export default class StyledModal extends React.PureComponent<
         setAriaHidden.on(this.props.appId);
       }
     }
-  }
+  };
 
-  closeModal() {
+  closeModal = () => {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOff(this.modal.current);
@@ -205,17 +208,17 @@ export default class StyledModal extends React.PureComponent<
         setAriaHidden.off(this.props.appId);
       }
     }
-  }
+  };
 
-  handleKeydown = ({ key }: React.KeyboardEvent) => {
+  handleKeydown = async ({ key }: React.KeyboardEvent) => {
     if (!this.props.closeOnEsc || !this.props.onClose) return;
 
     if (this.props.open && key === 'Escape') {
-      this.props.onClose();
+      await this.handleCallback(this.props.onClose);
     }
   };
 
-  handleOutsideClick = (event: React.SyntheticEvent) => {
+  handleOutsideClick = async (event: React.SyntheticEvent) => {
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
@@ -223,7 +226,7 @@ export default class StyledModal extends React.PureComponent<
       target !== this.modal.current &&
       target.contains(this.modal.current as Node)
     ) {
-      this.props.onClose();
+      await this.handleCallback(this.props.onClose);
     }
   };
 
