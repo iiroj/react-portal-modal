@@ -25,13 +25,7 @@ const transitionStyles: any = {
 };
 
 const Fade = ({ children, isToggled, open }: any) => (
-  <Transition
-    enter={isToggled}
-    in={open}
-    mountOnEnter={false}
-    timeout={duration}
-    unmountOnExit={true}
-  >
+  <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
     {(state: any) => (
       <Container
         style={{
@@ -48,10 +42,7 @@ const Fade = ({ children, isToggled, open }: any) => (
 class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
   render() {
     return (
-      <p
-        ref={this.props._ref}
-        style={{ backgroundColor: 'white', padding: '2rem' }}
-      >
+      <p ref={this.props._ref} style={{ backgroundColor: 'white', padding: '2rem' }}>
         This text is in a modal
       </p>
     );
@@ -117,6 +108,4 @@ class StateContainer extends Component<{}, IState> {
   }
 }
 
-storiesOf('styled-modal', module).add('Lifecycle methods', () => (
-  <StateContainer />
-));
+storiesOf('styled-modal', module).add('Lifecycle methods', () => <StateContainer />);

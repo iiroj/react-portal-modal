@@ -23,13 +23,7 @@ const transitionStyles: any = {
 };
 
 const Fade = ({ children, isToggled, open }: any) => (
-  <Transition
-    enter={isToggled}
-    in={open}
-    mountOnEnter={false}
-    timeout={duration}
-    unmountOnExit={true}
-  >
+  <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
     {(state: any) => (
       <Container
         style={{
@@ -46,10 +40,7 @@ const Fade = ({ children, isToggled, open }: any) => (
 class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
   render() {
     return (
-      <p
-        ref={this.props._ref}
-        style={{ backgroundColor: 'white', padding: '2rem' }}
-      >
+      <p ref={this.props._ref} style={{ backgroundColor: 'white', padding: '2rem' }}>
         This modal has {this.props.isToggled ? 'been' : 'not been'} toggled
       </p>
     );

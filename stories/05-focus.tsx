@@ -20,12 +20,7 @@ class StateContainer extends Component<{}, IState> {
       <>
         <h1>Modal can auto-focus inside when opening</h1>
         <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal
-          closeOnEsc={true}
-          closeOnOutsideClick={true}
-          onClose={this.toggleOpen}
-          open={this.state.open}
-        >
+        <StyledModal closeOnEsc={true} closeOnOutsideClick={true} onClose={this.toggleOpen} open={this.state.open}>
           {this.props.children}
         </StyledModal>
       </>

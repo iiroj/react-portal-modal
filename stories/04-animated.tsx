@@ -13,12 +13,7 @@ type ContainerComponentProps = {
   open: boolean;
 };
 
-const ContainerComponent = ({
-  children,
-  className,
-  isClientSide,
-  open
-}: ContainerComponentProps) =>
+const ContainerComponent = ({ children, className, isClientSide, open }: ContainerComponentProps) =>
   isClientSide ? (
     <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
       {open && (

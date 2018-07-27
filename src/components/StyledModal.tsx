@@ -39,10 +39,7 @@ export type StyledModalState = {
   open: boolean;
 };
 
-export default class StyledModal extends React.PureComponent<
-  StyledModalProps,
-  StyledModalState
-> {
+export default class StyledModal extends React.PureComponent<StyledModalProps, StyledModalState> {
   static defaultProps = {
     closeOnEsc: true,
     closeOnOutsideClick: true,
@@ -72,10 +69,7 @@ export default class StyledModal extends React.PureComponent<
     this.setState({ isClientSide: true });
   }
 
-  async getSnapshotBeforeUpdate(
-    prevProps: StyledModalProps,
-    prevState: StyledModalState
-  ) {
+  async getSnapshotBeforeUpdate(prevProps: StyledModalProps, prevState: StyledModalState) {
     const { open } = this.props;
     const { isClientSide } = prevState;
     const { isToggled } = this.state;
@@ -107,10 +101,7 @@ export default class StyledModal extends React.PureComponent<
       }
     }
 
-    this.setState(
-      { open },
-      () => (open ? this.openModal() : this.closeModal())
-    );
+    this.setState({ open }, () => (open ? this.openModal() : this.closeModal()));
 
     if (open) {
       await this.handleCallback(this.props.afterOpen);
@@ -151,17 +142,8 @@ export default class StyledModal extends React.PureComponent<
     return (
       <Portal target={target}>
         <ThemeProvider theme={{ container, modal, overscroll }}>
-          <Container
-            isClientSide={isClientSide}
-            isToggled={isToggled}
-            onClick={this.handleOutsideClick}
-            open={open}
-          >
-            <Overscroll
-              isClientSide={isClientSide}
-              isToggled={isToggled}
-              onClick={this.handleOutsideClick}
-            >
+          <Container isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick} open={open}>
+            <Overscroll isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick}>
               <Modal
                 _ref={this.modal}
                 aria-modal="true"
@@ -228,10 +210,7 @@ export default class StyledModal extends React.PureComponent<
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
-    if (
-      target !== this.modal.current &&
-      target.contains(this.modal.current as Node)
-    ) {
+    if (target !== this.modal.current && target.contains(this.modal.current as Node)) {
       await this.handleCallback(this.props.onClose);
     }
   };
