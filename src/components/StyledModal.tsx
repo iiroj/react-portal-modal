@@ -107,7 +107,10 @@ export default class StyledModal extends React.PureComponent<
       }
     }
 
-    this.setState({ open });
+    this.setState(
+      { open },
+      () => (open ? this.openModal() : this.closeModal())
+    );
 
     if (open) {
       await this.handleCallback(this.props.afterOpen);
