@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyledComponentClass, ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { on as focusLockOn, off as focusLockOff } from 'dom-focus-lock/umd';
 import { on as scrollLockOn, off as scrollLockOff } from 'no-scroll';
 
@@ -11,8 +11,14 @@ import DefaultContainer from './Container';
 import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
 
+type PossiblyPromisefulFn = () => Promise<void> | void;
+
 export type StyledModalProps = {
+  afterClose?: PossiblyPromisefulFn;
+  afterOpen?: PossiblyPromisefulFn;
   appId?: string;
+  beforeClose?: PossiblyPromisefulFn;
+  beforeOpen?: PossiblyPromisefulFn;
   children?: any;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
@@ -20,8 +26,8 @@ export type StyledModalProps = {
   lockFocusWhenOpen?: boolean;
   lockScrollWhenOpen?: boolean;
   modalComponent?: any;
-  onClose?: (props?: any) => any;
-  onOpen?: (props?: any) => any;
+  onClose?: PossiblyPromisefulFn;
+  onOpen?: PossiblyPromisefulFn;
   open?: boolean;
   overscrollComponent?: any;
   target?: string;
@@ -33,10 +39,7 @@ export type StyledModalState = {
   open: boolean;
 };
 
-export default class StyledModal extends React.PureComponent<
-  StyledModalProps,
-  StyledModalState
-> {
+export default class StyledModal extends React.PureComponent<StyledModalProps, StyledModalState> {
   static defaultProps = {
     closeOnEsc: true,
     closeOnOutsideClick: true,
@@ -44,17 +47,6 @@ export default class StyledModal extends React.PureComponent<
     lockScrollWhenOpen: true,
     open: true
   };
-
-  static getDerivedStateFromProps(
-    props: StyledModalProps,
-    state: StyledModalState
-  ) {
-    if (props.open !== state.open) {
-      return { isToggled: true, open: props.open };
-    } else {
-      return null;
-    }
-  }
 
   readonly hasDom: boolean;
 
@@ -69,41 +61,84 @@ export default class StyledModal extends React.PureComponent<
     this.state = {
       isClientSide: false,
       isToggled: false,
-      open: this.props.open!
+      open: props.open!
     };
   }
 
   componentDidMount() {
-    if (this.props.open) {
-      this.openModal();
-    }
     this.setState({ isClientSide: true });
   }
 
-  componentDidUpdate(prevProps: StyledModalProps) {
-    if (prevProps.open !== this.props.open) {
-      this.props.open ? this.openModal() : this.closeModal();
+  async getSnapshotBeforeUpdate(prevProps: StyledModalProps, prevState: StyledModalState) {
+    const { open } = this.props;
+    const { isClientSide } = prevState;
+    const { isToggled } = this.state;
+
+    if (!isClientSide || (isToggled && prevProps.open === open)) {
+      return null;
+    }
+
+    if (open) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async componentDidUpdate(prevProps: StyledModalProps) {
+    if (this.props.closeOnEsc && this.props.onClose) {
+      document.addEventListener('keyup', this.handleKeyUp);
+    }
+
+    const open = this.props.open!;
+    const isToggled = this.state.isToggled || prevProps.open !== open;
+
+    this.setState({ isToggled });
+
+    if (isToggled && prevProps.open === open) return;
+
+    if (isToggled) {
+      if (open) {
+        await this.handleCallback(this.props.beforeOpen);
+      } else {
+        await this.handleCallback(this.props.beforeClose);
+      }
+    }
+
+    this.setState({ open }, () => (open ? this.openModal() : this.closeModal()));
+
+    if (open) {
+      await this.handleCallback(this.props.afterOpen);
+    } else {
+      await this.handleCallback(this.props.afterClose);
     }
   }
 
   componentWillUnmount() {
+    if (this.props.closeOnEsc && this.props.onClose) {
+      document.removeEventListener('keyup', this.handleKeyUp);
+    }
+
     this.closeModal();
   }
 
   render() {
     const {
+      afterClose,
+      afterOpen,
       appId,
+      beforeClose,
+      beforeOpen,
       children,
       closeOnEsc,
       closeOnOutsideClick,
       containerComponent,
       modalComponent,
-      onClose,
-      onOpen,
       overscrollComponent,
       target,
       ...rest
     } = this.props;
+
     const { open } = this.state;
 
     const { isClientSide, isToggled } = this.state;
@@ -115,25 +150,14 @@ export default class StyledModal extends React.PureComponent<
     return (
       <Portal target={target}>
         <ThemeProvider theme={{ container, modal, overscroll }}>
-          <Container
-            isClientSide={isClientSide}
-            isToggled={isToggled}
-            onClick={this.handleOutsideClick}
-            open={open}
-          >
-            <Overscroll
-              isClientSide={isClientSide}
-              isToggled={isToggled}
-              onClick={this.handleOutsideClick}
-            >
+          <Container isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick} open={open}>
+            <Overscroll isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick}>
               <Modal
                 _ref={this.modal}
                 aria-modal="true"
                 innerRef={this.modal}
                 isClientSide={isClientSide}
                 isToggled={isToggled}
-                onClick={this.stopPropagation}
-                onKeyUp={this.handleKeydown}
                 open={open}
                 role="dialog"
                 {...rest}
@@ -147,13 +171,13 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  handleCallback(callback?: () => void) {
+  handleCallback = async (callback?: PossiblyPromisefulFn) => {
     if (callback) {
-      callback();
+      await callback();
     }
-  }
+  };
 
-  openModal() {
+  openModal = () => {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOn(this.modal.current);
@@ -165,9 +189,9 @@ export default class StyledModal extends React.PureComponent<
         setAriaHidden.on(this.props.appId);
       }
     }
-  }
+  };
 
-  closeModal() {
+  closeModal = () => {
     if (this.hasDom) {
       if (this.props.lockFocusWhenOpen && this.modal.current) {
         focusLockOff(this.modal.current);
@@ -179,24 +203,26 @@ export default class StyledModal extends React.PureComponent<
         setAriaHidden.off(this.props.appId);
       }
     }
-  }
+  };
 
-  handleKeydown = ({ key }: React.KeyboardEvent) => {
-    const { open, closeOnEsc } = this.props;
-    if (closeOnEsc && open && key === 'Escape') {
-      this.handleCallback(this.props.onClose);
-      this.closeModal();
+  handleKeyUp = async ({ key }: KeyboardEvent) => {
+    if (!this.props.closeOnEsc || !this.props.onClose) return;
+
+    if (this.props.open && key === 'Escape') {
+      await this.handleCallback(this.props.onClose);
+    }
+  };
+
+  handleOutsideClick = async (event: React.SyntheticEvent) => {
+    if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
+
+    const target = event.target as Node;
+    if (target !== this.modal.current && target.contains(this.modal.current as Node)) {
+      await this.handleCallback(this.props.onClose);
     }
   };
 
   stopPropagation = (event: React.SyntheticEvent) => {
     event.stopPropagation();
-  };
-
-  handleOutsideClick = () => {
-    if (this.props.closeOnOutsideClick === true) {
-      this.handleCallback(this.props.onClose);
-      this.closeModal();
-    }
   };
 }

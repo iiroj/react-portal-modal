@@ -23,13 +23,7 @@ const transitionStyles: any = {
 };
 
 const Fade = ({ children, isToggled, open }: any) => (
-  <Transition
-    enter={isToggled}
-    in={open}
-    mountOnEnter={false}
-    timeout={duration}
-    unmountOnExit={true}
-  >
+  <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
     {(state: any) => (
       <Container
         style={{
@@ -43,35 +37,31 @@ const Fade = ({ children, isToggled, open }: any) => (
   </Transition>
 );
 
-type ToggleDisplay = {
-  isToggled: boolean;
-};
-
-const ToggleDisplay = ({ isToggled }: ToggleDisplay) => (
-  <p style={{ backgroundColor: 'white', padding: '2rem' }}>
-    This modal has {isToggled ? 'been' : 'not been'} toggled
-  </p>
-);
+class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
+  render() {
+    return (
+      <p ref={this.props._ref} style={{ backgroundColor: 'white', padding: '2rem' }}>
+        This modal has {this.props.isToggled ? 'been' : 'not been'} toggled
+      </p>
+    );
+  }
+}
 
 interface IState {
   open: boolean;
 }
 
 class StateContainer extends Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      open: true
-    };
-  }
-
-  toggleOpen = () => {
-    this.setState({ open: !this.state.open });
+  state = {
+    open: true
   };
+
+  toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
     return (
-      <React.Fragment>
+      <>
+        <h1>Modal keeps track of whether is has been toggled</h1>
         <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal
           appId="root"
@@ -80,7 +70,7 @@ class StateContainer extends Component<{}, IState> {
           onClose={this.toggleOpen}
           open={this.state.open}
         />
-      </React.Fragment>
+      </>
     );
   }
 }

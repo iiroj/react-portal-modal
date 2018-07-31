@@ -4,6 +4,30 @@ A Modal built with styled-components and Portals with Server-Side Rendering Supp
 
 Inspired by [Render React portals on the server - Michal Zalecki](https://michalzalecki.com/render-react-portals-on-the-server/).
 
+## Props
+
+Below is a cheatcheet of all available props. All of them are optional.
+
+| Prop                | Type                         | description |
+| :------------------ | :--------------------------- | :---------- |
+| afterClose          | `() => Promise<void> | void` | Async function ran after closing |
+| afterOpen           | `() => Promise<void> | void` | Async function ran after opening |
+| appId               | `string`                     | Id of the main react root dom node. Will set as `aria-hidden=true` |
+| beforeClose         | `() => Promise<void> | void` | Async function ran before closing |
+| beforeOpen          | `() => Promise<void> | void` | Async function ran before opening |
+| children            | `any`                        | Contents of the modal |
+| closeOnEsc          | `boolean`                    | Whether the modal should close (call `onClose`) when pressing Esc |
+| closeOnOutsideClick | `boolean`                    | Whether the modal should close (call `onClose`) when clicking outside the modal |
+| containerComponent  | `any`                        | A custom component for the container. By default the dark background. Its child is the `overscrollComponent` |
+| lockFocusWhenOpen   | `boolean`                    | Whether focus should be locked inside the modal, via [dom-focus-lock](https://github.com/theKashey/dom-focus-lock) |
+| lockScrollWhenOpen  | `boolean`                    | Whether scrolling should be locked when the modal is open, via [no-scroll](https://github.com/davidtheclark/no-scroll) |
+| modalComponent      | `any`                        | A custom component for the modal. By default a simple div. Its children are the `<StyledModal>`'s children |
+| onClose             | `() => Promise<void> | void` | Async function ran when closing. Typically for setting the prop `open: false` |
+| onOpen              | `() => Promise<void> | void` | Async function ran after opening. Typically for setting the prop `open: true` |
+| open                | `boolean`                    | Whether the modal is open. Defaults to `true` |
+| overscrollComponent | `any`                        | A custom component for the overscoll. By default this allows the Modal to nicely scroll. Its child is the `modalComponent` |
+| target              | `string`                     | The id of the Portal's target dom node. By default `modal`. The node will be added to the end of `document.body` if not present |
+
 ## About
 
 This component is used for rendering React components inside a Modal. There are some basic styles included but you should supply your own styles. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0.
@@ -89,6 +113,14 @@ export default props => {
   )
 }
 ```
+
+### Lifecycle Methods
+
+`<Modal />`supports async lifecycle methods `beforeOpen`, `afterOpen`, `beforeClose` and `afterClose` (`() => Promise<void> | void`), which run around the changing of `open: boolean` (the Modal opening). They are awaited so the modal will only open after `beforeOpen` resolves, and close after `beforeClose` resolves. Similarly, the `beforeOpen` cannot fire before `afterClose` is resolved, or `beforeClose` before `afterOpen`.
+
+The other methods are `onOpen: () => Promise<void> | void`, which is run between `beforeOpen` and `afterOpen`, and `onClose: () => Promise<void> | void`, similarly.
+
+The `onClose` method is fired when clicking outside the modal or pressing the `Esc` key, if `closeOnOutsideClick?: boolean = true` or `closeOnEsc?: boolean = true` are enabled, respectively.
 
 ### Custom styles
 

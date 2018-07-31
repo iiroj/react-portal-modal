@@ -9,35 +9,21 @@ interface IState {
 }
 
 class StateContainer extends Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true });
+  state = {
+    open: false
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
     return (
-      <Fragment>
-        <button onClick={this.handleOpen}>Open Modal</button>
-        <StyledModal
-          closeOnEsc={true}
-          closeOnOutsideClick={true}
-          onClose={this.handleClose}
-          onOpen={this.handleOpen}
-          open={this.state.open}
-        >
+      <>
+        <h1>Modal can auto-focus inside when opening</h1>
+        <button onClick={this.toggleOpen}>Open Modal</button>
+        <StyledModal closeOnEsc={true} closeOnOutsideClick={true} onClose={this.toggleOpen} open={this.state.open}>
           {this.props.children}
         </StyledModal>
-      </Fragment>
+      </>
     );
   }
 }

@@ -47,9 +47,7 @@ describe('<Portal />', () => {
   });
 
   it('Renders to pre-existing div with supplied id', () => {
-    jsdom = require('jsdom-global')(
-      '<html><body><div id="foo"></div><div id="bar">'
-    );
+    jsdom = require('jsdom-global')('<html><body><div id="foo"></div><div id="bar">');
     expect(document.body.childElementCount).to.equal(2);
 
     portal = mount(<Portal target="foo">test</Portal>);
@@ -72,9 +70,7 @@ describe('flushPortals: (id: string) => void', () => {
   let jsdom: any;
 
   it('Removes all children from the supplied target', () => {
-    jsdom = require('jsdom-global')(
-      '<html><body><div id="modal"><div id="foo"></div><div id="bar"></div></div>'
-    );
+    jsdom = require('jsdom-global')('<html><body><div id="modal"><div id="foo"></div><div id="bar"></div></div>');
 
     const modalContainer = document.getElementById('modal')!;
     expect(modalContainer.childElementCount).to.equal(2);

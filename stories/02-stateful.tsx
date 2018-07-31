@@ -8,30 +8,17 @@ interface IState {
 }
 
 class StateContainer extends Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
-
-  handleOpen = () => {
-    this.setState({ open: true });
+  state = {
+    open: false
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
     return (
       <React.Fragment>
-        <button onClick={this.handleOpen}>Open Modal</button>
-        <StyledModal
-          appId="root"
-          onClose={this.handleClose}
-          open={this.state.open}
-        >
+        <button onClick={this.toggleOpen}>Open Modal</button>
+        <StyledModal appId="root" onClose={this.toggleOpen} open={this.state.open}>
           {this.props.children}
         </StyledModal>
       </React.Fragment>
