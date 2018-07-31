@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [4.0.0] - 2018-07-26
 ### Added
 - Added async lifecycle methods `beforeOpen`, `afterOpen`, `beforeClose` and `afterClose`, which run around the changing of `open: boolean`. They are awaited so the modal will only open after `beforeOpen` resolves, and close after `beforeClose` resolves. Similarly, the `beforeOpen` cannot fire before `afterClose` is resolved, or `beforeClose` before `afterOpen`.
+### Fixed
+- Fix incorrect usage of `onKeyUp` on a non-input element and thus `closeOnEsc` not working
 
 ## [3.1.2] - 2018-07-23
 ### Fixed

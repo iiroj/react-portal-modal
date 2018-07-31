@@ -86,6 +86,10 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
   }
 
   async componentDidUpdate(prevProps: StyledModalProps) {
+    if (this.props.closeOnEsc && this.props.onClose) {
+      document.addEventListener('keyup', this.handleKeyUp);
+    }
+
     const open = this.props.open!;
     const isToggled = this.state.isToggled || prevProps.open !== open;
 
@@ -111,6 +115,10 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
   }
 
   componentWillUnmount() {
+    if (this.props.closeOnEsc && this.props.onClose) {
+      document.removeEventListener('keyup', this.handleKeyUp);
+    }
+
     this.closeModal();
   }
 
@@ -150,7 +158,6 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
                 innerRef={this.modal}
                 isClientSide={isClientSide}
                 isToggled={isToggled}
-                onKeyUp={this.handleKeydown}
                 open={open}
                 role="dialog"
                 {...rest}
@@ -198,7 +205,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
     }
   };
 
-  handleKeydown = async ({ key }: React.KeyboardEvent) => {
+  handleKeyUp = async ({ key }: KeyboardEvent) => {
     if (!this.props.closeOnEsc || !this.props.onClose) return;
 
     if (this.props.open && key === 'Escape') {
