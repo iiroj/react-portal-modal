@@ -1,6 +1,28 @@
-# styled-modal
-
-A Modal built with styled-components and Portals with Server-Side Rendering Support.
+<div align="center">
+  <h1 align="center">styled-modal</h1>
+  <p>A Modal built with styled-components and Portals with Server-Side Rendering Support</p>
+  <a href="https://www.npmjs.com/package/styled-modal"><strong>npm</strong></a> ·
+  <a href="https://gitlab.com/iiroj/styled-modal"><strong>GitLab</strong></a>
+  <br/>
+  <br/>
+  <a href="https://www.npmjs.com/package/styled-modal">
+    <img src="https://img.shields.io/npm/v/styled-modal.svg?style=flat-square">
+  </a>
+  <a href="https://gitlab.com/iiroj/styled-modal">
+    <img src="https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg?style=flat-square">
+  </a>
+  <a href="https://gitlab.com/iiroj/styled-modal/pipelines/">
+    <img src="https://img.shields.io/badge/GitLab-Pipeline-lightgrey.svg?style=flat-square">
+  </a>
+  <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
+    <img src="https://img.shields.io/david/iiroj/styled-modal.svg?style=flat-square">
+  </a>
+  <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
+    <img src="https://img.shields.io/david/dev/iiroj/styled-modal.svg?style=flat-square">
+  </a>
+  <br/>
+  <br/>
+</div>
 
 Inspired by [Render React portals on the server - Michal Zalecki](https://michalzalecki.com/render-react-portals-on-the-server/).
 

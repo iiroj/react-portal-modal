@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - 2018-08-09
+### Changed
+- Update packages
+- Update readme
+
 ## [4.0.0] - 2018-07-26
 ### Added
 - Added async lifecycle methods `beforeOpen`, `afterOpen`, `beforeClose` and `afterClose`, which run around the changing of `open: boolean`. They are awaited so the modal will only open after `beforeOpen` resolves, and close after `beforeClose` resolves. Similarly, the `beforeOpen` cannot fire before `afterClose` is resolved, or `beforeClose` before `afterOpen`.
