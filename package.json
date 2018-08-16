@@ -18,7 +18,11 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "mocha -r setup/mocha.js -r setup/enzyme.js src/**/*.test.ts src/**/*.test.tsx",
     "build": "tsc --build --verbose tsconfig.build.json",
-    "clean": "tsc --build --clean tsconfig.build.json"
+    "clean": "tsc --build --clean tsconfig.build.json",
+    "version": "standard-version",
+    "prerelease": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "release": "git push --follow-tags origin master",
+    "postrelease": "npm publish"
   },
   "dependencies": {
     "dom-focus-lock": "^1.0.1",
@@ -59,6 +63,7 @@
     "react-dom": "^16.4.2",
     "react-motion-ui-pack": "^0.10.3",
     "react-transition-group": "^2.4.0",
+    "standard-version": "^4.4.0",
     "styled-components": "^3.4.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.14.0",
