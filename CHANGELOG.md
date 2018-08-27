@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.2.0"></a>
+# [4.2.0](https://gitlab.com/iiroj/styled-modal/compare/v4.1.0...v4.2.0) (2018-08-27)
+
+
+### Bug Fixes
+
+* Remove unused typings ([075a366](https://gitlab.com/iiroj/styled-modal/commit/075a366))
+
+
+### Features
+
+* Use Jest instead of Mocha to collect coverage ([5459fd0](https://gitlab.com/iiroj/styled-modal/commit/5459fd0))
+* Use ts-loader and fork-ts-checker-webpack-plugin ([828aabb](https://gitlab.com/iiroj/styled-modal/commit/828aabb))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://gitlab.com/iiroj/styled-modal/compare/v4.0.1...v4.1.0) (2018-08-16)
 
