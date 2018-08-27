@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import styled, { StyledComponentClass } from 'styled-components';
 
@@ -8,7 +8,7 @@ interface IState {
   open: boolean;
 }
 
-class StateContainer extends Component<{}, IState> {
+class StateContainer extends React.Component<{}, IState> {
   state = {
     open: false
   };

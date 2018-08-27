@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Transition from 'react-transition-group/Transition';
 import { storiesOf } from '@storybook/react';
@@ -51,7 +51,7 @@ interface IState {
   open: boolean;
 }
 
-class StateContainer extends Component<{}, IState> {
+class StateContainer extends React.Component<{}, IState> {
   state = {
     open: true
   };

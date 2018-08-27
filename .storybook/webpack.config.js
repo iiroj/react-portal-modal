@@ -1,12 +1,20 @@
-module.exports = function(baseConfig, env, config) {
-  config.module.rules = [
-    {
-      test: /\.(jsx?|tsx?)$/,
-      loader: "babel-loader"
-    }
-  ];
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-  config.resolve.extensions = [".js", ".ts", ".tsx"];
+module.exports = function(baseConfig, env, config) {
+  config.module.rules.push(
+    {
+      test: /\.tsx?$/,
+      use: {
+        loader: "ts-loader",
+        options: {
+          transpileOnly: true
+        }
+      }
+    });
+
+  config.resolve.extensions.push(".ts", ".tsx");
+
+  config.plugins.push(new ForkTsCheckerWebpackPlugin())
 
   return config;
 };

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import Transition from 'react-motion-ui-pack';
 import { spring } from 'react-motion';
 import { storiesOf } from '@storybook/react';
@@ -75,7 +75,7 @@ type State = {
   open: boolean;
 };
 
-class StateContainer extends Component<{}, State> {
+class StateContainer extends React.Component<{}, State> {
   state = {
     open: false
   };
@@ -84,7 +84,7 @@ class StateContainer extends Component<{}, State> {
 
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal
           appId="root"
@@ -95,7 +95,7 @@ class StateContainer extends Component<{}, State> {
         >
           {this.props.children}
         </StyledModal>
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

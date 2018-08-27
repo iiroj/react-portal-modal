@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import StyledModal from '../src';
@@ -7,7 +7,7 @@ interface IState {
   open: boolean;
 }
 
-class StateContainer extends Component<{}, IState> {
+class StateContainer extends React.Component<{}, IState> {
   state = {
     open: false
   };
