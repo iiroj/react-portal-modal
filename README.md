@@ -6,19 +6,22 @@
   <br/>
   <br/>
   <a href="https://www.npmjs.com/package/styled-modal">
-    <img src="https://img.shields.io/npm/v/styled-modal.svg?style=flat-square">
+    <img src="https://img.shields.io/npm/v/styled-modal.svg">
   </a>
   <a href="https://gitlab.com/iiroj/styled-modal">
-    <img src="https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg?style=flat-square">
+    <img src="https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg">
   </a>
-  <a href="https://gitlab.com/iiroj/styled-modal/pipelines/">
-    <img src="https://img.shields.io/badge/GitLab-Pipeline-lightgrey.svg?style=flat-square">
+  <a href="https://gitlab.com/iiroj/styled-modal/commits/master">
+    <img alt="pipeline status" src="https://gitlab.com/iiroj/styled-modal/badges/master/pipeline.svg" />
+  </a>
+  <a href="https://gitlab.com/iiroj/styled-modal/commits/master">
+    <img alt="coverage report" src="https://gitlab.com/iiroj/styled-modal/badges/master/coverage.svg" />
   </a>
   <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
-    <img src="https://img.shields.io/david/iiroj/styled-modal.svg?style=flat-square">
+    <img src="https://img.shields.io/david/iiroj/styled-modal.svg">
   </a>
   <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
-    <img src="https://img.shields.io/david/dev/iiroj/styled-modal.svg?style=flat-square">
+    <img src="https://img.shields.io/david/dev/iiroj/styled-modal.svg">
   </a>
   <br/>
   <br/>
@@ -30,36 +33,38 @@ Inspired by [Render React portals on the server - Michal Zalecki](https://michal
 
 Below is a cheatcheet of all available props. All of them are optional.
 
-| Prop                | Type                         | description |
-| :------------------ | :--------------------------- | :---------- |
-| afterClose          | `() => Promise<void> | void` | Async function ran after closing |
-| afterOpen           | `() => Promise<void> | void` | Async function ran after opening |
-| appId               | `string`                     | Id of the main react root dom node. Will set as `aria-hidden=true` |
-| beforeClose         | `() => Promise<void> | void` | Async function ran before closing |
-| beforeOpen          | `() => Promise<void> | void` | Async function ran before opening |
-| children            | `any`                        | Contents of the modal |
-| closeOnEsc          | `boolean`                    | Whether the modal should close (call `onClose`) when pressing Esc |
-| closeOnOutsideClick | `boolean`                    | Whether the modal should close (call `onClose`) when clicking outside the modal |
-| containerComponent  | `any`                        | A custom component for the container. By default the dark background. Its child is the `overscrollComponent` |
-| lockFocusWhenOpen   | `boolean`                    | Whether focus should be locked inside the modal, via [dom-focus-lock](https://github.com/theKashey/dom-focus-lock) |
-| lockScrollWhenOpen  | `boolean`                    | Whether scrolling should be locked when the modal is open, via [no-scroll](https://github.com/davidtheclark/no-scroll) |
-| modalComponent      | `any`                        | A custom component for the modal. By default a simple div. Its children are the `<StyledModal>`'s children |
-| onClose             | `() => Promise<void> | void` | Async function ran when closing. Typically for setting the prop `open: false` |
-| onOpen              | `() => Promise<void> | void` | Async function ran after opening. Typically for setting the prop `open: true` |
-| open                | `boolean`                    | Whether the modal is open. Defaults to `true` |
-| overscrollComponent | `any`                        | A custom component for the overscoll. By default this allows the Modal to nicely scroll. Its child is the `modalComponent` |
-| target              | `string`                     | The id of the Portal's target dom node. By default `modal`. The node will be added to the end of `document.body` if not present |
+| Prop                | Type                         | description                                                                                                                      |
+| :------------------ | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
+|  afterClose         | `() => Promise<void> | void` | Async function ran after closing                                                                                                 |
+|  afterOpen          | `() => Promise<void> | void` | Async function ran after opening                                                                                                 |
+| appId               | `string`                     | Id of the main react root dom node. Will set as `aria-hidden=true`                                                               |
+| beforeClose         | `() => Promise<void> | void` | Async function ran before closing                                                                                                |
+| beforeOpen          | `() => Promise<void> | void` | Async function ran before opening                                                                                                |
+| children            | `any`                        | Contents of the modal                                                                                                            |
+| closeOnEsc          | `boolean`                    | Whether the modal should close (call `onClose`) when pressing Esc                                                                |
+| closeOnOutsideClick | `boolean`                    | Whether the modal should close (call `onClose`) when clicking outside the modal                                                  |
+| containerComponent  | `any`                        | A custom component for the container. By default the dark background. Its child is the `overscrollComponent`                     |
+| lockFocusWhenOpen   | `boolean`                    | Whether focus should be locked inside the modal, via [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)               |
+| lockScrollWhenOpen  | `boolean`                    | Whether scrolling should be locked when the modal is open, via [no-scroll](https://github.com/davidtheclark/no-scroll)           |
+| modalComponent      | `any`                        | A custom component for the modal. By default a simple div. Its children are the `<StyledModal>`'s children                       |
+| onClose             | `() => Promise<void> | void` | Async function ran when closing. Typically for setting the prop `open: false`                                                    |
+|  onOpen             | `() => Promise<void> | void` | Async function ran after opening. Typically for setting the prop `open: true`                                                    |
+| open                | `boolean`                    | Whether the modal is open. Defaults to `true`                                                                                    |
+| overscrollComponent | `any`                        | A custom component for the overscoll. By default this allows the Modal to nicely scroll. Its child is the `modalComponent`       |
+| target              | `string`                     |  The id of the Portal's target dom node. By default `modal`. The node will be added to the end of `document.body` if not present |
 
 ## About
 
 This component is used for rendering React components inside a Modal. There are some basic styles included but you should supply your own styles. The component uses the native `ReactDOM.createPortal` introduced with React 16.2.0.
 
 Yarn:
+
 ```bash
 yarn add styled-modal
 ```
 
 npm:
+
 ```bash
 npm install styled-modal
 ```
@@ -83,14 +88,14 @@ Finally, you can customize the UI by supplying your own styled components for th
 ### Basic Props
 
 ```javascript
-import { render } from 'react-dom';
-import Modal from 'styled-modal';
+import { render } from "react-dom";
+import Modal from "styled-modal";
 
 render(
   <Modal>
     <p>This text will open in a modal</p>
   </Modal>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 ```
 
@@ -193,7 +198,7 @@ Since we need the DOM reference to the `modalComponent` for accessibility featur
 This component handles the actual portaling and is used as the top-most wrapper component in `<Modal />`. You can also use `<Portal />` directly to render things into some other DOM Element.
 
 ```javascript
-import { Portal } from 'styled-modal';
+import { Portal } from "styled-modal";
 
 const target = document.getElementById("Helsinki");
 
@@ -201,7 +206,7 @@ render(
   <Portal target={target}>
     <p>This text will be portaled to #Helsinki</p>
   </Portal>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 ```
 
@@ -209,7 +214,8 @@ render(
 
 On the server side we cannot use `ReactDOM.createPortal`. This is why the underlying `<Portal />` component returns `null` and instead collects the portals' contents into a global array with `collectPortals`. We can then render this array seperately ourselves! To prevent rendering double client-side, we must also flush the portal target element before (client-side) rendering with `flushPortals`.
 
->server
+> server
+
 ```javascript
 import Express from 'express';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -248,7 +254,8 @@ const renderResponse = async (req, res) => {
 app.use(renderResponse);
 ```
 
->client
+> client
+
 ```javascript
 import { render } from 'react-dom'
 import Modal, { flushPortals } from 'styled-modal';
