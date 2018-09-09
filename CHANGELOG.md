@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.2.5"></a>
+## [4.2.5](https://gitlab.com/iiroj/styled-modal/compare/v4.2.4...v4.2.5) (2018-09-09)
+
+
+
 <a name="4.2.4"></a>
 ## [4.2.4](https://gitlab.com/iiroj/styled-modal/compare/v4.2.3...v4.2.4) (2018-08-28)
 
