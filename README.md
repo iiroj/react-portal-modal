@@ -154,11 +154,15 @@ The `onClose` method is fired when clicking outside the modal or pressing the `E
 It is possible to supply custom `modalComponent`, `containerComponent` and `overscrollComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be provided default styles necessary for the Modal to function in the `theme` prop.
 
 ```javascript
+import React from 'react;
 import StyledModal from 'styled-modal';
 import styled from 'styled-components';
 
-const ContainerComponent = ({ children, className, open }: IProps) =>
-  open ? <div className={className}>{children}</div> : null;
+const ContainerComponent = React.forwardRef(({ children, className, open }, ref) =>
+  open
+    ? <div className={className} ref={ref}>{children}</div>
+    : null
+);
 
 const Container = styled(ContainerComponent)`
   background-color: rgba(0, 0, 0, 0.4);
@@ -191,7 +195,7 @@ There's is also a special prop `isClientSide: boolean` available to all componen
 
 #### Refs
 
-Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply (via `React.createRef`) both a `innerRef` and `_ref`. Styled-components eats the `innerRef` and `_ref` can be used in more complex components wrapped in `styled()`.
+Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply (via `React.createRef`) a `ref` prop to it. Styled-components v4 and emotion v10 both support the new `React.forwardRef`, introduced in React v16.3, method of forwarding the ref. If you use a custom React component, you should use that as well.
 
 ## `<Portal />`
 

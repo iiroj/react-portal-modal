@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Transition from 'react-transition-group/Transition';
 import { storiesOf } from '@storybook/react';
 
-import StyledModal from '../src';
+import StyledModal, { ContainerProps } from '../src';
 
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -24,11 +24,12 @@ const transitionStyles: any = {
   entered: { opacity: 1 }
 };
 
-const Fade = ({ children, isToggled, open }: any) => (
+const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
   <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
     {(state: any) => (
       <Container
         style={{
+          ...theme.container,
           ...defaultStyle,
           ...transitionStyles[state]
         }}
@@ -39,15 +40,11 @@ const Fade = ({ children, isToggled, open }: any) => (
   </Transition>
 );
 
-class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
-  render() {
-    return (
-      <p ref={this.props._ref} style={{ backgroundColor: 'white', padding: '2rem' }}>
-        This text is in a modal
-      </p>
-    );
-  }
-}
+const ToggleDisplay = React.forwardRef((_props, ref) => (
+  <p ref={ref as React.RefObject<HTMLParagraphElement>} style={{ backgroundColor: 'white', padding: '2rem' }}>
+    This text is in a modal
+  </p>
+));
 
 interface IState {
   open: boolean;

@@ -13,20 +13,22 @@ type ContainerComponentProps = {
   open: boolean;
 };
 
-const ContainerComponent = ({ children, className, isClientSide, open }: ContainerComponentProps) =>
-  isClientSide ? (
-    <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
-      {open && (
-        <div className={className} key="container">
-          {children}
-        </div>
-      )}
-    </Transition>
-  ) : open ? (
-    <div className={className} key="container">
-      {children}
-    </div>
-  ) : null;
+const ContainerComponent = React.forwardRef(
+  ({ children, className, isClientSide, open }: ContainerComponentProps, ref) =>
+    isClientSide ? (
+      <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+        {open && (
+          <div className={className} key="container" ref={ref as React.RefObject<HTMLDivElement>}>
+            {children}
+          </div>
+        )}
+      </Transition>
+    ) : open ? (
+      <div className={className} key="container" ref={ref as React.RefObject<HTMLDivElement>}>
+        {children}
+      </div>
+    ) : null
+);
 
 const Container = styled(ContainerComponent)`
   background-color: rgb(242, 242, 242);
@@ -45,31 +47,29 @@ const ModalContainer = styled.div`
   ${props => props.theme.modal};
 `;
 
-type ModalProps = ContainerComponentProps & {
-  _ref: (prop: any) => any;
-};
-
-const Modal = ({ _ref, children, isClientSide, open }: ModalProps) =>
-  isClientSide ? (
-    <Transition
-      appear={{ scale: 0.95, translateY: 50 }}
-      component={false}
-      enter={{
-        scale: spring(1, { stiffness: 400, damping: 10 }),
-        translateY: spring(0, { stiffness: 400, damping: 10 })
-      }}
-    >
-      {open && (
-        <ModalContainer innerRef={_ref} key="modal">
-          {children}
-        </ModalContainer>
-      )}
-    </Transition>
-  ) : open ? (
-    <ModalContainer innerRef={_ref} key="modal">
-      {children}
-    </ModalContainer>
-  ) : null;
+const Modal = React.forwardRef(
+  ({ children, isClientSide, open }: ContainerComponentProps, ref) =>
+    isClientSide ? (
+      <Transition
+        appear={{ scale: 0.95, translateY: 50 }}
+        component={false}
+        enter={{
+          scale: spring(1, { stiffness: 400, damping: 10 }),
+          translateY: spring(0, { stiffness: 400, damping: 10 })
+        }}
+      >
+        {open && (
+          <ModalContainer ref={ref as any} key="modal">
+            {children}
+          </ModalContainer>
+        )}
+      </Transition>
+    ) : open ? (
+      <ModalContainer ref={ref as any} key="modal">
+        {children}
+      </ModalContainer>
+    ) : null
+);
 
 type State = {
   open: boolean;
@@ -84,7 +84,7 @@ class StateContainer extends React.Component<{}, State> {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal
           appId="root"
@@ -95,7 +95,7 @@ class StateContainer extends React.Component<{}, State> {
         >
           {this.props.children}
         </StyledModal>
-      </React.Fragment>
+      </>
     );
   }
 }

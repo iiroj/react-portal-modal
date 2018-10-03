@@ -16,12 +16,12 @@ class StateContainer extends React.Component<{}, IState> {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <button onClick={this.toggleOpen}>Open Modal</button>
         <StyledModal appId="root" onClose={this.toggleOpen} open={this.state.open}>
           {this.props.children}
         </StyledModal>
-      </React.Fragment>
+      </>
     );
   }
 }

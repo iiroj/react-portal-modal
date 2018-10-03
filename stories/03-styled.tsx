@@ -10,8 +10,14 @@ type ContainerProps = {
   open: boolean;
 };
 
-const ContainerComponent = ({ children, className, open }: ContainerProps) =>
-  open ? <div className={className}>{children}</div> : null;
+const ContainerComponent = React.forwardRef(
+  ({ children, className, open }: ContainerProps, ref) =>
+    open ? (
+      <div className={className} ref={ref as React.RefObject<HTMLDivElement>}>
+        {children}
+      </div>
+    ) : null
+);
 
 const Container = styled(ContainerComponent)`
   background: rgba(242, 242, 242);

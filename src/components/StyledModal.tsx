@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
 import { on as focusLockOn, off as focusLockOff } from 'dom-focus-lock/umd';
 import { on as scrollLockOn, off as scrollLockOff } from 'no-scroll';
 
 import hasDom from '../utils/has-dom';
 import setAriaHidden from '../utils/aria-hidden';
+import { containerStyles, modalStyles, overscrollStyles } from '../styles';
+
 import Portal from './Portal';
-import { container, modal, overscroll } from '../styles';
 import DefaultContainer from './Container';
 import DefaultOverscroll from './Overscroll';
 import DefaultModal from './Modal';
@@ -36,7 +36,14 @@ export type StyledModalProps = {
 export type StyledModalState = {
   isClientSide: boolean;
   isToggled: boolean;
+  modal?: React.RefObject<any>;
   open: boolean;
+};
+
+const theme = {
+  container: containerStyles,
+  modal: modalStyles,
+  overscroll: overscrollStyles
 };
 
 export default class StyledModal extends React.PureComponent<StyledModalProps, StyledModalState> {
@@ -50,18 +57,16 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
 
   readonly hasDom: boolean;
 
-  modal: React.RefObject<HTMLElement>;
-
   constructor(props: StyledModalProps) {
     super(props);
 
     this.hasDom = hasDom();
-    this.modal = React.createRef();
 
     this.state = {
       isClientSide: false,
       isToggled: false,
-      open: props.open!
+      open: props.open!,
+      modal: React.createRef()
     };
   }
 
@@ -141,7 +146,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
 
     const { open } = this.state;
 
-    const { isClientSide, isToggled } = this.state;
+    const { isClientSide, isToggled, modal } = this.state;
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
@@ -149,24 +154,28 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
 
     return (
       <Portal target={target}>
-        <ThemeProvider theme={{ container, modal, overscroll }}>
-          <Container isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick} open={open}>
-            <Overscroll isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick}>
-              <Modal
-                _ref={this.modal}
-                aria-modal="true"
-                innerRef={this.modal}
-                isClientSide={isClientSide}
-                isToggled={isToggled}
-                open={open}
-                role="dialog"
-                {...rest}
-              >
-                {children}
-              </Modal>
-            </Overscroll>
-          </Container>
-        </ThemeProvider>
+        <Container
+          isClientSide={isClientSide}
+          isToggled={isToggled}
+          onClick={this.handleOutsideClick}
+          open={open}
+          theme={theme}
+        >
+          <Overscroll isClientSide={isClientSide} isToggled={isToggled} onClick={this.handleOutsideClick} theme={theme}>
+            <Modal
+              aria-modal="true"
+              isClientSide={isClientSide}
+              isToggled={isToggled}
+              open={open}
+              ref={modal}
+              role="dialog"
+              theme={theme}
+              {...rest}
+            >
+              {children}
+            </Modal>
+          </Overscroll>
+        </Container>
       </Portal>
     );
   }
@@ -179,8 +188,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
 
   openModal = () => {
     if (this.hasDom) {
-      if (this.props.lockFocusWhenOpen && this.modal.current) {
-        focusLockOn(this.modal.current);
+      if (this.props.lockFocusWhenOpen && this.state.modal!.current) {
+        focusLockOn(this.state.modal!.current);
       }
       if (this.props.lockScrollWhenOpen) {
         scrollLockOn();
@@ -193,8 +202,8 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
 
   closeModal = () => {
     if (this.hasDom) {
-      if (this.props.lockFocusWhenOpen && this.modal.current) {
-        focusLockOff(this.modal.current);
+      if (this.props.lockFocusWhenOpen && this.state.modal!.current) {
+        focusLockOff(this.state.modal!.current);
       }
       if (this.props.lockScrollWhenOpen) {
         scrollLockOff();
@@ -217,7 +226,7 @@ export default class StyledModal extends React.PureComponent<StyledModalProps, S
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
-    if (target !== this.modal.current && target.contains(this.modal.current as Node)) {
+    if (target !== this.state.modal!.current && target.contains(this.state.modal!.current as Node)) {
       await this.handleCallback(this.props.onClose);
     }
   };

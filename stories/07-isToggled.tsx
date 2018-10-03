@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Transition from 'react-transition-group/Transition';
 import { storiesOf } from '@storybook/react';
 
-import StyledModal from '../src';
+import StyledModal, { ContainerProps, ModalProps } from '../src';
 
 const Container = styled.div`
   ${props => props.theme.container};
@@ -22,11 +22,12 @@ const transitionStyles: any = {
   entered: { opacity: 1 }
 };
 
-const Fade = ({ children, isToggled, open }: any) => (
+const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
   <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
     {(state: any) => (
       <Container
         style={{
+          ...theme.container,
           ...defaultStyle,
           ...transitionStyles[state]
         }}
@@ -37,15 +38,11 @@ const Fade = ({ children, isToggled, open }: any) => (
   </Transition>
 );
 
-class ToggleDisplay extends React.Component<{ _ref: any; isToggled: boolean }> {
-  render() {
-    return (
-      <p ref={this.props._ref} style={{ backgroundColor: 'white', padding: '2rem' }}>
-        This modal has {this.props.isToggled ? 'been' : 'not been'} toggled
-      </p>
-    );
-  }
-}
+const ToggleDisplay = React.forwardRef(({ isToggled }: ModalProps, ref) => (
+  <p ref={ref as React.RefObject<HTMLParagraphElement>} style={{ backgroundColor: 'white', padding: '2rem' }}>
+    This modal has {isToggled ? 'been' : 'not been'} toggled
+  </p>
+));
 
 interface IState {
   open: boolean;

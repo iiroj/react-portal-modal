@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { StyledComponentClass } from 'styled-components';
+import styled from 'styled-components';
 
 import StyledModal from '../src';
 
@@ -28,7 +28,7 @@ class StateContainer extends React.Component<{}, IState> {
   }
 }
 
-const Button: StyledComponentClass<any, any> = styled.button`
+const Button = styled.button`
   display: block;
 
   & + & {
