@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://gitlab.com/iiroj/styled-modal/compare/v4.2.7...v5.0.0) (2018-10-11)
+
+
+### Features
+
+* Remove hard dependency on styled-components ([f5ae2aa](https://gitlab.com/iiroj/styled-modal/commit/f5ae2aa))
+
+
+### BREAKING CHANGES
+
+* Switched to supporting React.forwardRef and object styles by default, so the module is more generic and doesn’t rely on styled-components. Can be used with emotion as well. The reason for this change is that now styled-components supports object styles.
+
+This will probably not work well with styled-components until its TypeScript typings are updated to support object styles.
+
+
+
 <a name="4.2.7"></a>
 ## [4.2.7](https://gitlab.com/iiroj/styled-modal/compare/v4.2.6...v4.2.7) (2018-09-22)
 
