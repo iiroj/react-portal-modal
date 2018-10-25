@@ -1,9 +1,9 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import Transition from 'react-transition-group/Transition';
-import { storiesOf } from '@storybook/react';
+import * as React from "react";
+import styled from "styled-components";
+import Transition from "react-transition-group/Transition";
+import { storiesOf } from "@storybook/react";
 
-import StyledModal, { ContainerProps } from '../src';
+import StyledModal, { ContainerProps } from "../src";
 
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -25,7 +25,13 @@ const transitionStyles: any = {
 };
 
 const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
-  <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
+  <Transition
+    enter={isToggled}
+    in={open}
+    mountOnEnter={false}
+    timeout={duration}
+    unmountOnExit={true}
+  >
     {(state: any) => (
       <Container
         style={{
@@ -41,7 +47,10 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
 );
 
 const ToggleDisplay = React.forwardRef((_props, ref) => (
-  <p ref={ref as React.RefObject<HTMLParagraphElement>} style={{ backgroundColor: 'white', padding: '2rem' }}>
+  <p
+    ref={ref as React.RefObject<HTMLParagraphElement>}
+    style={{ backgroundColor: "white", padding: "2rem" }}
+  >
     This text is in a modal
   </p>
 ));
@@ -56,31 +65,31 @@ class StateContainer extends React.Component<{}, IState> {
   };
 
   beforeOpen = async () => {
-    console.log('beforeOpen: start');
+    console.log("beforeOpen: start");
     await timeout(1000);
-    console.log('beforeOpen: finish');
+    console.log("beforeOpen: finish");
   };
 
   onOpen = () => this.setState({ open: true });
 
   afterOpen = async () => {
-    console.log('afterOpen: start');
+    console.log("afterOpen: start");
     await timeout(1000);
-    console.log('afterOpen: finish');
+    console.log("afterOpen: finish");
   };
 
   beforeClose = async () => {
-    console.log('beforeClose: start');
+    console.log("beforeClose: start");
     await timeout(1000);
-    console.log('beforeClose: finish');
+    console.log("beforeClose: finish");
   };
 
   onClose = () => this.setState({ open: false });
 
   afterClose = async () => {
-    console.log('afterClose: start');
+    console.log("afterClose: start");
     await timeout(1000);
-    console.log('afterClose: finish');
+    console.log("afterClose: finish");
   };
 
   render() {
@@ -105,4 +114,6 @@ class StateContainer extends React.Component<{}, IState> {
   }
 }
 
-storiesOf('styled-modal', module).add('Lifecycle methods', () => <StateContainer />);
+storiesOf("styled-modal", module).add("Lifecycle methods", () => (
+  <StateContainer />
+));

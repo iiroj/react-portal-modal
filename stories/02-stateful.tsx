@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
 
-import StyledModal from '../src';
+import StyledModal from "../src";
 
 interface IState {
   open: boolean;
@@ -18,7 +18,11 @@ class StateContainer extends React.Component<{}, IState> {
     return (
       <>
         <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal appId="root" onClose={this.toggleOpen} open={this.state.open}>
+        <StyledModal
+          appId="root"
+          onClose={this.toggleOpen}
+          open={this.state.open}
+        >
           {this.props.children}
         </StyledModal>
       </>
@@ -26,7 +30,7 @@ class StateContainer extends React.Component<{}, IState> {
   }
 }
 
-storiesOf('styled-modal', module).add('Stateful Modal', () => (
+storiesOf("styled-modal", module).add("Stateful Modal", () => (
   <StateContainer>
     <p>This text is rendered in a Modal</p>
   </StateContainer>

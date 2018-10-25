@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import styled from 'styled-components';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import styled from "styled-components";
 
-import StyledModal from '../src';
+import StyledModal from "../src";
 
 interface IState {
   open: boolean;
@@ -20,7 +20,12 @@ class StateContainer extends React.Component<{}, IState> {
       <>
         <h1>Modal can auto-focus inside when opening</h1>
         <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal closeOnEsc={true} closeOnOutsideClick={true} onClose={this.toggleOpen} open={this.state.open}>
+        <StyledModal
+          closeOnEsc={true}
+          closeOnOutsideClick={true}
+          onClose={this.toggleOpen}
+          open={this.state.open}
+        >
           {this.props.children}
         </StyledModal>
       </>
@@ -36,7 +41,7 @@ const Button = styled.button`
   }
 `;
 
-storiesOf('styled-modal', module).add('Focus Lock', () => (
+storiesOf("styled-modal", module).add("Focus Lock", () => (
   <StateContainer>
     <Button>The focus is locked inside this modal</Button>
     <Button>We are trapped!</Button>

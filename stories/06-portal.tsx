@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
 
-import { Portal } from '../src';
+import { Portal } from "../src";
 
-storiesOf('styled-modal', module).add('Portal with custom target', () => {
-  const target = 'error-display';
+storiesOf("styled-modal", module).add("Portal with custom target", () => {
+  const target = "error-display";
 
   return (
     <>

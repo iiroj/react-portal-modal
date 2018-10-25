@@ -1,10 +1,10 @@
-import * as React from 'react';
-import Transition from 'react-motion-ui-pack';
-import { spring } from 'react-motion';
-import { storiesOf } from '@storybook/react';
-import styled from 'styled-components';
+import * as React from "react";
+import Transition from "react-motion-ui-pack";
+import { spring } from "react-motion";
+import { storiesOf } from "@storybook/react";
+import styled from "styled-components";
 
-import StyledModal from '../src';
+import StyledModal from "../src";
 
 type ContainerComponentProps = {
   children: any;
@@ -16,15 +16,27 @@ type ContainerComponentProps = {
 const ContainerComponent = React.forwardRef(
   ({ children, className, isClientSide, open }: ContainerComponentProps, ref) =>
     isClientSide ? (
-      <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+      <Transition
+        component={false}
+        enter={{ opacity: 1 }}
+        leave={{ opacity: 0 }}
+      >
         {open && (
-          <div className={className} key="container" ref={ref as React.RefObject<HTMLDivElement>}>
+          <div
+            className={className}
+            key="container"
+            ref={ref as React.RefObject<HTMLDivElement>}
+          >
             {children}
           </div>
         )}
       </Transition>
     ) : open ? (
-      <div className={className} key="container" ref={ref as React.RefObject<HTMLDivElement>}>
+      <div
+        className={className}
+        key="container"
+        ref={ref as React.RefObject<HTMLDivElement>}
+      >
         {children}
       </div>
     ) : null
@@ -100,7 +112,7 @@ class StateContainer extends React.Component<{}, State> {
   }
 }
 
-storiesOf('styled-modal', module).add('Animations', () => (
+storiesOf("styled-modal", module).add("Animations", () => (
   <StateContainer>
     <p>This text is rendered in a Modal</p>
   </StateContainer>

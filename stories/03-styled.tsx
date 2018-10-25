@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { storiesOf } from '@storybook/react';
-import styled from 'styled-components';
+import * as React from "react";
+import { storiesOf } from "@storybook/react";
+import styled from "styled-components";
 
-import StyledModal from '../src';
+import StyledModal from "../src";
 
 type ContainerProps = {
   children: any;
@@ -37,7 +37,7 @@ const Modal = styled.article`
   ${props => props.theme.modal};
 `;
 
-storiesOf('styled-modal', module).add('Custom styles', () => (
+storiesOf("styled-modal", module).add("Custom styles", () => (
   <StyledModal containerComponent={Container} modalComponent={Modal}>
     <p>This text is rendered in a Modal</p>
   </StyledModal>

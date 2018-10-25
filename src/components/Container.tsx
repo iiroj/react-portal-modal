@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export type ContainerProps = {
   children: any;
@@ -15,7 +15,10 @@ export type ContainerProps = {
 
 const Container = ({ children, theme, onClick, open }: ContainerProps) =>
   open ? (
-    <div onClick={onClick} style={{ ...theme.container, background: 'rgba(0, 0, 0, 0.32)' }}>
+    <div
+      onClick={onClick}
+      style={{ ...theme.container, background: "rgba(0, 0, 0, 0.32)" }}
+    >
       {children}
     </div>
   ) : null;

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
-import hasDom from '../utils/has-dom';
+import hasDom from "../utils/has-dom";
 
 const PORTALS: HTMLElement[] = [];
 
@@ -11,7 +11,7 @@ export function collectPortals() {
   return copy;
 }
 
-export function flushPortals(target: string = 'modal') {
+export function flushPortals(target: string = "modal") {
   if (hasDom()) {
     const portals = document.getElementById(target);
     while (portals !== null && portals.firstChild) {
@@ -27,7 +27,7 @@ export type PortalProps = {
 
 export default class Portal extends React.PureComponent<PortalProps, {}> {
   public static defaultProps = {
-    target: 'modal'
+    target: "modal"
   };
 
   private readonly hasDom: boolean;
@@ -77,7 +77,7 @@ export default class Portal extends React.PureComponent<PortalProps, {}> {
     }
 
     if (node === null) {
-      this.node = document.createElement('div');
+      this.node = document.createElement("div");
       this.node.id = target;
       document.body.appendChild(this.node);
     } else {

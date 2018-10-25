@@ -1,9 +1,9 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import Transition from 'react-transition-group/Transition';
-import { storiesOf } from '@storybook/react';
+import * as React from "react";
+import styled from "styled-components";
+import Transition from "react-transition-group/Transition";
+import { storiesOf } from "@storybook/react";
 
-import StyledModal, { ContainerProps, ModalProps } from '../src';
+import StyledModal, { ContainerProps, ModalProps } from "../src";
 
 const Container = styled.div`
   ${props => props.theme.container};
@@ -23,7 +23,13 @@ const transitionStyles: any = {
 };
 
 const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
-  <Transition enter={isToggled} in={open} mountOnEnter={false} timeout={duration} unmountOnExit={true}>
+  <Transition
+    enter={isToggled}
+    in={open}
+    mountOnEnter={false}
+    timeout={duration}
+    unmountOnExit={true}
+  >
     {(state: any) => (
       <Container
         style={{
@@ -39,8 +45,11 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
 );
 
 const ToggleDisplay = React.forwardRef(({ isToggled }: ModalProps, ref) => (
-  <p ref={ref as React.RefObject<HTMLParagraphElement>} style={{ backgroundColor: 'white', padding: '2rem' }}>
-    This modal has {isToggled ? 'been' : 'not been'} toggled
+  <p
+    ref={ref as React.RefObject<HTMLParagraphElement>}
+    style={{ backgroundColor: "white", padding: "2rem" }}
+  >
+    This modal has {isToggled ? "been" : "not been"} toggled
   </p>
 ));
 
@@ -72,4 +81,4 @@ class StateContainer extends React.Component<{}, IState> {
   }
 }
 
-storiesOf('styled-modal', module).add('Toggle state', () => <StateContainer />);
+storiesOf("styled-modal", module).add("Toggle state", () => <StateContainer />);
