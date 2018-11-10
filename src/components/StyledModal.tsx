@@ -116,9 +116,8 @@ export default class StyledModal extends React.PureComponent<
       }
     }
 
-    this.setState(
-      { open },
-      () => (open ? this.openModal() : this.closeModal())
+    this.setState({ open }, () =>
+      open ? this.openModal() : this.closeModal()
     );
 
     if (open) {
