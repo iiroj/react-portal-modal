@@ -1,4 +1,4 @@
-export { default } from "./components/StyledModal";
+export { default, StyledModalProps } from "./components/StyledModal";
 
 export {
   default as Portal,
