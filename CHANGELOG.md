@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.4"></a>
+## [5.0.4](https://gitlab.com/iiroj/styled-modal/compare/v5.0.3...v5.0.4) (2018-11-12)
+
+
+### Bug Fixes
+
+* export StyledModalProps from index ([e67ec74](https://gitlab.com/iiroj/styled-modal/commit/e67ec74))
+
+
+
 <a name="5.0.3"></a>
 ## [5.0.3](https://gitlab.com/iiroj/styled-modal/compare/v5.0.2...v5.0.3) (2018-11-10)
 
