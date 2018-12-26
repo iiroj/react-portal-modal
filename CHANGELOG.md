@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://gitlab.com/iiroj/styled-modal/compare/v5.0.5...v5.1.0) (2018-12-26)
+
+
+### Features
+
+* generate cjs and esm build with rollup ([74a6b8d](https://gitlab.com/iiroj/styled-modal/commit/74a6b8d))
+* use react-focus-lock instead of dom-focus-lock ([56bbfb4](https://gitlab.com/iiroj/styled-modal/commit/56bbfb4))
+
+
+
 <a name="5.0.5"></a>
 ## [5.0.5](https://gitlab.com/iiroj/styled-modal/compare/v5.0.4...v5.0.5) (2018-11-30)
 
