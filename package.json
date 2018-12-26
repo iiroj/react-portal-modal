@@ -25,8 +25,8 @@
     "postrelease": "npm publish"
   },
   "dependencies": {
-    "dom-focus-lock": "^1.0.2",
-    "no-scroll": "^2.1.1"
+    "no-scroll": "^2.1.1",
+    "react-focus-lock": "^1.17.6"
   },
   "peerDependencies": {
     "react": ">=16.3",

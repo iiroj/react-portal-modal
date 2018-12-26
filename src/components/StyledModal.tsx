@@ -1,5 +1,5 @@
 import * as React from "react";
-import { on as focusLockOn, off as focusLockOff } from "dom-focus-lock/umd";
+import FocusLock from "react-focus-lock";
 import { on as scrollLockOn, off as scrollLockOff } from "no-scroll";
 
 import hasDom from "../utils/has-dom";
@@ -146,15 +146,13 @@ export default class StyledModal extends React.PureComponent<
       closeOnEsc,
       closeOnOutsideClick,
       containerComponent,
+      lockFocusWhenOpen,
       modalComponent,
       overscrollComponent,
       target,
       ...rest
     } = this.props;
-
-    const { open } = this.state;
-
-    const { isClientSide, isToggled, modal } = this.state;
+    const { open, isClientSide, isToggled, modal } = this.state;
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
@@ -185,7 +183,7 @@ export default class StyledModal extends React.PureComponent<
               theme={theme}
               {...rest}
             >
-              {children}
+              <FocusLock disabled={!lockFocusWhenOpen}>{children}</FocusLock>
             </Modal>
           </Overscroll>
         </Container>
@@ -201,9 +199,6 @@ export default class StyledModal extends React.PureComponent<
 
   openModal = () => {
     if (this.hasDom) {
-      if (this.props.lockFocusWhenOpen && this.state.modal!.current) {
-        focusLockOn(this.state.modal!.current);
-      }
       if (this.props.lockScrollWhenOpen) {
         scrollLockOn();
       }
@@ -215,9 +210,6 @@ export default class StyledModal extends React.PureComponent<
 
   closeModal = () => {
     if (this.hasDom) {
-      if (this.props.lockFocusWhenOpen && this.state.modal!.current) {
-        focusLockOff(this.state.modal!.current);
-      }
       if (this.props.lockScrollWhenOpen) {
         scrollLockOff();
       }
