@@ -154,7 +154,7 @@ The `onClose` method is fired when clicking outside the modal or pressing the `E
 It is possible to supply custom `modalComponent`, `containerComponent` and `overscrollComponent` to customize the look of the Modal. These should be [styled-components](https://github.com/styled-components/styled-components). The components will be provided default styles necessary for the Modal to function in the `theme` prop.
 
 ```javascript
-import React from 'react;
+import React from 'react';
 import StyledModal from 'styled-modal';
 import styled from 'styled-components';
 
