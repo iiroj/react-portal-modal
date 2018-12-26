@@ -7,22 +7,24 @@
   "homepage": "https://gitlab.com/iiroj/styled-modal",
   "repository": "gitlab:iiroj/styled-modal",
   "bugs": "https://gitlab.com/iiroj/styled-modal/issues",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "lib"
+    "dist/**/*"
   ],
+  "sideEffects": false,
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
     "lint": "tslint -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
-    "build": "tsc --build --verbose tsconfig.build.json",
-    "clean": "tsc --build --clean tsconfig.build.json",
+    "watch": "rollup -cw",
+    "build": "rollup -c",
+    "preversion": "npm run lint && npm run build",
     "version": "standard-version",
-    "prerelease": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "release": "git push --follow-tags origin master",
-    "postrelease": "npm publish"
+    "push": "git push --follow-tags origin master",
+    "prepublishOnly": "npm run version && npm run push"
   },
   "dependencies": {
     "no-scroll": "^2.1.1",
@@ -48,7 +50,6 @@
     "emotion": "^10.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "fork-ts-checker-webpack-plugin": "^0.5.0",
     "jest": "^23.6.0",
     "prettier": "^1.15.3",
     "react": "^16.6.3",
@@ -56,6 +57,9 @@
     "react-emotion": "^10.0.0",
     "react-motion-ui-pack": "^0.10.3",
     "react-transition-group": "^2.5.0",
+    "rollup": "^0.68.2",
+    "rollup-plugin-babel-minify": "^6.2.0",
+    "rollup-plugin-typescript2": "^0.18.1",
     "standard-version": "^4.4.0",
     "styled-components": "^4.1.2",
     "ts-jest": "^23.10.5",

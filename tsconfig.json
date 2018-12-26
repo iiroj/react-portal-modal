@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "declaration": true,
     "jsx": "react",
     "lib": ["dom", "es6"],
-    "module": "commonjs",
+    "module": "es6",
     "moduleResolution": "node",
     "noResolve": false,
     "noUnusedParameters": true,
