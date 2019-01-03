@@ -44,8 +44,8 @@ Below is a cheatcheet of all available props. All of them are optional.
 | closeOnEsc          | `boolean`                               | Whether the modal should close (call `onClose`) when pressing Esc                                                               |
 | closeOnOutsideClick | `boolean`                               | Whether the modal should close (call `onClose`) when clicking outside the modal                                                 |
 | containerComponent  | `any`                                   | A custom component for the container. By default the dark background. Its child is the `overscrollComponent`                    |
-| lockFocusWhenOpen   | `boolean`                               | Whether focus should be locked inside the modal, via [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)              |
-| lockScrollWhenOpen  | `boolean`                               | Whether scrolling should be locked when the modal is open, via [no-scroll](https://github.com/davidtheclark/no-scroll)          |
+| lockFocusWhenOpen   | `boolean`                               | Whether focus should be locked inside the modal, via [react-focus-lock](https://github.com/theKashey/react-focus-lock)              |
+| lockScrollWhenOpen  | `boolean`                               | Whether scrolling should be locked when the modal is open, via [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock)          |
 | modalComponent      | `any`                                   | A custom component for the modal. By default a simple div. Its children are the `<StyledModal>`'s children                      |
 | onClose             | <code>() => Promise<void> &#124; void</code> | Async function ran when closing. Typically for setting the prop `open: false`                                              |
 | onOpen              | <code>() => Promise<void> &#124; void</code> | Async function ran after opening. Typically for setting the prop `open: true`                                              |
