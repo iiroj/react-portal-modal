@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run version && npm run push"
   },
   "dependencies": {
-    "no-scroll": "^2.1.1",
+    "body-scroll-lock": "^2.6.1",
     "react-focus-lock": "^1.17.6"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import FocusLock from "react-focus-lock";
-import { on as scrollLockOn, off as scrollLockOff } from "no-scroll";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 import hasDom from "../utils/has-dom";
 import setAriaHidden from "../utils/aria-hidden";
@@ -30,13 +30,13 @@ export type StyledModalProps = {
   onOpen?: PossiblyPromisefulFn;
   open?: boolean;
   overscrollComponent?: any;
+  scrollLockRef?: React.RefObject<any>;
   target?: string;
 };
 
 export type StyledModalState = {
   isClientSide: boolean;
   isToggled: boolean;
-  modal?: React.RefObject<any>;
   open: boolean;
 };
 
@@ -50,7 +50,7 @@ export default class StyledModal extends React.PureComponent<
   StyledModalProps,
   StyledModalState
 > {
-  static defaultProps = {
+  public static defaultProps = {
     closeOnEsc: true,
     closeOnOutsideClick: true,
     lockFocusWhenOpen: true,
@@ -58,20 +58,16 @@ export default class StyledModal extends React.PureComponent<
     open: true
   };
 
-  readonly hasDom: boolean;
+  public state: StyledModalState = {
+    isClientSide: false,
+    isToggled: false,
+    open: this.props.open!
+  };
 
-  constructor(props: StyledModalProps) {
-    super(props);
-
-    this.hasDom = hasDom();
-
-    this.state = {
-      isClientSide: false,
-      isToggled: false,
-      open: props.open!,
-      modal: React.createRef()
-    };
-  }
+  private readonly hasDom = hasDom();
+  private readonly modalRef = React.createRef();
+  private readonly getScrollLockRef = () =>
+    this.props.scrollLockRef ? this.props.scrollLockRef.current : document.body;
 
   componentDidMount() {
     this.setState({ isClientSide: true });
@@ -96,7 +92,7 @@ export default class StyledModal extends React.PureComponent<
     }
   }
 
-  async componentDidUpdate(prevProps: StyledModalProps) {
+  public async componentDidUpdate(prevProps: StyledModalProps) {
     if (this.props.closeOnEsc && this.props.onClose) {
       document.addEventListener("keyup", this.handleKeyUp);
     }
@@ -127,7 +123,7 @@ export default class StyledModal extends React.PureComponent<
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this.props.closeOnEsc && this.props.onClose) {
       document.removeEventListener("keyup", this.handleKeyUp);
     }
@@ -135,7 +131,7 @@ export default class StyledModal extends React.PureComponent<
     this.closeModal();
   }
 
-  render() {
+  public render() {
     const {
       afterClose,
       afterOpen,
@@ -152,7 +148,7 @@ export default class StyledModal extends React.PureComponent<
       target,
       ...rest
     } = this.props;
-    const { open, isClientSide, isToggled, modal } = this.state;
+    const { open, isClientSide, isToggled } = this.state;
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
@@ -178,7 +174,7 @@ export default class StyledModal extends React.PureComponent<
               isClientSide={isClientSide}
               isToggled={isToggled}
               open={open}
-              ref={modal}
+              ref={this.modalRef}
               role="dialog"
               theme={theme}
               {...rest}
@@ -191,16 +187,16 @@ export default class StyledModal extends React.PureComponent<
     );
   }
 
-  handleCallback = async (callback?: PossiblyPromisefulFn) => {
+  private handleCallback = async (callback?: PossiblyPromisefulFn) => {
     if (callback) {
       await callback();
     }
   };
 
-  openModal = () => {
+  private openModal = () => {
     if (this.hasDom) {
       if (this.props.lockScrollWhenOpen) {
-        scrollLockOn();
+        disableBodyScroll(this.getScrollLockRef());
       }
       if (this.props.appId) {
         setAriaHidden.on(this.props.appId);
@@ -208,10 +204,10 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  closeModal = () => {
+  private closeModal = () => {
     if (this.hasDom) {
       if (this.props.lockScrollWhenOpen) {
-        scrollLockOff();
+        enableBodyScroll(this.getScrollLockRef());
       }
       if (this.props.appId) {
         setAriaHidden.off(this.props.appId);
@@ -219,7 +215,7 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  handleKeyUp = async ({ key }: KeyboardEvent) => {
+  private handleKeyUp = async ({ key }: KeyboardEvent) => {
     if (!this.props.closeOnEsc || !this.props.onClose) return;
 
     if (this.props.open && key === "Escape") {
@@ -227,19 +223,19 @@ export default class StyledModal extends React.PureComponent<
     }
   };
 
-  handleOutsideClick = async (event: React.SyntheticEvent) => {
+  private handleOutsideClick = async (event: React.SyntheticEvent) => {
     if (this.props.closeOnOutsideClick !== true || !this.props.onClose) return;
 
     const target = event.target as Node;
     if (
-      target !== this.state.modal!.current &&
-      target.contains(this.state.modal!.current as Node)
+      target !== this.modalRef.current &&
+      target.contains(this.modalRef.current as Node)
     ) {
       await this.handleCallback(this.props.onClose);
     }
   };
 
-  stopPropagation = (event: React.SyntheticEvent) => {
+  private stopPropagation = (event: React.SyntheticEvent) => {
     event.stopPropagation();
   };
 }

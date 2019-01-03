@@ -35,11 +35,11 @@ Below is a cheatcheet of all available props. All of them are optional.
 
 | Prop                | Type                                    | description                                                                                                                     |
 |:--------------------|:----------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|
-| afterClose          | <code>() => Promise<void> | void</code> | Async function ran after closing                                                                                                |
-| afterOpen           | <code>() => Promise<void> | void</code> | Async function ran after opening                                                                                                |
+| afterClose          | <code>() => Promise<void> &#124; void</code> | Async function ran after closing                                                                                           |
+| afterOpen           | <code>() => Promise<void> &#124; void</code> | Async function ran after opening                                                                                           |
 | appId               | `string`                                | Id of the main react root dom node. Will set as `aria-hidden=true`                                                              |
-| beforeClose         | <code>() => Promise<void> | void</code> | Async function ran before closing                                                                                               |
-| beforeOpen          | <code>() => Promise<void> | void</code> | Async function ran before opening                                                                                               |
+| beforeClose         | <code>() => Promise<void> &#124; void</code> | Async function ran before closing                                                                                          |
+| beforeOpen          | <code>() => Promise<void> &#124; void</code> | Async function ran before opening                                                                                          |
 | children            | `any`                                   | Contents of the modal                                                                                                           |
 | closeOnEsc          | `boolean`                               | Whether the modal should close (call `onClose`) when pressing Esc                                                               |
 | closeOnOutsideClick | `boolean`                               | Whether the modal should close (call `onClose`) when clicking outside the modal                                                 |
@@ -47,10 +47,11 @@ Below is a cheatcheet of all available props. All of them are optional.
 | lockFocusWhenOpen   | `boolean`                               | Whether focus should be locked inside the modal, via [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)              |
 | lockScrollWhenOpen  | `boolean`                               | Whether scrolling should be locked when the modal is open, via [no-scroll](https://github.com/davidtheclark/no-scroll)          |
 | modalComponent      | `any`                                   | A custom component for the modal. By default a simple div. Its children are the `<StyledModal>`'s children                      |
-| onClose             | <code>() => Promise<void> | void</code> | Async function ran when closing. Typically for setting the prop `open: false`                                                   |
-| onOpen              | <code>() => Promise<void> | void</code> | Async function ran after opening. Typically for setting the prop `open: true`                                                   |
+| onClose             | <code>() => Promise<void> &#124; void</code> | Async function ran when closing. Typically for setting the prop `open: false`                                              |
+| onOpen              | <code>() => Promise<void> &#124; void</code> | Async function ran after opening. Typically for setting the prop `open: true`                                              |
 | open                | `boolean`                               | Whether the modal is open. Defaults to `true`                                                                                   |
 | overscrollComponent | `any`                                   | A custom component for the overscoll. By default this allows the Modal to nicely scroll. Its child is the `modalComponent`      |
+| scrollLockRef       | `React.RefObject<any>`                  | A reference to the Component of which scrolling will be disabled. By default `document.body`.                                   |
 | target              | `string`                                | The id of the Portal's target dom node. By default `modal`. The node will be added to the end of `document.body` if not present |
 
 ## About
@@ -196,6 +197,8 @@ There's is also a special prop `isClientSide: boolean` available to all componen
 #### Refs
 
 Since we need the DOM reference to the `modalComponent` for accessibility features (focus lock and closing by clicking outside), we supply (via `React.createRef`) a `ref` prop to it. Styled-components v4 and emotion v10 both support the new `React.forwardRef`, introduced in React v16.3, method of forwarding the ref. If you use a custom React component, you should use that as well.
+
+If you want to disable scrolling of another element when the modal is open (like a custom component inside `<body>`), its `ref` can be supplied via the `scrollLockRef` prop.
 
 ## `<Portal />`
 
