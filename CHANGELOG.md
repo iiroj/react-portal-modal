@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.4.0"></a>
+# [5.4.0](https://gitlab.com/iiroj/styled-modal/compare/v5.3.0...v5.4.0) (2019-01-04)
+
+
+### Features
+
+* use terser instead of babel-minify ([c3a0629](https://gitlab.com/iiroj/styled-modal/commit/c3a0629))
+
+
+
 <a name="5.3.0"></a>
 # [5.3.0](https://gitlab.com/iiroj/styled-modal/compare/v5.2.1...v5.3.0) (2019-01-03)
 
