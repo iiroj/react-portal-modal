@@ -1,6 +1,6 @@
 import commonjs from "rollup-plugin-commonjs";
-import minify from "rollup-plugin-babel-minify";
 import resolve from "rollup-plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
 
 import pkg from "./package.json";
@@ -17,7 +17,7 @@ const plugins = [
     tsconfig: "tsconfig.build.json",
     typescript: require("typescript")
   }),
-  production && minify({ comments: false })
+  production && terser()
 ];
 
 export default [
