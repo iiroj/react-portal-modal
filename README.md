@@ -2,13 +2,14 @@
   <h1 align="center">styled-modal</h1>
   <p>A Modal built with styled-components and Portals with Server-Side Rendering Support</p>
   <a href="https://www.npmjs.com/package/styled-modal"><strong>npm</strong></a> ·
+  <a href="https://github.com/iiroj/styled-modal"><strong>GitHub</strong></a> ·
   <a href="https://gitlab.com/iiroj/styled-modal"><strong>GitLab</strong></a>
   <br/>
   <br/>
   <a href="https://www.npmjs.com/package/styled-modal">
     <img src="https://img.shields.io/npm/v/styled-modal.svg">
   </a>
-  <a href="https://gitlab.com/iiroj/styled-modal">
+  <a href="https://github.com/iiroj/styled-modal">
     <img src="https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg">
   </a>
   <a href="https://gitlab.com/iiroj/styled-modal/commits/master">
@@ -17,10 +18,10 @@
   <a href="https://gitlab.com/iiroj/styled-modal/commits/master">
     <img alt="coverage report" src="https://gitlab.com/iiroj/styled-modal/badges/master/coverage.svg" />
   </a>
-  <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
+  <a href="https://github.com/iiroj/styled-modal/blob/master/package.json">
     <img src="https://img.shields.io/david/iiroj/styled-modal.svg">
   </a>
-  <a href="https://gitlab.com/iiroj/styled-modal/blob/master/package.json">
+  <a href="https://github.com/iiroj/styled-modal/blob/master/package.json">
     <img src="https://img.shields.io/david/dev/iiroj/styled-modal.svg">
   </a>
   <br/>
