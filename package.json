@@ -22,7 +22,7 @@
     "test": "jest",
     "watch": "rimraf dist && rollup -cw",
     "build": "rimraf dist && rollup -c",
-    "preversion": "npm run lint && npm run build",
+    "preversion": "npm run lint && npm test && npm run build",
     "version": "standard-version",
     "push": "git push --follow-tags origin master",
     "prepublishOnly": "npm run version && npm run push"
