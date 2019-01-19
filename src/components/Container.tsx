@@ -13,14 +13,14 @@ export type ContainerProps = {
   };
 };
 
-const Container = ({ children, theme, onClick, open }: ContainerProps) =>
-  open ? (
-    <div
-      onClick={onClick}
-      style={{ ...theme.container, background: "rgba(0, 0, 0, 0.32)" }}
-    >
-      {children}
-    </div>
-  ) : null;
-
-export default Container;
+export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
+  ({ children, theme, onClick, open }) =>
+    open ? (
+      <div
+        onClick={onClick}
+        style={{ ...theme.container, background: "rgba(0, 0, 0, 0.32)" }}
+      >
+        {children}
+      </div>
+    ) : null
+);

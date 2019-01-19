@@ -12,10 +12,10 @@ export type OverscrollProps = {
   };
 };
 
-const Overscroll = ({ children, theme, onClick }: OverscrollProps) => (
-  <div onClick={onClick} style={theme.overscroll}>
-    {children}
-  </div>
+export const Overscroll = React.forwardRef<HTMLDivElement, OverscrollProps>(
+  ({ children, theme, onClick }) => (
+    <div onClick={onClick} style={theme.overscroll}>
+      {children}
+    </div>
+  )
 );
-
-export default Overscroll;

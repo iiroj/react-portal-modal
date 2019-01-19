@@ -17,20 +17,20 @@ export type ModalProps = {
   };
 };
 
-const Modal = React.forwardRef(function Modal(
-  {
-    children,
-    theme,
-    isClientSide,
-    isToggled,
-    lockFocusWhenOpen,
-    lockScrollWhenOpen,
-    open,
-    ...rest
-  }: ModalProps,
-  ref
-) {
-  return (
+export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
+  (
+    {
+      children,
+      theme,
+      isClientSide,
+      isToggled,
+      lockFocusWhenOpen,
+      lockScrollWhenOpen,
+      open,
+      ...rest
+    },
+    ref
+  ) => (
     <div
       {...rest}
       ref={ref as React.RefObject<HTMLDivElement>}
@@ -38,7 +38,5 @@ const Modal = React.forwardRef(function Modal(
     >
       {children}
     </div>
-  );
-});
-
-export default Modal;
+  )
+);

@@ -1,13 +1,14 @@
-export { default, StyledModalProps } from "./components/StyledModal";
-
 export {
-  default as Portal,
-  collectPortals,
-  flushPortals
-} from "./components/Portal";
+  StyledModal as default,
+  StyledModal,
+  StyledModalProps
+} from "./components/StyledModal";
 
-export { ContainerProps } from "./components/Container";
-export { ModalProps } from "./components/Modal";
-export { OverscrollProps } from "./components/Overscroll";
+export { Container, ContainerProps } from "./components/Container";
+export { Portal } from "./components/Portal";
+export { Modal, ModalProps } from "./components/Modal";
+export { Overscroll, OverscrollProps } from "./components/Overscroll";
 
-export { default as hasDom } from "./utils/has-dom";
+export { collectPortals } from "./utils/collectPortals";
+export { flushPortals } from "./utils/flushPortals";
+export { hasDom } from "./utils/hasDom";

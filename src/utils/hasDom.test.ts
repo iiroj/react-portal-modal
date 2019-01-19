@@ -1,4 +1,4 @@
-import hasDom from "./has-dom";
+import { hasDom } from "./hasDom";
 
 describe("hasDom: () => boolean", () => {
   it("Returns true in browser environment", () => {

@@ -2,7 +2,9 @@ import { mount, shallow } from "enzyme";
 
 import * as React from "react";
 
-import Portal, { flushPortals, collectPortals } from "./Portal";
+import { Portal } from "./Portal";
+import { collectPortals } from "../utils/collectPortals";
+import { flushPortals } from "../utils/flushPortals";
 
 describe("<Portal />", () => {
   let portal: any;

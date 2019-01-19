@@ -1,6 +1,6 @@
-import setAriaHidden from "./aria-hidden";
+import { ariaHidden } from "./ariaHidden";
 
-describe("setAriaHidden: { on: (id: string) => void, off: (id: string => void) }", () => {
+describe("ariaHidden: { on: (id: string) => void, off: (id: string => void) }", () => {
   let root: any;
 
   beforeAll(() => {
@@ -12,10 +12,10 @@ describe("setAriaHidden: { on: (id: string) => void, off: (id: string => void) }
   it("Sets the attribute aria-hidden on/off for specified dom element", () => {
     expect(root.getAttribute("aria-hidden")).toEqual(null);
 
-    setAriaHidden.on("root");
+    ariaHidden.on("root");
     expect(root.getAttribute("aria-hidden")).toEqual("true");
 
-    setAriaHidden.off("root");
+    ariaHidden.off("root");
     expect(root.getAttribute("aria-hidden")).toEqual(null);
   });
 });

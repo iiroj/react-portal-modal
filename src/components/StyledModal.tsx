@@ -2,14 +2,14 @@ import * as React from "react";
 import FocusLock from "react-focus-lock";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
-import hasDom from "../utils/has-dom";
-import setAriaHidden from "../utils/aria-hidden";
+import { hasDom } from "../utils/hasDom";
+import { ariaHidden } from "../utils/ariaHidden";
 import { containerStyles, modalStyles, overscrollStyles } from "../styles";
 
-import Portal from "./Portal";
-import DefaultContainer from "./Container";
-import DefaultOverscroll from "./Overscroll";
-import DefaultModal from "./Modal";
+import { Portal } from "./Portal";
+import { Container as DefaultContainer } from "./Container";
+import { Overscroll as DefaultOverscroll } from "./Overscroll";
+import { Modal as DefaultModal } from "./Modal";
 
 type PossiblyPromisefulFn = () => Promise<void> | void;
 
@@ -46,7 +46,7 @@ const theme = {
   overscroll: overscrollStyles
 };
 
-export default class StyledModal extends React.PureComponent<
+export class StyledModal extends React.PureComponent<
   StyledModalProps,
   StyledModalState
 > {
@@ -69,11 +69,11 @@ export default class StyledModal extends React.PureComponent<
   private readonly getScrollLockRef = () =>
     this.props.scrollLockRef ? this.props.scrollLockRef.current : document.body;
 
-  componentDidMount() {
+  public componentDidMount() {
     this.setState({ isClientSide: true });
   }
 
-  async getSnapshotBeforeUpdate(
+  public async getSnapshotBeforeUpdate(
     prevProps: StyledModalProps,
     prevState: StyledModalState
   ) {
@@ -199,7 +199,7 @@ export default class StyledModal extends React.PureComponent<
         disableBodyScroll(this.getScrollLockRef());
       }
       if (this.props.appId) {
-        setAriaHidden.on(this.props.appId);
+        ariaHidden.on(this.props.appId);
       }
     }
   };
@@ -210,7 +210,7 @@ export default class StyledModal extends React.PureComponent<
         enableBodyScroll(this.getScrollLockRef());
       }
       if (this.props.appId) {
-        setAriaHidden.off(this.props.appId);
+        ariaHidden.off(this.props.appId);
       }
     }
   };
@@ -233,9 +233,5 @@ export default class StyledModal extends React.PureComponent<
     ) {
       await this.handleCallback(this.props.onClose);
     }
-  };
-
-  private stopPropagation = (event: React.SyntheticEvent) => {
-    event.stopPropagation();
   };
 }
