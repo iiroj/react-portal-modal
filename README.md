@@ -12,9 +12,6 @@
   <a href="https://github.com/iiroj/styled-modal">
     <img src="https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg">
   </a>
-  <a href="https://travis-ci.com/iiroj/styled-modal">
-    <img src="https://travis-ci.com/iiroj/styled-modal.svg?branch=master" />
-  </a>
   <a href="https://github.com/iiroj/styled-modal/blob/master/package.json">
     <img src="https://img.shields.io/david/iiroj/styled-modal.svg">
   </a>
