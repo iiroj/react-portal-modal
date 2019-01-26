@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.1",
-    "react-focus-lock": "^1.17.6"
+    "react-focus-lock": "^1.17.7"
   },
   "peerDependencies": {
     "react": ">=16.3",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@storybook/react": "^4.1.7",
+    "@storybook/react": "^4.1.11",
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.13",
@@ -50,19 +50,19 @@
     "babel-loader": "^8.0.5",
     "emotion": "^10.0.6",
     "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.7.1",
-    "jest": "^23.6.0",
-    "prettier": "^1.15.3",
+    "enzyme-adapter-react-16": "^1.8.0",
+    "jest": "^24.0.0",
+    "prettier": "^1.16.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-emotion": "^10.0.0",
     "react-motion-ui-pack": "^0.10.3",
     "react-transition-group": "^2.5.3",
     "rimraf": "^2.6.3",
-    "rollup": "^1.1.0",
+    "rollup": "^1.1.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.2",
+    "rollup-plugin-terser": "^4.0.3",
     "rollup-plugin-typescript2": "^0.19.2",
     "standard-version": "^4.4.0",
     "styled-components": "^4.1.3",
