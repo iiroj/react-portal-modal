@@ -38,11 +38,11 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@storybook/react": "^4.1.11",
-    "@types/enzyme": "^3.1.16",
+    "@types/enzyme": "^3.1.17",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^24.0.0",
-    "@types/react": "^16.8.1",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
     "@types/react-motion": "0.0.27",
     "@types/react-transition-group": "^2.0.15",
     "@types/storybook__react": "^4.0.0",
@@ -50,11 +50,11 @@
     "babel-loader": "^8.0.5",
     "emotion": "^10.0.7",
     "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.9.0",
+    "enzyme-adapter-react-16": "^1.9.1",
     "jest": "^24.1.0",
     "prettier": "^1.16.4",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
     "react-emotion": "^10.0.0",
     "react-motion-ui-pack": "^0.10.3",
     "react-transition-group": "^2.5.3",
@@ -73,7 +73,7 @@
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.3.1"
+    "typescript": "^3.3.3"
   },
   "keywords": [
     "modal",
