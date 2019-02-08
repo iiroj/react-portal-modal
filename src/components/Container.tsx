@@ -14,10 +14,11 @@ export type ContainerProps = {
 };
 
 export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children, theme, onClick, open }) =>
+  ({ children, theme, onClick, open }, ref) =>
     open ? (
       <div
         onClick={onClick}
+        ref={ref}
         style={{ ...theme.container, background: "rgba(0, 0, 0, 0.32)" }}
       >
         {children}
