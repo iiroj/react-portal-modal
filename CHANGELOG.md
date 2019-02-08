@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.4.8"></a>
+## [5.4.8](https://github.com/iiroj/styled-modal/compare/v5.4.7...v5.4.8) (2019-02-08)
+
+
+### Bug Fixes
+
+* pass refs through React.forwardRef ([b8f808a](https://github.com/iiroj/styled-modal/commit/b8f808a))
+
+
+
 <a name="5.4.7"></a>
 ## [5.4.7](https://github.com/iiroj/styled-modal/compare/v5.4.6...v5.4.7) (2019-02-05)
 
