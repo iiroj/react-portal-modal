@@ -33,6 +33,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
+      exports: "named",
       file: pkg.browser,
       format: "umd",
       name: "styledModal"
