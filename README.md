@@ -1,5 +1,6 @@
 # styled-modal
 
+[![CircleCI](https://circleci.com/gh/iiroj/styled-modal.svg?style=shield)](https://circleci.com/gh/iiroj/styled-modal)
 [![version](https://img.shields.io/npm/v/styled-modal.svg)](https://www.npmjs.com/package/styled-modal)
 [![code size](https://img.shields.io/github/languages/code-size/iiroj/styled-modal.svg)](https://github.com/iiroj/styled-modal)
 [![dependencies](https://img.shields.io/david/iiroj/styled-modal.svg)](https://github.com/iiroj/styled-modal/blob/master/package.json)
