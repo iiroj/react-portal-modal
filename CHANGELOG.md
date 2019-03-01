@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.12](https://github.com/iiroj/styled-modal/compare/v5.4.11...v5.4.12) (2019-03-01)
+
+
+### Bug Fixes
+
+* include only global jest types ([c9c77f6](https://github.com/iiroj/styled-modal/commit/c9c77f6))
+
+
+
 ## [5.4.11](https://github.com/iiroj/styled-modal/compare/v5.4.10...v5.4.11) (2019-03-01)
 
 
