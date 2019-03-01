@@ -79,6 +79,7 @@ workflows:
             - install
       - publish:
           requires:
+            - test
             - build
           context: npm token
           filters:
