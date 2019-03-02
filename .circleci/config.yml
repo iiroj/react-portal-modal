@@ -68,15 +68,24 @@ jobs:
 
 workflows:
   version: 2
-  build_and_publish:
+  ci:
     jobs:
-      - install
+      - install:
+          filters:
+              tags:
+                only: /.*/
       - test:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
       - build:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
       - publish:
           requires:
             - test
@@ -84,4 +93,6 @@ workflows:
           context: npm token
           filters:
             tags:
-              only: /^v[0-9]\.[0-9]\.[0-9]$/
+              only: /^v[0-9].*/
+            branches:
+              ignore: /.*/
