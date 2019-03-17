@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.14](https://github.com/iiroj/styled-modal/compare/v5.4.13...v5.4.14) (2019-03-17)
+
+
+
 <a name="5.4.13"></a>
 ## [5.4.13](https://github.com/iiroj/styled-modal/compare/v5.4.12...v5.4.13) (2019-03-02)
 
