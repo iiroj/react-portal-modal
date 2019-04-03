@@ -23,8 +23,7 @@
     "watch": "rimraf dist && rollup -cw",
     "build": "rimraf dist && rollup -c",
     "preversion": "npm run lint && npm test && npm run build",
-    "version": "standard-version",
-    "push": "git push --follow-tags origin master"
+    "version": "standard-version"
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.1",
