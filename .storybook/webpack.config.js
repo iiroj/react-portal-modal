@@ -1,16 +1,18 @@
-module.exports = function(baseConfig, env, config) {
-  config.module.rules.push(
-    {
-      test: /\.tsx?$/,
-      use: {
-        loader: "ts-loader",
-        options: {
-          transpileOnly: true
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true
+          }
         }
       }
-    });
-
-  config.resolve.extensions.push(".ts", ".tsx");
-
-  return config;
+    ]
+  },
+  resolve: {
+    extensions: [ ".ts", ".tsx" ]
+  }
 };
