@@ -13,32 +13,35 @@ import { Modal as DefaultModal } from "./Modal";
 
 type PossiblyPromisefulFn = () => Promise<void> | void;
 
-export type StyledModalProps = {
+export interface StyledModalProps {
   afterClose?: PossiblyPromisefulFn;
   afterOpen?: PossiblyPromisefulFn;
   appId?: string;
   beforeClose?: PossiblyPromisefulFn;
   beforeOpen?: PossiblyPromisefulFn;
-  children?: any;
+  children?: React.ReactNode;
   closeOnEsc?: boolean;
   closeOnOutsideClick?: boolean;
-  containerComponent?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  containerComponent?: React.ComponentType<any>;
   lockFocusWhenOpen?: boolean;
   lockScrollWhenOpen?: boolean;
-  modalComponent?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  modalComponent?: React.ComponentType<any>;
   onClose?: PossiblyPromisefulFn;
   onOpen?: PossiblyPromisefulFn;
   open?: boolean;
-  overscrollComponent?: any;
-  scrollLockRef?: React.RefObject<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  overscrollComponent?: React.ComponentType<any>;
+  scrollLockRef?: React.RefObject<HTMLDivElement>;
   target?: string;
-};
+}
 
-export type StyledModalState = {
+export interface StyledModalState {
   isClientSide: boolean;
   isToggled: boolean;
   open: boolean;
-};
+}
 
 const theme = {
   container: containerStyles,
@@ -65,9 +68,10 @@ export class StyledModal extends React.PureComponent<
   };
 
   private readonly hasDom = hasDom();
-  private readonly modalRef = React.createRef();
-  private readonly getScrollLockRef = () =>
-    this.props.scrollLockRef ? this.props.scrollLockRef.current : document.body;
+  private readonly modalRef = React.createRef<HTMLDivElement>();
+  private readonly getScrollLockRef = (): HTMLElement =>
+    (this.props.scrollLockRef && this.props.scrollLockRef.current) ||
+    document.body;
 
   public componentDidMount() {
     this.setState({ isClientSide: true });
@@ -170,7 +174,7 @@ export class StyledModal extends React.PureComponent<
             theme={theme}
           >
             <Modal
-              aria-modal="true"
+              aria-modal
               isClientSide={isClientSide}
               isToggled={isToggled}
               open={open}

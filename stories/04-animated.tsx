@@ -6,40 +6,30 @@ import styled from "styled-components";
 
 import StyledModal from "../src";
 
-type ContainerComponentProps = {
-  children: any;
+interface ContainerComponentProps {
+  children: React.ReactNode;
   className?: string;
   isClientSide: boolean;
   open: boolean;
-};
+}
 
-const ContainerComponent = React.forwardRef(
-  ({ children, className, isClientSide, open }: ContainerComponentProps, ref) =>
-    isClientSide ? (
-      <Transition
-        component={false}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
-      >
-        {open && (
-          <div
-            className={className}
-            key="container"
-            ref={ref as React.RefObject<HTMLDivElement>}
-          >
-            {children}
-          </div>
-        )}
-      </Transition>
-    ) : open ? (
-      <div
-        className={className}
-        key="container"
-        ref={ref as React.RefObject<HTMLDivElement>}
-      >
-        {children}
-      </div>
-    ) : null
+const ContainerComponent = React.forwardRef<
+  HTMLDivElement,
+  ContainerComponentProps
+>(({ children, className, isClientSide, open }, ref) =>
+  isClientSide ? (
+    <Transition component={false} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+      {open && (
+        <div className={className} key="container" ref={ref}>
+          {children}
+        </div>
+      )}
+    </Transition>
+  ) : open ? (
+    <div className={className} key="container" ref={ref}>
+      {children}
+    </div>
+  ) : null
 );
 
 const Container = styled(ContainerComponent)`
@@ -59,8 +49,8 @@ const ModalContainer = styled.div`
   ${props => props.theme.modal};
 `;
 
-const Modal = React.forwardRef(
-  ({ children, isClientSide, open }: ContainerComponentProps, ref) =>
+const Modal = React.forwardRef<HTMLDivElement, ContainerComponentProps>(
+  ({ children, isClientSide, open }, ref) =>
     isClientSide ? (
       <Transition
         appear={{ scale: 0.95, translateY: 50 }}
@@ -71,49 +61,35 @@ const Modal = React.forwardRef(
         }}
       >
         {open && (
-          <ModalContainer ref={ref as any} key="modal">
+          <ModalContainer ref={ref} key="modal">
             {children}
           </ModalContainer>
         )}
       </Transition>
     ) : open ? (
-      <ModalContainer ref={ref as any} key="modal">
+      <ModalContainer ref={ref} key="modal">
         {children}
       </ModalContainer>
     ) : null
 );
 
-type State = {
-  open: boolean;
+const Animations = () => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <StyledModal
+        appId="root"
+        containerComponent={Container}
+        modalComponent={Modal}
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        <p>This text is rendered in a Modal</p>
+      </StyledModal>
+    </>
+  );
 };
 
-class StateContainer extends React.Component<{}, State> {
-  state = {
-    open: false
-  };
-
-  toggleOpen = () => this.setState({ open: !this.state.open });
-
-  render() {
-    return (
-      <>
-        <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal
-          appId="root"
-          containerComponent={Container}
-          modalComponent={Modal}
-          onClose={this.toggleOpen}
-          open={this.state.open}
-        >
-          {this.props.children}
-        </StyledModal>
-      </>
-    );
-  }
-}
-
-storiesOf("styled-modal", module).add("Animations", () => (
-  <StateContainer>
-    <p>This text is rendered in a Modal</p>
-  </StateContainer>
-));
+storiesOf("styled-modal", module).add("Animations", () => <Animations />);

@@ -17,7 +17,7 @@ const defaultStyle = {
   opacity: 0
 };
 
-const transitionStyles: any = {
+const transitionStyles: { [key: string]: object } = {
   entering: { opacity: 0 },
   entered: { opacity: 1 }
 };
@@ -30,7 +30,8 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
     timeout={duration}
     unmountOnExit={true}
   >
-    {(state: any) => (
+    {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (state: any) => (
       <Container
         style={{
           ...theme.container,
@@ -53,32 +54,22 @@ const ToggleDisplay = React.forwardRef(({ isToggled }: ModalProps, ref) => (
   </p>
 ));
 
-interface IState {
-  open: boolean;
-}
+const ToggleStatus = () => {
+  const [open, setOpen] = React.useState(true);
 
-class StateContainer extends React.Component<{}, IState> {
-  state = {
-    open: true
-  };
+  return (
+    <>
+      <h1>Modal keeps track of whether is has been toggled</h1>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <StyledModal
+        appId="root"
+        containerComponent={Fade}
+        modalComponent={ToggleDisplay}
+        onClose={() => setOpen(false)}
+        open={open}
+      />
+    </>
+  );
+};
 
-  toggleOpen = () => this.setState({ open: !this.state.open });
-
-  render() {
-    return (
-      <>
-        <h1>Modal keeps track of whether is has been toggled</h1>
-        <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal
-          appId="root"
-          containerComponent={Fade}
-          modalComponent={ToggleDisplay}
-          onClose={this.toggleOpen}
-          open={this.state.open}
-        />
-      </>
-    );
-  }
-}
-
-storiesOf("styled-modal", module).add("Toggle state", () => <StateContainer />);
+storiesOf("styled-modal", module).add("Toggle state", () => <ToggleStatus />);

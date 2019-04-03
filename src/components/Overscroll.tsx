@@ -1,16 +1,16 @@
 import * as React from "react";
 
-export type OverscrollProps = {
-  children: any;
+export interface OverscrollProps {
+  children: React.ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: () => void;
+  onClick: (event: SyntheticEvent<Element, Event>) => Promise<void>;
   theme: {
     container: React.CSSProperties;
     modal: React.CSSProperties;
     overscroll: React.CSSProperties;
   };
-};
+}
 
 export const Overscroll = React.forwardRef<HTMLDivElement, OverscrollProps>(
   ({ children, theme, onClick }, ref) => (

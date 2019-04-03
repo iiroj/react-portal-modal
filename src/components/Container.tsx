@@ -1,17 +1,17 @@
 import * as React from "react";
 
-export type ContainerProps = {
-  children: any;
+export interface ContainerProps {
+  children: React.ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: () => void;
+  onClick: (event: React.SyntheticEvent<Element, Event>) => Promise<void>;
   open: boolean;
   theme: {
     container: React.CSSProperties;
     modal: React.CSSProperties;
     overscroll: React.CSSProperties;
   };
-};
+}
 
 export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
   ({ children, theme, onClick, open }, ref) =>

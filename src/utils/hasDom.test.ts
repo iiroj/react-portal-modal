@@ -6,7 +6,7 @@ describe("hasDom: () => boolean", () => {
   });
 
   it("Returns false without window.document", () => {
-    delete (window as any).document;
+    delete (window as Writeable<Window>).document;
     expect(hasDom()).toEqual(false);
   });
 });

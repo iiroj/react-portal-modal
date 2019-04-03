@@ -1,7 +1,7 @@
 import { ariaHidden } from "./ariaHidden";
 
 describe("ariaHidden: { on: (id: string) => void, off: (id: string => void) }", () => {
-  let root: any;
+  let root: HTMLDivElement;
 
   beforeAll(() => {
     root = document.createElement("div");

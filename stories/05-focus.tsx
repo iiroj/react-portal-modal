@@ -4,35 +4,6 @@ import styled from "styled-components";
 
 import StyledModal from "../src";
 
-interface IState {
-  open: boolean;
-}
-
-class StateContainer extends React.Component<{}, IState> {
-  state = {
-    open: false
-  };
-
-  toggleOpen = () => this.setState({ open: !this.state.open });
-
-  render() {
-    return (
-      <>
-        <h1>Modal can auto-focus inside when opening</h1>
-        <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal
-          closeOnEsc={true}
-          closeOnOutsideClick={true}
-          onClose={this.toggleOpen}
-          open={this.state.open}
-        >
-          {this.props.children}
-        </StyledModal>
-      </>
-    );
-  }
-}
-
 const Button = styled.button`
   display: block;
 
@@ -41,9 +12,23 @@ const Button = styled.button`
   }
 `;
 
-storiesOf("styled-modal", module).add("Focus Lock", () => (
-  <StateContainer>
-    <Button>The focus is locked inside this modal</Button>
-    <Button>We are trapped!</Button>
-  </StateContainer>
-));
+const FocusLock = () => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <StyledModal
+        closeOnEsc={true}
+        closeOnOutsideClick={true}
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        <Button>The focus is locked inside this modal</Button>
+        <Button>We are trapped!</Button>
+      </StyledModal>
+    </>
+  );
+};
+
+storiesOf("styled-modal", module).add("Focus Lock", () => <FocusLock />);

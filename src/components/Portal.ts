@@ -4,10 +4,10 @@ import * as ReactDOM from "react-dom";
 import { hasDom } from "../utils/hasDom";
 import PORTALS from "../constants/portals";
 
-export type PortalProps = {
-  children: any;
+export interface PortalProps {
+  children: React.ReactNode;
   target?: string;
-};
+}
 
 export class Portal extends React.PureComponent<PortalProps, {}> {
   public static defaultProps = {
@@ -18,7 +18,7 @@ export class Portal extends React.PureComponent<PortalProps, {}> {
   private node?: Element;
 
   private createNode = () => {
-    const target = this.props.target!;
+    const target = this.props.target || Portal.defaultProps.target;
 
     const node = document.getElementById(target);
 
@@ -49,7 +49,9 @@ export class Portal extends React.PureComponent<PortalProps, {}> {
       return null;
     }
 
-    const target = document.getElementById(this.props.target!);
+    const target = document.getElementById(
+      this.props.target || Portal.defaultProps.target
+    );
 
     if (target) {
       return ReactDOM.createPortal(children, target);

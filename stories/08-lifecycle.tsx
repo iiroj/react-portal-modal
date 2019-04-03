@@ -19,7 +19,7 @@ const defaultStyle = {
   opacity: 0
 };
 
-const transitionStyles: any = {
+const transitionStyles = {
   entering: { opacity: 0 },
   entered: { opacity: 1 }
 };
@@ -32,7 +32,7 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
     timeout={duration}
     unmountOnExit={true}
   >
-    {(state: any) => (
+    {state => (
       <Container
         style={{
           ...theme.container,
@@ -55,65 +55,51 @@ const ToggleDisplay = React.forwardRef((_props, ref) => (
   </p>
 ));
 
-interface IState {
-  open: boolean;
-}
+const LifeCycle = () => {
+  const [open, setOpen] = React.useState(true);
 
-class StateContainer extends React.Component<{}, IState> {
-  state = {
-    open: true
-  };
-
-  beforeOpen = async () => {
+  const handleBeforeOpen = async () => {
     console.log("beforeOpen: start");
     await timeout(1000);
     console.log("beforeOpen: finish");
   };
 
-  onOpen = () => this.setState({ open: true });
-
-  afterOpen = async () => {
+  const handleAfterOpen = async () => {
     console.log("afterOpen: start");
     await timeout(1000);
     console.log("afterOpen: finish");
   };
 
-  beforeClose = async () => {
+  const handleBeforeClose = async () => {
     console.log("beforeClose: start");
     await timeout(1000);
     console.log("beforeClose: finish");
   };
 
-  onClose = () => this.setState({ open: false });
-
-  afterClose = async () => {
+  const handleAfterClose = async () => {
     console.log("afterClose: start");
     await timeout(1000);
     console.log("afterClose: finish");
   };
 
-  render() {
-    return (
-      <>
-        <h1>Lifecycle events are logged to console</h1>
-        <button onClick={this.onOpen}>Open Modal</button>
-        <StyledModal
-          afterClose={this.afterClose}
-          afterOpen={this.afterOpen}
-          appId="root"
-          beforeClose={this.beforeClose}
-          beforeOpen={this.beforeOpen}
-          containerComponent={Fade}
-          modalComponent={ToggleDisplay}
-          onClose={this.onClose}
-          onOpen={this.onOpen}
-          open={this.state.open}
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <h1>Lifecycle events are logged to console</h1>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <StyledModal
+        afterClose={handleAfterClose}
+        afterOpen={handleAfterOpen}
+        appId="root"
+        beforeClose={handleBeforeClose}
+        beforeOpen={handleBeforeOpen}
+        containerComponent={Fade}
+        modalComponent={ToggleDisplay}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
+      />
+    </>
+  );
+};
 
-storiesOf("styled-modal", module).add("Lifecycle methods", () => (
-  <StateContainer />
-));
+storiesOf("styled-modal", module).add("Lifecycle methods", () => <LifeCycle />);

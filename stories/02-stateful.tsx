@@ -3,35 +3,20 @@ import { storiesOf } from "@storybook/react";
 
 import StyledModal from "../src";
 
-interface IState {
-  open: boolean;
-}
+const StatefulModal = () => {
+  const [open, setOpen] = React.useState(false);
 
-class StateContainer extends React.Component<{}, IState> {
-  state = {
-    open: false
-  };
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
 
-  toggleOpen = () => this.setState({ open: !this.state.open });
-
-  render() {
-    return (
-      <>
-        <button onClick={this.toggleOpen}>Open Modal</button>
-        <StyledModal
-          appId="root"
-          onClose={this.toggleOpen}
-          open={this.state.open}
-        >
-          {this.props.children}
-        </StyledModal>
-      </>
-    );
-  }
-}
+      <StyledModal appId="root" onClose={() => setOpen(false)} open={open}>
+        <p>This text is rendered in a Modal</p>
+      </StyledModal>
+    </>
+  );
+};
 
 storiesOf("styled-modal", module).add("Stateful Modal", () => (
-  <StateContainer>
-    <p>This text is rendered in a Modal</p>
-  </StateContainer>
+  <StatefulModal />
 ));

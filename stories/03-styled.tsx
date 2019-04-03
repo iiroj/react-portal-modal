@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 import StyledModal from "../src";
 
-type ContainerProps = {
-  children: any;
+interface ContainerProps {
+  children: React.ReactNode;
   className: string;
   open: boolean;
-};
+}
 
 const ContainerComponent = React.forwardRef(
   ({ children, className, open }: ContainerProps, ref) =>

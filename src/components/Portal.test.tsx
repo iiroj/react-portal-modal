@@ -1,4 +1,4 @@
-import { mount, shallow } from "enzyme";
+import { mount, shallow, ShallowWrapper, ReactWrapper } from "enzyme";
 
 import * as React from "react";
 
@@ -7,7 +7,7 @@ import { collectPortals } from "../utils/collectPortals";
 import { flushPortals } from "../utils/flushPortals";
 
 describe("<Portal />", () => {
-  let portal: any;
+  let portal: ReactWrapper;
 
   it("Renders to and creates div#modal by default", () => {
     expect(document.body.childElementCount).toEqual(0);
@@ -79,7 +79,7 @@ describe("flushPortals: (id: string) => void", () => {
 });
 
 describe("collectPortals: () => HTMLElement[]", () => {
-  let portal: any;
+  let portal: ShallowWrapper;
 
   it("Returns all elements from the global array", () => {
     portal = shallow(<Portal>test</Portal>);

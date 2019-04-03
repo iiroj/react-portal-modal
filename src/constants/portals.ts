@@ -1,3 +1,3 @@
-const PORTALS: HTMLElement[] = [];
+const PORTALS: React.ReactNode[] = [];
 
 export default PORTALS;
