@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [5.5.0](https://github.com/iiroj/styled-modal/compare/v5.4.15...v5.5.0) (2019-04-28)
+
+
+### Bug Fixes
+
+* typescript issues ([b325364](https://github.com/iiroj/styled-modal/commit/b325364))
+* **storybook:** use merging config for webpack ([7ba6bdb](https://github.com/iiroj/styled-modal/commit/7ba6bdb))
+
+
+### Features
+
+* use eslint ([6979202](https://github.com/iiroj/styled-modal/commit/6979202))
+
+
+
 ## [5.4.15](https://github.com/iiroj/styled-modal/compare/v5.4.14...v5.4.15) (2019-03-27)
 
 
