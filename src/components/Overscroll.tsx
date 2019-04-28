@@ -4,7 +4,7 @@ export interface OverscrollProps {
   children: React.ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: (event: SyntheticEvent<Element, Event>) => Promise<void>;
+  onClick: (event: React.SyntheticEvent) => void;
   theme: {
     container: React.CSSProperties;
     modal: React.CSSProperties;

@@ -19,7 +19,7 @@ const defaultStyle = {
   opacity: 0
 };
 
-const transitionStyles = {
+const transitionStyles: { [key: string]: object } = {
   entering: { opacity: 0 },
   entered: { opacity: 1 }
 };
