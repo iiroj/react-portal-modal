@@ -6,63 +6,41 @@ import PORTALS from "../constants/portals";
 
 export interface PortalProps {
   children: React.ReactNode;
-  target?: string;
+  target?: string | HTMLElement;
 }
 
-export class Portal extends React.PureComponent<PortalProps, {}> {
-  public static defaultProps = {
-    target: "modal"
-  };
+export const Portal = React.memo<PortalProps>(
+  ({ children, target = "modal" }) => {
+    const [isClientSide] = React.useState(hasDom);
+    const [
+      targetElement,
+      setTargetElement
+    ] = React.useState<HTMLElement | null>(
+      typeof target === "string" ? document.getElementById(target) : target
+    );
 
-  private readonly hasDom = hasDom();
-  private node?: Element;
+    React.useEffect(() => {
+      if (isClientSide) {
+        if (typeof target === "string") {
+          const element = document.createElement("div");
+          element.id = target;
+          setTargetElement(element);
+          document.body.appendChild(element);
+        } else {
+          setTargetElement(target);
+        }
+      }
+    }, [isClientSide]);
 
-  private createNode = () => {
-    const target = this.props.target || Portal.defaultProps.target;
-
-    const node = document.getElementById(target);
-
-    if (this.node !== undefined) {
-      return;
-    }
-
-    if (node === null) {
-      this.node = document.createElement("div");
-      this.node.id = target;
-      document.body.appendChild(this.node);
-    } else {
-      this.node = node;
-    }
-  };
-
-  public componentDidMount() {
-    if (this.hasDom) {
-      this.createNode();
-    }
-  }
-
-  public render() {
-    const { children } = this.props;
-
-    if (!this.hasDom) {
+    if (!isClientSide) {
       PORTALS.push(children);
       return null;
     }
 
-    const target = document.getElementById(
-      this.props.target || Portal.defaultProps.target
-    );
-
-    if (target) {
-      return ReactDOM.createPortal(children, target);
+    if (targetElement) {
+      return ReactDOM.createPortal(children, targetElement);
+    } else {
+      return null;
     }
-
-    this.createNode();
-
-    if (this.node) {
-      return ReactDOM.createPortal(children, this.node);
-    }
-
-    return null;
   }
-}
+);

@@ -4,7 +4,7 @@ export interface ContainerProps {
   children: React.ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: (event: React.SyntheticEvent<Element, Event>) => Promise<void>;
+  onClick: (event: React.SyntheticEvent) => void;
   open: boolean;
   theme: {
     container: React.CSSProperties;

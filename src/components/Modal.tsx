@@ -14,9 +14,13 @@ export interface ModalProps {
   };
 }
 
-export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
-  ({ children, theme, ...rest }, ref) => (
-    <div {...rest} ref={ref} style={{ ...theme.modal, background: "white" }}>
+export const Modal = React.forwardRef<HTMLElement, ModalProps>(
+  ({ children, isClientSide, isToggled, theme, ...rest }, ref) => (
+    <div
+      {...rest}
+      ref={ref as React.RefObject<HTMLDivElement>}
+      style={{ ...theme.modal, background: "white" }}
+    >
       {children}
     </div>
   )
