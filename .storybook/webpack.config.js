@@ -1,18 +1,8 @@
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true
-          }
-        }
-      }
-    ]
-  },
-  resolve: {
-    extensions: [ ".ts", ".tsx" ]
-  }
+module.exports = ({ config }) => {
+  config.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    loader: "awesome-typescript-loader"
+  });
+  config.resolve.extensions.unshift(".ts", ".tsx");
+  return config;
 };
