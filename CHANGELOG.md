@@ -1,6 +1,33 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [6.0.0](https://github.com/iiroj/styled-modal/compare/v5.5.0...v6.0.0) (2019-06-02)
+
+
+### Bug Fixes
+
+* correctly run lifecycle methods with callbacks ([d2acd63](https://github.com/iiroj/styled-modal/commit/d2acd63))
+* portal doesn't create new target element if it exists ([530a9bc](https://github.com/iiroj/styled-modal/commit/530a9bc))
+* use awesome-typescript-loader ([ba60a7d](https://github.com/iiroj/styled-modal/commit/ba60a7d))
+
+
+### Features
+
+* rewrite with React hooks ([9096d9a](https://github.com/iiroj/styled-modal/commit/9096d9a))
+
+
+### Tests
+
+* fix Portal SSR and add test ([3e0b15c](https://github.com/iiroj/styled-modal/commit/3e0b15c))
+* rename tests ([7b391f6](https://github.com/iiroj/styled-modal/commit/7b391f6))
+
+
+### BREAKING CHANGES
+
+* React version >=16.8 is now required
+
+
 
 # [5.5.0](https://github.com/iiroj/styled-modal/compare/v5.4.15...v5.5.0) (2019-04-28)
 
