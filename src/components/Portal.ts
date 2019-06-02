@@ -20,7 +20,7 @@ export const Portal = React.memo<PortalProps>(
     );
 
     React.useEffect(() => {
-      if (isClientSide) {
+      if (isClientSide && !targetElement) {
         if (typeof target === "string") {
           const element = document.createElement("div");
           element.id = target;
