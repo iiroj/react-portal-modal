@@ -80,76 +80,81 @@ export const StyledModal = React.memo<StyledModalProps>(
     const [isToggled, setIsToggled] = React.useState(false);
     const [internalOpen, setInternalOpen] = React.useState(!!open);
 
+    /**
+     * Modal has been toggled, probably via user interaction
+     */
     React.useLayoutEffect(() => {
       if (internalOpen !== open) setIsToggled(true);
     }, [internalOpen, open]);
 
+    /**
+     * Handle callback before opening Modal
+     */
     const handleBeforeToggleOpen = React.useCallback(async () => {
-      if (open) {
+      if (open && !internalOpen) {
         if (beforeOpen) await handleCallback(beforeOpen);
-      } else {
-        if (beforeClose) await handleCallback(beforeClose);
+        setInternalOpen(true);
       }
+    }, [beforeOpen, internalOpen, open, setInternalOpen]);
 
-      if (!isClientSide) return;
-
-      if (props.lockScrollWhenOpen) {
-        if (open) disableBodyScroll(scrollLockRef.current);
-        else enableBodyScroll(scrollLockRef.current);
-      }
-
-      if (appId) {
-        if (open) ariaHidden.on(appId);
-        else ariaHidden.off(appId);
-      }
-
-      setInternalOpen(true);
-    }, [
-      appId,
-      beforeClose,
-      beforeOpen,
-      lockFocusWhenOpen,
-      open,
-      props.lockScrollWhenOpen,
-      props.scrollLockRef
-    ]);
-
+    /**
+     * Detect change in external open state
+     */
     React.useLayoutEffect(() => {
       if (isToggled && open) {
         handleBeforeToggleOpen();
       }
     }, [isToggled, open]);
 
-    const handleClose = React.useCallback(async () => {
-      if (props.onClose) await handleCallback(props.onClose);
+    /**
+     * Handle callback before closing Modal
+     */
+    const handleBeforeToggleClose = React.useCallback(async () => {
+      if (beforeClose) await handleCallback(beforeClose);
+      if (props.onClose) props.onClose();
       setInternalOpen(false);
-    }, [props.onClose]);
+    }, [appId, beforeClose, setInternalOpen]);
 
+    /**
+     * Handle callback after closing Modal
+     */
+    const handleAfterToggleClose = React.useCallback(async () => {
+      if (!open && !internalOpen) {
+        if (afterClose) await handleCallback(afterClose);
+
+        if (!isClientSide) return;
+
+        if (props.lockScrollWhenOpen) {
+          enableBodyScroll(scrollLockRef.current);
+        }
+
+        if (appId) {
+          ariaHidden.off(appId);
+        }
+      }
+    }, [
+      afterClose,
+      appId,
+      internalOpen,
+      isClientSide,
+      open,
+      props.lockScrollWhenOpen,
+      scrollLockRef.current
+    ]);
+
+    /**
+     * Handle close on ESC key press
+     */
     const handleKeyPress = React.useCallback(
       async ({ key }: KeyboardEvent) => {
-        if (open && key === "Escape") await handleClose();
+        if (open && key === "Escape") await handleBeforeToggleClose();
       },
-      [handleClose, open]
+      [handleBeforeToggleClose, open]
     );
 
-    const handleAfterToggleOpen = React.useCallback(async () => {
-      if (internalOpen) {
-        if (afterOpen) await handleCallback(afterOpen);
-        if (closeOnEsc && props.onClose)
-          document.addEventListener("keyup", handleKeyPress);
-      } else {
-        if (afterClose) await handleCallback(afterClose);
-        document.removeEventListener("keyup", handleKeyPress);
-      }
-    }, [internalOpen, afterClose, afterOpen, closeOnEsc, props.onClose]);
-
-    React.useLayoutEffect(() => {
-      handleAfterToggleOpen();
-      return () => {
-        document.removeEventListener("keyup", handleKeyPress);
-      };
-    }, [internalOpen]);
-
+    /**
+     * Handle close on outside click
+     */
     const handleOutsideClick = React.useCallback(
       async (event: React.SyntheticEvent) => {
         if (closeOnOutsideClick !== true || !props.onClose) return;
@@ -158,11 +163,64 @@ export const StyledModal = React.memo<StyledModalProps>(
           target !== modalRef.current &&
           target.contains(modalRef.current as Node)
         ) {
-          await handleClose();
+          await handleBeforeToggleClose();
         }
       },
-      [handleClose, modalRef.current, closeOnOutsideClick, props.onClose]
+      [
+        handleBeforeToggleClose,
+        modalRef.current,
+        closeOnOutsideClick,
+        props.onClose
+      ]
     );
+
+    /**
+     * Handle callback after opening modal
+     */
+    const handleAfterToggleOpen = React.useCallback(async () => {
+      if (open && internalOpen) {
+        if (afterOpen) await handleCallback(afterOpen);
+
+        if (!isClientSide) return;
+
+        if (props.lockScrollWhenOpen) {
+          disableBodyScroll(scrollLockRef.current);
+        }
+
+        if (appId) {
+          ariaHidden.on(appId);
+        }
+
+        if (closeOnEsc && props.onClose) {
+          document.addEventListener("keyup", handleKeyPress);
+        }
+      }
+    }, [
+      appId,
+      internalOpen,
+      afterOpen,
+      closeOnEsc,
+      props.lockScrollWhenOpen,
+      props.onClose
+    ]);
+
+    /**
+     * Detect change in internal open state
+     */
+    React.useLayoutEffect(() => {
+      if (!isToggled) return;
+      if (internalOpen) {
+        handleAfterToggleOpen();
+      } else {
+        handleAfterToggleClose();
+      }
+
+      return () => {
+        if (closeOnEsc && props.onClose) {
+          document.removeEventListener("keyup", handleKeyPress);
+        }
+      };
+    }, [closeOnEsc, internalOpen, isToggled, props.onClose]);
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
