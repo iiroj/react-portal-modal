@@ -16,7 +16,11 @@ export const Portal = React.memo<PortalProps>(
       targetElement,
       setTargetElement
     ] = React.useState<HTMLElement | null>(
-      typeof target === "string" ? document.getElementById(target) : target
+      isClientSide
+        ? typeof target === "string"
+          ? document.getElementById(target)
+          : target
+        : null
     );
 
     React.useEffect(() => {

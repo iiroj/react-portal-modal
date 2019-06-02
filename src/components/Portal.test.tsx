@@ -1,6 +1,6 @@
 import { mount, shallow, ShallowWrapper, ReactWrapper } from "enzyme";
-
 import * as React from "react";
+import * as ReactDOMServer from "react-dom/server";
 
 import { Portal } from "./Portal";
 import { collectPortals } from "../utils/collectPortals";
@@ -75,40 +75,5 @@ describe("flushPortals", () => {
 
     expect(modalContainer.childElementCount).toEqual(0);
     expect(modalContainer.innerHTML).toEqual("");
-  });
-});
-
-describe("collectPortals", () => {
-  let portal: ShallowWrapper;
-
-  it("Returns all elements from the global array", () => {
-    portal = shallow(<Portal>test</Portal>);
-
-    const collectedPortals = collectPortals();
-
-    // expect(collectedPortals)
-    //   .to.be.an('array')
-    //   .that.has.lengthOf(1)
-    //   .which.contains('test');
-  });
-
-  it("Clears elements after returning them", () => {
-    portal = shallow(<Portal>foo</Portal>);
-
-    const collectedPortals = collectPortals();
-
-    // expect(collectedPortals)
-    //   .to.be.an('array')
-    //   .that.has.lengthOf(1)
-    //   .which.contains('foo');
-
-    portal = shallow(<Portal>bar</Portal>);
-
-    const collectedPortals2 = collectPortals();
-
-    // expect(collectedPortals2)
-    //   .to.be.an('array')
-    //   .that.has.lengthOf(1)
-    //   .which.contains('bar');
   });
 });
