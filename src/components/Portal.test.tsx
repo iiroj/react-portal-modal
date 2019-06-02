@@ -6,7 +6,7 @@ import { Portal } from "./Portal";
 import { collectPortals } from "../utils/collectPortals";
 import { flushPortals } from "../utils/flushPortals";
 
-describe("<Portal />", () => {
+describe("Portal", () => {
   let portal: ReactWrapper;
 
   it("Renders to and creates div#modal by default", () => {
@@ -63,7 +63,7 @@ describe("<Portal />", () => {
   });
 });
 
-describe("flushPortals: (id: string) => void", () => {
+describe("flushPortals", () => {
   it("Removes all children from the supplied target", () => {
     document.body.innerHTML =
       '<div id="modal"><div id="foo"></div><div id="bar"></div></div>';
@@ -78,7 +78,7 @@ describe("flushPortals: (id: string) => void", () => {
   });
 });
 
-describe("collectPortals: () => HTMLElement[]", () => {
+describe("collectPortals", () => {
   let portal: ShallowWrapper;
 
   it("Returns all elements from the global array", () => {

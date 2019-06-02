@@ -1,6 +1,6 @@
 import { ariaHidden } from "./ariaHidden";
 
-describe("ariaHidden: { on: (id: string) => void, off: (id: string => void) }", () => {
+describe("ariaHidden", () => {
   let root: HTMLDivElement;
 
   beforeAll(() => {

@@ -1,6 +1,6 @@
 import { hasDom } from "./hasDom";
 
-describe("hasDom: () => boolean", () => {
+describe("hasDom", () => {
   it("Returns true in browser environment", () => {
     expect(hasDom()).toEqual(true);
   });
