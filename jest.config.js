@@ -1,8 +1,8 @@
 module.exports = {
-  collectCoverageFrom: ["src/**/*.{ts|tsx}"],
+  collectCoverageFrom: ["src/**/*.{ts,tsx}"],
   collectCoverage: true,
   coveragePathIgnorePatterns: [".test.", ".d.ts$", "index.ts"],
-  coverageReporters: process.env.CI ? ["text-summary"] : ["lcov"],
+  coverageReporters: ["lcov", "text-summary"],
   moduleFileExtensions: ["ts", "tsx", "js", "json", "node"],
   setupFiles: ["./setup/enzyme.ts"],
   testRegex: "((\\.|/)test)\\.tsx?$",
