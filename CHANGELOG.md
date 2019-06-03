@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/iiroj/styled-modal/compare/v6.0.0...v7.0.0) (2019-06-03)
+
+
+### Features
+
+* replace collectPortals function with PortalCollector component ([aef7d0e](https://github.com/iiroj/styled-modal/commit/aef7d0e))
+
+
+### Tests
+
+* fix coverage calculation ([71cf67f](https://github.com/iiroj/styled-modal/commit/71cf67f))
+
+
+### BREAKING CHANGES
+
+* The use of global variable for collecting SSR portals is removed, and the use of `collectPortals` function should be replaced with the `<PortalCollector />` component
+
+
+
 ## [6.0.0](https://github.com/iiroj/styled-modal/compare/v5.5.0...v6.0.0) (2019-06-02)
 
 
