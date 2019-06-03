@@ -200,7 +200,7 @@ render(
 
 ## Server-Side Rendering
 
-On the server side we cannot use `ReactDOM.createPortal`. This is why the underlying `<Portal />` component returns `null` and instead collects the portals' contents into a global array with `collectPortals`. We can then render this array seperately ourselves! To prevent rendering double client-side, we must also flush the portal target element before (client-side) rendering with `flushPortals`.
+On the server side we cannot use `ReactDOM.createPortal`. This is why the underlying `<Portal />` component returns `null` and instead collects the portals' contents into an array with `PortalCollector`. We can then render this array seperately ourselves! To prevent rendering double client-side, we must also flush the portal target element before (client-side) rendering with `flushPortals`.
 
 > server
 
@@ -208,34 +208,32 @@ On the server side we cannot use `ReactDOM.createPortal`. This is why the underl
 import Express from 'express';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
-import Modal, { collectPortals } from 'styled-modal';
+import Modal, { PortalCollector } from 'styled-modal';
 import App from 'components/App';
 
 ...
 
 const renderResponse = async (req, res) => {
   const initialState = await getInitialState(req);
-
   const sheet = new ServerStyleSheet();
+  const collectedPortals = {}
 
   const appHtml = renderToStaticMarkup(
     sheet.collectStyles(
-      <App>
-        <Modal>
-          <p>This text will be portaled to #modal</p>
-        </Modal>
-      </App>
+      <PortalCollector portals={collectedPortals}>
+        <App>
+          <Modal>
+            <p>This text will be portaled to #modal</p>
+          </Modal>
+        </App>
+      </PortalCollector>
     )
   );
 
-  const portalHtml = renderToStaticMarkup(
-    collectPortals()
-  );
-
+  const portalHtml = renderToStaticMarkup(collectedPortals);
   const styles = sheet.getStyleTags();
 
   const response = renderHtmlResponse(initialState, appHtml, portalHtml, styles);
-
   res.send(response);
 };
 

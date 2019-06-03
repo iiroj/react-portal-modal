@@ -6,22 +6,31 @@ import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 
 import { Portal } from "./Portal";
-import { collectPortals } from "../utils/collectPortals";
+import { PortalCollector } from "./PortalCollector";
 
-describe("collectPortals", () => {
-  it("Returns all elements from the global array", () => {
-    ReactDOMServer.renderToString(<Portal>test</Portal>);
-    const collectedPortals = collectPortals();
-    expect(collectedPortals).toEqual(["test"]);
+describe("PortalCollector", () => {
+  const collectedPortals: React.ReactNode[] = [];
+
+  it("Populates rendered portals", () => {
+    ReactDOMServer.renderToString(
+      <PortalCollector portals={collectedPortals}>
+        <Portal>foo</Portal>
+      </PortalCollector>
+    );
+
+    expect(collectedPortals).toEqual(["foo"]);
   });
 
-  it("Clears elements after returning them", () => {
-    ReactDOMServer.renderToString(<Portal>foo</Portal>);
-    const collectedPortals = collectPortals();
-    expect(collectedPortals).toEqual(["foo"]);
+  it("Supports multiple collectors", () => {
+    const morePortals: React.ReactNode[] = [];
 
-    ReactDOMServer.renderToString(<Portal>bar</Portal>);
-    const collectedPortals2 = collectPortals();
-    expect(collectedPortals2).toEqual(["bar"]);
+    ReactDOMServer.renderToString(
+      <PortalCollector portals={morePortals}>
+        <Portal>bar</Portal>
+      </PortalCollector>
+    );
+
+    expect(collectedPortals).toEqual(["foo"]);
+    expect(morePortals).toEqual(["bar"]);
   });
 });

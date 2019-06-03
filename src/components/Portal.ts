@@ -2,7 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import { hasDom } from "../utils/hasDom";
-import PORTALS from "../constants/portals";
+
+import { PortalContext } from "./PortalContext";
 
 export interface PortalProps {
   children: React.ReactNode;
@@ -12,10 +13,8 @@ export interface PortalProps {
 export const Portal = React.memo<PortalProps>(
   ({ children, target = "modal" }) => {
     const [isClientSide] = React.useState(hasDom);
-    const [
-      targetElement,
-      setTargetElement
-    ] = React.useState<HTMLElement | null>(
+
+    const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(
       isClientSide
         ? typeof target === "string"
           ? document.getElementById(target)
@@ -24,27 +23,29 @@ export const Portal = React.memo<PortalProps>(
     );
 
     React.useEffect(() => {
-      if (isClientSide && !targetElement) {
+      if (isClientSide && !portalTarget) {
         if (typeof target === "string") {
           const element = document.createElement("div");
           element.id = target;
-          setTargetElement(element);
+          setPortalTarget(element);
           document.body.appendChild(element);
         } else {
-          setTargetElement(target);
+          setPortalTarget(target);
         }
       }
-    }, [isClientSide]);
+    }, [portalTarget]);
 
-    if (!isClientSide) {
-      PORTALS.push(children);
-      return null;
-    }
-
-    if (targetElement) {
-      return ReactDOM.createPortal(children, targetElement);
+    if (isClientSide) {
+      if (portalTarget) {
+        return ReactDOM.createPortal(children, portalTarget);
+      }
     } else {
-      return null;
+      const serverSidePortals = React.useContext(PortalContext);
+      if (Array.isArray(serverSidePortals)) {
+        serverSidePortals.push(children);
+      }
     }
+
+    return null;
   }
 );
