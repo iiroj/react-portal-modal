@@ -12,6 +12,10 @@ const external = [
   ...Object.keys(pkg.peerDependencies)
 ];
 
+const onwarn = warning => {
+  if (warning.code !== "THIS_IS_UNDEFINED") console.warn(warning.message);
+};
+
 const plugins = [
   typescript({
     tsconfig: "tsconfig.build.json",
@@ -28,6 +32,7 @@ export default [
       { exports: "named", file: pkg.module, format: "es" }
     ],
     external,
+    onwarn,
     plugins
   },
   {
@@ -36,9 +41,16 @@ export default [
       exports: "named",
       file: pkg.browser,
       format: "umd",
+      globals: {
+        react: "React",
+        "react-focus-lock": "FocusLock",
+        "body-scroll-lock": "bodyScrollLock",
+        "react-dom": "ReactDOM"
+      },
       name: "styledModal"
     },
     external,
+    onwarn,
     plugins: [...plugins, resolve(), commonjs()]
   }
 ];
