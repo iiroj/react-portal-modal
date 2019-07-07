@@ -17,13 +17,31 @@
   "sideEffects": false,
   "scripts": {
     "start": "start-storybook -p 8080 -c .storybook",
-    "lint": "eslint . --ext .ts --ext .tsx --ext .js",
+    "lint": "eslint --ext .js --ext .ts --ext .tsx .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
     "watch": "rimraf dist && rollup -cw",
     "build": "rimraf dist && rollup -c",
-    "preversion": "npm run lint && npm test && npm run build",
-    "version": "standard-version"
+    "version": "standard-version --no-verify"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "npm run lint"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "standard-version": {
+    "scripts": {
+      "prerelease": "npm run lint && npm test && npm run build"
+    }
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.3",
@@ -35,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
+    "@commitlint/config-conventional": "^8.0.0",
     "@storybook/react": "^5.1.9",
     "@types/enzyme": "^3.10.1",
     "@types/enzyme-adapter-react-16": "^1.0.5",
@@ -49,6 +68,7 @@
     "@typescript-eslint/parser": "^1.11.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "commitlint": "^8.0.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^6.0.1",
@@ -60,7 +80,9 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
+    "husky": "^3.0.0",
     "jest": "^24.8.0",
+    "lint-staged": "^9.1.0",
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
