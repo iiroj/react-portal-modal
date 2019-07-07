@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.2](https://github.com/iiroj/styled-modal/compare/v7.0.1...v7.0.2) (2019-07-07)
+
+
+### Build System
+
+* add husky, commitlint and lint-staged ([d46abe0](https://github.com/iiroj/styled-modal/commit/d46abe0))
+
+
+
 ### [7.0.1](https://github.com/iiroj/styled-modal/compare/v7.0.0...v7.0.1) (2019-07-06)
 
 
