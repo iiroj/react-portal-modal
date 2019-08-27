@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "declaration": true,
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["dom", "es6"],
     "module": "es6",
     "moduleResolution": "node",
+    "noEmit": true,
     "noResolve": false,
     "noUnusedParameters": true,
     "pretty": true,
