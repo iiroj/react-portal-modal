@@ -1,6 +1,6 @@
 {
   "name": "styled-modal",
-  "version": "7.0.4",
+  "version": "7.0.5",
   "description": "A Modal built with styled-components and Portals with Server-Side Rendering Support.",
   "author": "Iiro Jäppinen <iiro@jappinen.fi> (https://iiro.fi)",
   "license": "MIT",
