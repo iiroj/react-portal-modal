@@ -19,7 +19,8 @@ const onwarn = warning => {
 const plugins = [
   typescript({
     tsconfig: "tsconfig.build.json",
-    typescript: require("typescript")
+    typescript: require("typescript"),
+    useTsconfigDeclarationDir: true
   }),
   production && terser()
 ];
@@ -29,7 +30,7 @@ export default [
     input: "src/index.ts",
     output: [
       { exports: "named", file: pkg.main, format: "cjs" },
-      { exports: "named", file: pkg.module, format: "es" }
+      { exports: "named", file: pkg.module, format: "esm" }
     ],
     external,
     onwarn,

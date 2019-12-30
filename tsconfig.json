@@ -14,5 +14,11 @@
     "strict": true,
     "target": "es5",
     "types": ["jest"]
-  }
+  },
+  "exclude": [
+    "/types",
+    "/index.js",
+    "/index.mjs",
+    "/index.umd.js",
+  ]
 }

@@ -7,12 +7,15 @@
   "homepage": "https://github.com/iiroj/styled-modal",
   "repository": "github:iiroj/styled-modal",
   "bugs": "https://github.com/iiroj/styled-modal/issues",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
+  "module": "index.mjs",
+  "browser": "index.umd.js",
+  "types": "types/index.d.ts",
   "files": [
-    "dist/**/*"
+    "types/**/*.d.ts",
+    "index.js",
+    "index.mjs",
+    "index.umd.js"
   ],
   "sideEffects": false,
   "scripts": {

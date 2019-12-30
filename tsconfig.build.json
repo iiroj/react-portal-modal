@@ -2,12 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
+    "declarationDir": "types",
     "noEmit": false,
-    "rootDir": "src"
+    "rootDir": "src",
   },
   "include": [
-    "src",
-    "types"
+    "src"
   ],
   "exclude": [
     "setupTests.ts",
