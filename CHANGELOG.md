@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/iiroj/styled-modal/compare/v7.0.8...v7.1.0) (2019-12-30)
+
+
+### Features
+
+* use mjs extension for esm module ([06903f4](https://github.com/iiroj/styled-modal/commit/06903f4006c2770cd222779e517a80321d9fdfee))
+
 ### [7.0.8](https://github.com/iiroj/styled-modal/compare/v7.0.7...v7.0.8) (2019-12-01)
 
 ### [7.0.7](https://github.com/iiroj/styled-modal/compare/v7.0.6...v7.0.7) (2019-10-26)
