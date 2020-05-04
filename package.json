@@ -8,13 +8,13 @@
   "repository": "github:iiroj/styled-modal",
   "bugs": "https://github.com/iiroj/styled-modal/issues",
   "main": "index.js",
-  "module": "index.mjs",
+  "module": "index.esm.js",
   "browser": "index.umd.js",
   "types": "types/index.d.ts",
   "files": [
     "types/**/*.d.ts",
     "index.js",
-    "index.mjs",
+    "index.esm.js",
     "index.umd.js"
   ],
   "sideEffects": false,
