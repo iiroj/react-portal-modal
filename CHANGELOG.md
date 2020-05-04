@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.2](https://github.com/iiroj/styled-modal/compare/v7.1.1...v7.1.2) (2020-05-04)
+
+
+### Bug Fixes
+
+* do not set useRef to document.body when server-side ([2786e5b](https://github.com/iiroj/styled-modal/commit/2786e5bff1e677cd222f7f43fc019e202a2ddc80))
+* do not use .mjs extension for module field ([c9964fd](https://github.com/iiroj/styled-modal/commit/c9964fd46b6cee845ce7b972a572660fde44352b))
+* install eslint-plugin-react-hooks and fix issues ([23fa376](https://github.com/iiroj/styled-modal/commit/23fa376f480592147dc7aa914c29d00a7260ebc5))
+
 ### [7.1.1](https://github.com/iiroj/styled-modal/compare/v7.1.0...v7.1.1) (2020-03-14)
 
 ## [7.1.0](https://github.com/iiroj/styled-modal/compare/v7.0.8...v7.1.0) (2019-12-30)
