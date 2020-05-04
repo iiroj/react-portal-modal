@@ -9,10 +9,10 @@ const production = !process.env.ROLLUP_WATCH;
 
 const external = [
   ...Object.keys(pkg.dependencies),
-  ...Object.keys(pkg.peerDependencies)
+  ...Object.keys(pkg.peerDependencies),
 ];
 
-const onwarn = warning => {
+const onwarn = (warning) => {
   if (warning.code !== "THIS_IS_UNDEFINED") console.warn(warning.message);
 };
 
@@ -20,9 +20,9 @@ const plugins = [
   typescript({
     tsconfig: "tsconfig.build.json",
     typescript: require("typescript"),
-    useTsconfigDeclarationDir: true
+    useTsconfigDeclarationDir: true,
   }),
-  production && terser()
+  production && terser(),
 ];
 
 export default [
@@ -30,11 +30,11 @@ export default [
     input: "src/index.ts",
     output: [
       { exports: "named", file: pkg.main, format: "cjs" },
-      { exports: "named", file: pkg.module, format: "esm" }
+      { exports: "named", file: pkg.module, format: "esm" },
     ],
     external,
     onwarn,
-    plugins
+    plugins,
   },
   {
     input: "src/index.ts",
@@ -46,12 +46,12 @@ export default [
         react: "React",
         "react-focus-lock": "FocusLock",
         "body-scroll-lock": "bodyScrollLock",
-        "react-dom": "ReactDOM"
+        "react-dom": "ReactDOM",
       },
-      name: "styledModal"
+      name: "styledModal",
     },
     external,
     onwarn,
-    plugins: [...plugins, resolve(), commonjs()]
-  }
+    plugins: [...plugins, resolve(), commonjs()],
+  },
 ];

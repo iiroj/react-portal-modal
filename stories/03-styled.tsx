@@ -21,7 +21,7 @@ const ContainerComponent = React.forwardRef(
 
 const Container = styled(ContainerComponent)`
   background: rgba(242, 242, 242);
-  ${props => props.theme.container};
+  ${(props) => props.theme.container};
 `;
 
 const Modal = styled.article`
@@ -34,7 +34,7 @@ const Modal = styled.article`
   position: relative;
   text-align: center;
   width: 100%;
-  ${props => props.theme.modal};
+  ${(props) => props.theme.modal};
 `;
 
 storiesOf("styled-modal", module).add("Custom styles", () => (

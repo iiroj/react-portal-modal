@@ -5,10 +5,11 @@ import { storiesOf } from "@storybook/react";
 
 import StyledModal, { ContainerProps } from "../src";
 
-const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const timeout = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 const Container = styled.div`
-  ${props => props.theme.container};
+  ${(props) => props.theme.container};
   background-color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
 `;
@@ -16,12 +17,12 @@ const Container = styled.div`
 const duration = 125;
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0
+  opacity: 0,
 };
 
 const transitionStyles: { [key: string]: object } = {
   entering: { opacity: 0 },
-  entered: { opacity: 1 }
+  entered: { opacity: 1 },
 };
 
 const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
@@ -32,12 +33,12 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
     timeout={duration}
     unmountOnExit={true}
   >
-    {state => (
+    {(state) => (
       <Container
         style={{
           ...theme.container,
           ...defaultStyle,
-          ...transitionStyles[state]
+          ...transitionStyles[state],
         }}
       >
         {children}

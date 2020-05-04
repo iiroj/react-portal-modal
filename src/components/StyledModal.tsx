@@ -41,7 +41,7 @@ export interface StyledModalProps {
 const theme = {
   container: containerStyles,
   modal: modalStyles,
-  overscroll: overscrollStyles
+  overscroll: overscrollStyles,
 };
 
 const handleCallback = (callback: PossiblyPromisefulFn) => {
@@ -139,7 +139,7 @@ export const StyledModal = React.memo<StyledModalProps>(
       isClientSide,
       open,
       props.lockScrollWhenOpen,
-      scrollLockRef.current
+      scrollLockRef.current,
     ]);
 
     /**
@@ -170,7 +170,7 @@ export const StyledModal = React.memo<StyledModalProps>(
         handleBeforeToggleClose,
         modalRef.current,
         closeOnOutsideClick,
-        props.onClose
+        props.onClose,
       ]
     );
 
@@ -201,7 +201,7 @@ export const StyledModal = React.memo<StyledModalProps>(
       afterOpen,
       closeOnEsc,
       props.lockScrollWhenOpen,
-      props.onClose
+      props.onClose,
     ]);
 
     /**

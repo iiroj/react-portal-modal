@@ -13,5 +13,5 @@ const off = (id: string) => setAriaHidden(false, id);
 
 export const ariaHidden = {
   on,
-  off
+  off,
 };

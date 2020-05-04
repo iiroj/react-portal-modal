@@ -34,7 +34,7 @@ const ContainerComponent = React.forwardRef<
 
 const Container = styled(ContainerComponent)`
   background-color: rgb(242, 242, 242);
-  ${props => props.theme.container};
+  ${(props) => props.theme.container};
 `;
 
 const ModalContainer = styled.div`
@@ -46,7 +46,7 @@ const ModalContainer = styled.div`
   margin: 16px;
   text-align: center;
   width: 100%;
-  ${props => props.theme.modal};
+  ${(props) => props.theme.modal};
 `;
 
 const Modal = React.forwardRef<HTMLDivElement, ContainerComponentProps>(
@@ -57,7 +57,7 @@ const Modal = React.forwardRef<HTMLDivElement, ContainerComponentProps>(
         component={false}
         enter={{
           scale: spring(1, { stiffness: 400, damping: 10 }),
-          translateY: spring(0, { stiffness: 400, damping: 10 })
+          translateY: spring(0, { stiffness: 400, damping: 10 }),
         }}
       >
         {open && (

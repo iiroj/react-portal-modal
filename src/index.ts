@@ -1,7 +1,7 @@
 export {
   StyledModal as default,
   StyledModal,
-  StyledModalProps
+  StyledModalProps,
 } from "./components/StyledModal";
 
 export { Container, ContainerProps } from "./components/Container";

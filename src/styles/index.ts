@@ -6,7 +6,7 @@ export const containerStyles = {
   position: "fixed" as "fixed",
   top: "0",
   width: "100%",
-  zIndex: 9000
+  zIndex: 9000,
 };
 
 export const overscrollStyles = {
@@ -15,9 +15,9 @@ export const overscrollStyles = {
   justifyContent: "center" as "center",
   minHeight: "100%",
   position: "relative" as "relative",
-  width: "100%"
+  width: "100%",
 };
 
 export const modalStyles = {
-  zIndex: 9001
+  zIndex: 9001,
 };

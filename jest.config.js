@@ -7,6 +7,6 @@ module.exports = {
   setupFiles: ["./setup/enzyme.ts"],
   testRegex: "((\\.|/)test)\\.tsx?$",
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
-  }
+    "^.+\\.tsx?$": "ts-jest",
+  },
 };
