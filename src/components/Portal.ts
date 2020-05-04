@@ -10,10 +10,10 @@ export interface PortalProps {
   target?: string | HTMLElement;
 }
 
+const isClientSide = hasDom();
+
 export const Portal = React.memo<PortalProps>(
   ({ children, target = "modal" }) => {
-    const [isClientSide] = React.useState(hasDom);
-
     const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(
       isClientSide
         ? typeof target === "string"
@@ -33,17 +33,14 @@ export const Portal = React.memo<PortalProps>(
           setPortalTarget(target);
         }
       }
-    }, [portalTarget]);
+    }, [portalTarget, target]);
 
-    if (isClientSide) {
-      if (portalTarget) {
-        return ReactDOM.createPortal(children, portalTarget);
-      }
-    } else {
-      const serverSidePortals = React.useContext(PortalContext);
-      if (Array.isArray(serverSidePortals)) {
-        serverSidePortals.push(children);
-      }
+    const serverSidePortals = React.useContext(PortalContext);
+
+    if (isClientSide && portalTarget) {
+      return ReactDOM.createPortal(children, portalTarget);
+    } else if (Array.isArray(serverSidePortals)) {
+      serverSidePortals.push(children);
     }
 
     return null;

@@ -50,6 +50,8 @@ const handleCallback = (callback: PossiblyPromisefulFn) => {
   }
 };
 
+const isClientSide = hasDom();
+
 export const StyledModal = React.memo<StyledModalProps>(
   ({
     afterClose,
@@ -62,14 +64,14 @@ export const StyledModal = React.memo<StyledModalProps>(
     closeOnOutsideClick = true,
     containerComponent,
     lockFocusWhenOpen = true,
+    lockScrollWhenOpen,
     modalComponent,
+    onClose,
     open = true,
     overscrollComponent,
     target,
     ...props
   }) => {
-    const [isClientSide] = React.useState(hasDom);
-
     const modalRef = React.useRef<HTMLElement>(
       (props.modalRef && props.modalRef.current) || null
     );
@@ -104,16 +106,16 @@ export const StyledModal = React.memo<StyledModalProps>(
       if (isToggled && open) {
         handleBeforeToggleOpen();
       }
-    }, [isToggled, open]);
+    }, [handleBeforeToggleOpen, isToggled, open]);
 
     /**
      * Handle callback before closing Modal
      */
     const handleBeforeToggleClose = React.useCallback(async () => {
       if (beforeClose) await handleCallback(beforeClose);
-      if (props.onClose) props.onClose();
+      if (onClose) onClose();
       setInternalOpen(false);
-    }, [appId, beforeClose, setInternalOpen]);
+    }, [beforeClose, onClose, setInternalOpen]);
 
     /**
      * Handle callback after closing Modal
@@ -124,7 +126,7 @@ export const StyledModal = React.memo<StyledModalProps>(
 
         if (!isClientSide) return;
 
-        if (props.lockScrollWhenOpen) {
+        if (lockScrollWhenOpen) {
           enableBodyScroll(scrollLockRef.current);
         }
 
@@ -132,15 +134,7 @@ export const StyledModal = React.memo<StyledModalProps>(
           ariaHidden.off(appId);
         }
       }
-    }, [
-      afterClose,
-      appId,
-      internalOpen,
-      isClientSide,
-      open,
-      props.lockScrollWhenOpen,
-      scrollLockRef.current,
-    ]);
+    }, [afterClose, appId, internalOpen, lockScrollWhenOpen, open]);
 
     /**
      * Handle close on ESC key press
@@ -157,7 +151,7 @@ export const StyledModal = React.memo<StyledModalProps>(
      */
     const handleOutsideClick = React.useCallback(
       async (event: React.SyntheticEvent) => {
-        if (closeOnOutsideClick !== true || !props.onClose) return;
+        if (closeOnOutsideClick !== true || !onClose) return;
         const target = event.target as Node;
         if (
           target !== modalRef.current &&
@@ -166,12 +160,7 @@ export const StyledModal = React.memo<StyledModalProps>(
           await handleBeforeToggleClose();
         }
       },
-      [
-        handleBeforeToggleClose,
-        modalRef.current,
-        closeOnOutsideClick,
-        props.onClose,
-      ]
+      [closeOnOutsideClick, handleBeforeToggleClose, onClose]
     );
 
     /**
@@ -183,7 +172,7 @@ export const StyledModal = React.memo<StyledModalProps>(
 
         if (!isClientSide) return;
 
-        if (props.lockScrollWhenOpen) {
+        if (lockScrollWhenOpen) {
           disableBodyScroll(scrollLockRef.current);
         }
 
@@ -191,17 +180,19 @@ export const StyledModal = React.memo<StyledModalProps>(
           ariaHidden.on(appId);
         }
 
-        if (closeOnEsc && props.onClose) {
+        if (closeOnEsc && onClose) {
           document.addEventListener("keyup", handleKeyPress);
         }
       }
     }, [
-      appId,
-      internalOpen,
       afterOpen,
+      appId,
       closeOnEsc,
-      props.lockScrollWhenOpen,
-      props.onClose,
+      handleKeyPress,
+      internalOpen,
+      lockScrollWhenOpen,
+      onClose,
+      open,
     ]);
 
     /**
@@ -216,11 +207,19 @@ export const StyledModal = React.memo<StyledModalProps>(
       }
 
       return () => {
-        if (closeOnEsc && props.onClose) {
+        if (closeOnEsc && onClose) {
           document.removeEventListener("keyup", handleKeyPress);
         }
       };
-    }, [closeOnEsc, internalOpen, isToggled, props.onClose]);
+    }, [
+      closeOnEsc,
+      handleAfterToggleClose,
+      handleAfterToggleOpen,
+      handleKeyPress,
+      internalOpen,
+      isToggled,
+      onClose,
+    ]);
 
     const Container = containerComponent || DefaultContainer;
     const Modal = modalComponent || DefaultModal;
