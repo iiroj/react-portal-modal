@@ -76,7 +76,9 @@ export const StyledModal = React.memo<StyledModalProps>(
       (props.modalRef && props.modalRef.current) || null
     );
     const scrollLockRef = React.useRef<HTMLElement>(
-      (props.scrollLockRef && props.scrollLockRef.current) || document.body
+      (props.scrollLockRef && props.scrollLockRef.current) || isClientSide
+        ? document.body
+        : null
     );
 
     const [isToggled, setIsToggled] = React.useState(false);
@@ -126,7 +128,7 @@ export const StyledModal = React.memo<StyledModalProps>(
 
         if (!isClientSide) return;
 
-        if (lockScrollWhenOpen) {
+        if (lockScrollWhenOpen && scrollLockRef.current) {
           enableBodyScroll(scrollLockRef.current);
         }
 
@@ -172,7 +174,7 @@ export const StyledModal = React.memo<StyledModalProps>(
 
         if (!isClientSide) return;
 
-        if (lockScrollWhenOpen) {
+        if (lockScrollWhenOpen && scrollLockRef.current) {
           disableBodyScroll(scrollLockRef.current);
         }
 
