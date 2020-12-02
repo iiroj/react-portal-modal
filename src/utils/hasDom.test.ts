@@ -6,6 +6,8 @@ describe("hasDom", () => {
   });
 
   it("Returns false without window.document", () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     delete (window as Writeable<Window>).document;
     expect(hasDom()).toEqual(false);
   });

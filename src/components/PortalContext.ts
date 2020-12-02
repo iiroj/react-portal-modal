@@ -1,5 +1,8 @@
 import { createContext } from "react";
+import type { ReactNode } from "react";
 
-export const PortalContext = createContext<React.ReactNode[] | null>(null);
+const PortalContext = createContext<ReactNode[] | null>(null);
 
 PortalContext.displayName = "PortalContext";
+
+export default PortalContext;

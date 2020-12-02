@@ -1,12 +1,17 @@
-import * as React from "react";
+import React from "react";
+import type { ReactNode } from "react";
 
-import { PortalContext } from "./PortalContext";
+import PortalContext from "./PortalContext";
 
 interface Props {
-  children: React.ReactNode;
-  portals: React.ReactNode[];
+  children: ReactNode;
+  portals: ReactNode[];
 }
 
-export const PortalCollector = ({ children, portals }: Props) => (
+const PortalCollector = ({ children, portals }: Props) => (
   <PortalContext.Provider value={portals}>{children}</PortalContext.Provider>
 );
+
+PortalCollector.displayName = "StyledModal.PortalCollector";
+
+export default PortalCollector;

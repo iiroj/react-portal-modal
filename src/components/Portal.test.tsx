@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
-import * as React from "react";
+import React from "react";
 
-import { Portal } from "./Portal";
+import Portal from "./Portal";
 
 describe("Portal", () => {
   it("Renders to and creates div#modal by default", () => {

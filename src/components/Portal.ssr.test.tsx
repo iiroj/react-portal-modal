@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 
-import * as React from "react";
-import * as ReactDOMServer from "react-dom/server";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 
-import { Portal } from "./Portal";
-import { PortalCollector } from "./PortalCollector";
+import Portal from "./Portal";
+import PortalCollector from "./PortalCollector";
 
 describe("PortalCollector", () => {
   const collectedPortals: React.ReactNode[] = [];

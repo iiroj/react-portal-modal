@@ -1,19 +1,20 @@
-import * as React from "react";
+import React, { forwardRef, SyntheticEvent } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 export interface ContainerProps {
-  children: React.ReactNode;
+  children: ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: (event: React.SyntheticEvent) => void;
+  onClick: (event: SyntheticEvent) => void;
   open: boolean;
   theme: {
-    container: React.CSSProperties;
-    modal: React.CSSProperties;
-    overscroll: React.CSSProperties;
+    container: CSSProperties;
+    modal: CSSProperties;
+    overscroll: CSSProperties;
   };
 }
 
-export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
+const Container = forwardRef<HTMLDivElement, ContainerProps>(
   ({ children, theme, onClick, open }, ref) =>
     open ? (
       <div
@@ -25,3 +26,7 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
       </div>
     ) : null
 );
+
+Container.displayName = "StyledModal.Container";
+
+export default Container;

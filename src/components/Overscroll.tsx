@@ -1,21 +1,26 @@
-import * as React from "react";
+import React, { forwardRef } from "react";
+import type { CSSProperties, ReactNode, SyntheticEvent } from "react";
 
 export interface OverscrollProps {
-  children: React.ReactNode;
+  children: ReactNode;
   isClientSide: boolean;
   isToggled: boolean;
-  onClick: (event: React.SyntheticEvent) => void;
+  onClick: (event: SyntheticEvent) => void;
   theme: {
-    container: React.CSSProperties;
-    modal: React.CSSProperties;
-    overscroll: React.CSSProperties;
+    container: CSSProperties;
+    modal: CSSProperties;
+    overscroll: CSSProperties;
   };
 }
 
-export const Overscroll = React.forwardRef<HTMLDivElement, OverscrollProps>(
+const Overscroll = forwardRef<HTMLDivElement, OverscrollProps>(
   ({ children, theme, onClick }, ref) => (
     <div onClick={onClick} ref={ref} style={theme.overscroll}>
       {children}
     </div>
   )
 );
+
+Overscroll.displayName = "StyledModal.Overscroll";
+
+export default Overscroll;

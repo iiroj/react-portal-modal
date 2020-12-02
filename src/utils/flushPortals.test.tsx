@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
 import * as React from "react";
 
-import { Portal } from "../components/Portal";
+import Portal from "../components/Portal";
 import { flushPortals } from "./flushPortals";
 
 describe("flushPortals", () => {
