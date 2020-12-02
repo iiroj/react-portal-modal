@@ -1,2 +1,1 @@
-export const hasDom = () =>
-  typeof window !== "undefined" && typeof window.document !== "undefined";
+export const hasDom = () => typeof window !== 'undefined' && typeof window.document !== 'undefined'

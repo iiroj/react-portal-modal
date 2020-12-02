@@ -1,17 +1,15 @@
 const setAriaHidden = (active: boolean, id: string) => {
-  if (!id) return;
-  const element = document.getElementById(id);
-  if (!element) return;
-  active
-    ? element.setAttribute("aria-hidden", "true")
-    : element.removeAttribute("aria-hidden");
-};
+    if (!id) return
+    const element = document.getElementById(id)
+    if (!element) return
+    active ? element.setAttribute('aria-hidden', 'true') : element.removeAttribute('aria-hidden')
+}
 
-const on = (id: string) => setAriaHidden(true, id);
+const on = (id: string) => setAriaHidden(true, id)
 
-const off = (id: string) => setAriaHidden(false, id);
+const off = (id: string) => setAriaHidden(false, id)
 
 export const ariaHidden = {
-  on,
-  off,
-};
+    on,
+    off,
+}
