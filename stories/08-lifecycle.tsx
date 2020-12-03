@@ -40,12 +40,6 @@ const Fade = ({ children, isToggled, open, theme }: ContainerProps) => (
     </Transition>
 )
 
-const ToggleDisplay = React.forwardRef((_props, ref) => (
-    <p ref={ref as React.RefObject<HTMLParagraphElement>} style={{ backgroundColor: 'white', padding: '2rem' }}>
-        This text is in a modal
-    </p>
-))
-
 const LifeCycle = () => {
     const [open, setOpen] = React.useState(true)
 
@@ -84,11 +78,12 @@ const LifeCycle = () => {
                 beforeClose={handleBeforeClose}
                 beforeOpen={handleBeforeOpen}
                 containerComponent={Fade}
-                modalComponent={ToggleDisplay}
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 open={open}
-            />
+            >
+                <button onClick={() => setOpen(false)}>Open Modal</button>
+            </StyledModal>
         </>
     )
 }

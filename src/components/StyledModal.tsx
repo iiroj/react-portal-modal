@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import type { ComponentType, ReactNode, RefObject, SyntheticEvent } from 'react'
 import FocusLock from 'react-focus-lock'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -45,12 +45,6 @@ const theme = {
     overscroll: overscrollStyles,
 }
 
-const handleCallback = (callback: PossiblyPromisefulFn) => {
-    if (typeof callback === 'function') {
-        return callback()
-    }
-}
-
 const isClientSide = hasDom()
 
 const StyledModal = ({
@@ -60,7 +54,7 @@ const StyledModal = ({
     beforeClose,
     beforeOpen,
     children,
-    closeOnEsc,
+    closeOnEsc = true,
     closeOnOutsideClick = true,
     containerComponent,
     lockFocusWhenOpen = true,
@@ -72,132 +66,121 @@ const StyledModal = ({
     target,
     ...props
 }: StyledModalProps): JSX.Element => {
+    const [internalOpen, setInternalOpen] = useState(!!open)
+    const [isToggled, setIsToggled] = useState(false)
+
     const modalRef = useRef<HTMLElement>((props.modalRef && props.modalRef.current) || null)
     const scrollLockRef = useRef<HTMLElement>(
         (props.scrollLockRef && props.scrollLockRef.current) || isClientSide ? document.body : null
     )
 
-    const [isToggled, setIsToggled] = useState(false)
-    const [internalOpen, setInternalOpen] = useState(!!open)
-
     /**
      * Modal has been toggled, probably via user interaction
      */
-    useLayoutEffect(() => {
-        if (internalOpen !== open) setIsToggled(true)
+    useEffect(() => {
+        if (internalOpen !== open) {
+            setIsToggled(true)
+        }
     }, [internalOpen, open])
 
+    /** Keep state of mounted status in ref, to prevent setting state after unmounting */
+    const isMounted = useRef(true)
+    useEffect(() => () => void (isMounted.current = false), [])
+
+    /** Handle a lifecycle method by chaining it to the previous one */
+    const lifecycle = useRef<Promise<void> | null>(null)
+    const handleLifecycle = useCallback(async (next: PossiblyPromisefulFn) => {
+        /** skip undefined methods */
+        if (typeof next !== 'function') return
+        /** wait for previous to complete */
+        if (lifecycle.current) await lifecycle.current
+        /** create next method */
+        const nextPromise = async () => next()
+        /** start next method, and cleanup after */
+        lifecycle.current = nextPromise().then(() => void (lifecycle.current = null))
+    }, [])
+
     /**
-     * Handle callback before opening Modal
+     * Handle close lifecycle:
+     *  1. beforeClose()
+     *  2. onClose()
+     *  3. actually close the modal
+     *  4. afterClose()
      */
-    const handleBeforeToggleOpen = useCallback(async () => {
-        if (open && !internalOpen) {
-            if (beforeOpen) await handleCallback(beforeOpen)
-            setInternalOpen(true)
+    const handleClose = useCallback(async () => {
+        if (!internalOpen) return
+        if (beforeClose) await handleLifecycle(beforeClose)
+        if (onClose) await handleLifecycle(onClose)
+        if (isMounted.current) setInternalOpen(false)
+        if (isClientSide) {
+            if (lockScrollWhenOpen && scrollLockRef.current) enableBodyScroll(scrollLockRef.current)
+            if (appId) ariaHidden.off(appId)
         }
-    }, [beforeOpen, internalOpen, open, setInternalOpen])
+        if (afterClose) await handleLifecycle(afterClose)
+    }, [afterClose, appId, beforeClose, internalOpen, handleLifecycle, lockScrollWhenOpen, onClose])
 
     /**
-     * Detect change in external open state
-     */
-    useLayoutEffect(() => {
-        if (isToggled && open) {
-            handleBeforeToggleOpen()
-        }
-    }, [handleBeforeToggleOpen, isToggled, open])
-
-    /**
-     * Handle callback before closing Modal
-     */
-    const handleBeforeToggleClose = useCallback(async () => {
-        if (beforeClose) await handleCallback(beforeClose)
-        if (onClose) onClose()
-        setInternalOpen(false)
-    }, [beforeClose, onClose, setInternalOpen])
-
-    /**
-     * Handle callback after closing Modal
-     */
-    const handleAfterToggleClose = useCallback(async () => {
-        if (!open && !internalOpen) {
-            if (afterClose) await handleCallback(afterClose)
-
-            if (!isClientSide) return
-
-            if (lockScrollWhenOpen && scrollLockRef.current) {
-                enableBodyScroll(scrollLockRef.current)
-            }
-
-            if (appId) {
-                ariaHidden.off(appId)
-            }
-        }
-    }, [afterClose, appId, internalOpen, lockScrollWhenOpen, open])
-
-    /**
-     * Handle close on ESC key press
+     * Handle close on ESC key press using the external onClose prop
      */
     const handleKeyPress = useCallback(
-        async ({ key }: KeyboardEvent) => {
-            if (open && key === 'Escape') await handleBeforeToggleClose()
+        ({ key }: KeyboardEvent) => {
+            if (open && key === 'Escape' && onClose) onClose()
         },
-        [handleBeforeToggleClose, open]
+        [onClose, open]
     )
 
     /**
-     * Handle close on outside click
+     * Handle close on outside click using the external onClose prop
      */
     const handleOutsideClick = useCallback(
-        async (event: SyntheticEvent) => {
-            if (closeOnOutsideClick !== true || !onClose) return
+        (event: SyntheticEvent) => {
+            if (!closeOnOutsideClick || !onClose) return
             const target = event.target as Node
             if (target !== modalRef.current && target.contains(modalRef.current as Node)) {
-                await handleBeforeToggleClose()
+                onClose()
             }
         },
-        [closeOnOutsideClick, handleBeforeToggleClose, onClose]
+        [closeOnOutsideClick, onClose]
     )
 
     /**
-     * Handle callback after opening modal
+     * Handle open lifecycle:
+     *  1. beforeOpen()
+     *  2. actually open the modal
+     *  3. afterOpen()
      */
-    const handleAfterToggleOpen = useCallback(async () => {
-        if (open && internalOpen) {
-            if (afterOpen) await handleCallback(afterOpen)
-
-            if (!isClientSide) return
-
-            if (lockScrollWhenOpen && scrollLockRef.current) {
-                disableBodyScroll(scrollLockRef.current)
-            }
-
-            if (appId) {
-                ariaHidden.on(appId)
-            }
-
-            if (closeOnEsc && onClose) {
-                document.addEventListener('keyup', handleKeyPress)
-            }
+    const handleOpen = useCallback(async () => {
+        if (internalOpen) return
+        if (beforeOpen) await handleLifecycle(beforeOpen)
+        if (isMounted.current) setInternalOpen(true)
+        if (isClientSide) {
+            if (lockScrollWhenOpen && scrollLockRef.current) disableBodyScroll(scrollLockRef.current)
+            if (appId) ariaHidden.on(appId)
         }
-    }, [afterOpen, appId, closeOnEsc, handleKeyPress, internalOpen, lockScrollWhenOpen, onClose, open])
+        if (afterOpen) await handleLifecycle(afterOpen)
+    }, [afterOpen, appId, beforeOpen, internalOpen, handleLifecycle, lockScrollWhenOpen])
 
-    /**
-     * Detect change in internal open state
-     */
-    useLayoutEffect(() => {
+    /** React to changes in external `open` prop */
+    useEffect(() => {
+        isMounted.current = true
         if (!isToggled) return
-        if (internalOpen) {
-            handleAfterToggleOpen()
+        if (open) {
+            handleOpen()
         } else {
-            handleAfterToggleClose()
+            handleClose()
         }
+    }, [handleClose, handleOpen, isToggled, open])
 
-        return () => {
-            if (closeOnEsc && onClose) {
-                document.removeEventListener('keyup', handleKeyPress)
-            }
+    /** When opening, start listening to ESC key if configured */
+    useEffect(() => {
+        if (!closeOnEsc || !onClose) return
+        if (internalOpen) {
+            document.addEventListener('keyup', handleKeyPress)
+        } else {
+            document.removeEventListener('keyup', handleKeyPress)
         }
-    }, [closeOnEsc, handleAfterToggleClose, handleAfterToggleOpen, handleKeyPress, internalOpen, isToggled, onClose])
+        return () => void document.removeEventListener('keyup', handleKeyPress)
+    }, [closeOnEsc, handleKeyPress, internalOpen, onClose])
 
     const Container = containerComponent || DefaultContainer
     const Modal = modalComponent || DefaultModal

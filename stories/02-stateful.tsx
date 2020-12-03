@@ -12,6 +12,7 @@ const StatefulModal = () => {
 
             <StyledModal appId="root" onClose={() => setOpen(false)} open={open}>
                 <p>This text is rendered in a Modal</p>
+                <button onClick={() => setOpen(false)}>Close Modal</button>
             </StyledModal>
         </>
     )
