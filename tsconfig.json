@@ -11,14 +11,16 @@
     "noResolve": false,
     "noUnusedParameters": true,
     "pretty": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "es5",
     "types": ["jest"]
   },
   "exclude": [
-    "/types",
-    "/index.js",
-    "/index.esm.js",
-    "/index.umd.js",
+    "./types",
+    "./index.js",
+    "./index.esm.js",
+    "./index.umd.js",
   ]
 }

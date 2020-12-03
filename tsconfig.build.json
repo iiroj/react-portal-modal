@@ -4,6 +4,7 @@
     "allowJs": false,
     "noEmit": false,
     "rootDir": "src",
+    "skipLibCheck": false
   },
   "include": [
     "src"
