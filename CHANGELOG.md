@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.3](https://github.com/iiroj/styled-modal/compare/v7.1.2...v7.1.3) (2020-12-03)
+
+
+### Bug Fixes
+
+* correctly react to open prop and run lifecycles using hooks ([37df16e](https://github.com/iiroj/styled-modal/commit/37df16ee6b2d3b208a33c71237b5892700f91cc2))
+* **deps:** enable tsc skipLibCheck during development because of @rollup/plugin-typescript bug ([8cae241](https://github.com/iiroj/styled-modal/commit/8cae24198615ff679046775819d98dfde12259ef))
+* **deps:** update eslint rule name ([c78705d](https://github.com/iiroj/styled-modal/commit/c78705ddacacbda9a2f5832244f7c3ba97a214df))
+
 ### [7.1.2](https://github.com/iiroj/styled-modal/compare/v7.1.1...v7.1.2) (2020-05-04)
 
 
