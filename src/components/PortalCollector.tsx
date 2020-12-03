@@ -8,7 +8,7 @@ interface Props {
     portals: ReactNode[]
 }
 
-const PortalCollector = ({ children, portals }: Props) => (
+const PortalCollector = ({ children, portals }: Props): JSX.Element => (
     <PortalContext.Provider value={portals}>{children}</PortalContext.Provider>
 )
 

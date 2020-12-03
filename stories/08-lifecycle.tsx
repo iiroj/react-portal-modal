@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { CSSObject } from 'styled-components'
 import Transition from 'react-transition-group/Transition'
 import { storiesOf } from '@storybook/react'
 
@@ -19,7 +19,7 @@ const defaultStyle = {
     opacity: 0,
 }
 
-const transitionStyles: { [key: string]: object } = {
+const transitionStyles: { [key: string]: CSSObject } = {
     entering: { opacity: 0 },
     entered: { opacity: 1 },
 }

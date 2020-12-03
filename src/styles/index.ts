@@ -1,23 +1,23 @@
 export const containerStyles = {
     height: '100%',
     left: '0',
-    overflowX: 'hidden' as 'hidden',
-    overflowY: 'auto' as 'auto',
-    position: 'fixed' as 'fixed',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    position: 'fixed',
     top: '0',
     width: '100%',
     zIndex: 9000,
-}
+} as const
 
 export const overscrollStyles = {
-    alignItems: 'center' as 'center',
-    display: 'flex' as 'flex',
-    justifyContent: 'center' as 'center',
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
     minHeight: '100%',
-    position: 'relative' as 'relative',
+    position: 'relative',
     width: '100%',
-}
+} as const
 
 export const modalStyles = {
     zIndex: 9001,
-}
+} as const

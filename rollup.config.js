@@ -12,6 +12,7 @@ const external = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.peerDepen
 const onwarn = (warning) => {
     if (warning.code !== 'THIS_IS_UNDEFINED') console.warn(warning.message)
 }
+
 const getPlugins = (declaration) => {
     const tsOptions = {
         exclude: ['example/*'],
@@ -26,10 +27,13 @@ const getPlugins = (declaration) => {
         tsOptions.outDir = '.'
     }
 
-    return [resolve(), commonjs(), typescript(tsOptions), production && compiler()]
+    const plugins = [resolve(), commonjs(), typescript(tsOptions)]
+    if (production) plugins.push(compiler())
+
+    return plugins
 }
 
-export default [
+const config = [
     {
         input: 'src/index.ts',
         output: { exports: 'named', dir: '.', format: 'cjs' },
@@ -63,3 +67,5 @@ export default [
         plugins: getPlugins(),
     },
 ]
+
+export default config
